@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 1eaaa314677d9e3439589863c2a05293
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - movementData: {fileID: 11400000, guid: e135a739a4e0e5f4d97acee8072fcc04, type: 2}
+  - aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
