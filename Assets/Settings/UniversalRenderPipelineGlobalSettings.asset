@@ -61,7 +61,11 @@ MonoBehaviour:
       - rid: 4040120379019362508
       - rid: 4040120379019362509
       - rid: 4040120379019362510
+<<<<<<< Updated upstream
       - rid: 1920083128699846656
+=======
+      - rid: 1920083128699846723
+>>>>>>> Stashed changes
     m_RuntimeSettings:
       m_List: []
   m_AssetVersion: 8
@@ -94,7 +98,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+<<<<<<< Updated upstream
     - rid: 1920083128699846656
+=======
+    - rid: 1920083128699846723
+>>>>>>> Stashed changes
       type: {class: RenderingDebuggerRuntimeResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_version: 0
