@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/UI Inicio.unity
     guid: 1fff908aec8dda348995beaed7b75867
   - enabled: 1
-    path: Assets/Scenes/UI Mapa.unity
-    guid: 1d4eb6d140f5b1a43a1f7be2ebbe90f8
-  - enabled: 1
     path: Assets/Scenes/UI Menu Inicial.unity
     guid: dadbf66d2bd0f87499d2f39cb2fef5ed
+  - enabled: 1
+    path: Assets/Scenes/UI Mapa.unity
+    guid: 1d4eb6d140f5b1a43a1f7be2ebbe90f8
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
