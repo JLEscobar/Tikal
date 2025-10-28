@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87180527350d2ff4a979fee74df3c012, type: 3}
+  m_Name: Ninja
+  m_EditorClassIdentifier: 
+  characterName: Ninja
+  team: 0
+  maxHealth: 50
+  attackPower: 40
+  actionPointsPerTurn: 2
+  moveSpeed: 10
+  movementRange: 30
+  abilities:
+  - {fileID: 11400000, guid: be494764ad5c47f49aa81c1bb6305e5f, type: 2}
