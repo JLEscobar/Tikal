@@ -55,12 +55,13 @@ MonoBehaviour:
       - rid: 8712630790384254976
       - rid: 8143688493772308480
       - rid: 8143688493772308481
-      - rid: -2
-      - rid: -2
-      - rid: -2
-      - rid: -2
-      - rid: -2
-      - rid: -2
+      - rid: 4040120379019362505
+      - rid: 4040120379019362506
+      - rid: 4040120379019362507
+      - rid: 4040120379019362508
+      - rid: 4040120379019362509
+      - rid: 4040120379019362510
+      - rid: 1920083128699846656
       - rid: 8969903244747210752
       - rid: 4040120876243877888
       - rid: 4040120876243877889
@@ -105,6 +106,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 1920083128699846656
+      type: {class: RenderingDebuggerRuntimeResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
+      data:
+        m_version: 0
+    - rid: 4040120379019362505
     - rid: -2
       type: {class: , ns: , asm: }
     - rid: 4040120876243877888
