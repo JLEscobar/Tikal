@@ -1,69 +1,69 @@
 using UnityEngine;
 
-// Requiere los otros componentes para funcionar.
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PlayerInputHandler))] // Depende del script de input.
 public class CharacterMovement : MonoBehaviour
 {
-    [Header("Configuración de Movimiento")]
-    public float moveSpeed = 2.0f;
-    public float sprintSpeed = 5.0f;
+    [Header("Settings")]
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 10f;
 
-    // Referencias a los componentes que necesita para trabajar.
     private CharacterController _controller;
-    private Animator _animator;
-    private PlayerInputHandler _input; // Referencia al script que lee los comandos.
+    private Vector3 _targetPosition;
+    private bool _isMoving;
 
-    // Variables para optimizar el acceso a los parámetros del Animator.
-    private int _animIDSpeed;
-    private int _animIDMotionSpeed;
-
-    private void Awake()
+    void Awake()
     {
-        // Obtenemos las referencias a los componentes en el mismo GameObject.
         _controller = GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
-        _input = GetComponent<PlayerInputHandler>();
-
-        // Asignamos los nombres de los parámetros del Animator a IDs.
-        _animIDSpeed = Animator.StringToHash("Speed");
-        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        _targetPosition = transform.position;
     }
 
     void Update()
     {
-        HandleMovement();
+        if (_isMoving)
+        {
+            MoveTowardsTarget();
+        }
     }
 
-    private void HandleMovement()
+    public void SetMoveSpeed(float speed)
     {
-        // Leemos los valores del input desde nuestro script especializado.
-        Vector2 moveInput = _input.MoveInput;
-        bool isSprinting = _input.SprintInput;
+        moveSpeed = Mathf.Max(0.1f, speed);
+    }
 
-        Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
-        
-        float targetSpeed = isSprinting ? sprintSpeed : moveSpeed;
-        float currentSpeed = moveDirection.magnitude > 0.1f ? targetSpeed : 0f;
+    public void MoveToPosition(Vector3 position)
+    {
+        _targetPosition = position;
+        _isMoving = true;
+    }
 
-        // Rotamos el personaje para que mire en la dirección del movimiento.
-        if (moveDirection.magnitude >= 0.1f)
+    public void Stop()
+    {
+        _isMoving = false;
+        _targetPosition = transform.position;
+    }
+
+    private void MoveTowardsTarget()
+    {
+        Vector3 direction = (_targetPosition - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, _targetPosition);
+
+        if (distance < 0.1f)
         {
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * 15.0f);
+            _isMoving = false;
+            return;
         }
 
-        // Calculamos el vector de movimiento final.
-        Vector3 movement = moveDirection * currentSpeed * Time.deltaTime;
+        // Move
+        Vector3 move = direction * moveSpeed * Time.deltaTime;
+        _controller.Move(move);
 
-        // Le decimos al CharacterController que mueva el personaje.
-        _controller.Move(movement);
-
-        // Enviamos la información de velocidad al Animator.
-        if (_animator != null)
+        // Rotate towards movement direction
+        if (direction != Vector3.zero)
         {
-            _animator.SetFloat(_animIDSpeed, currentSpeed);
-            _animator.SetFloat(_animIDMotionSpeed, moveDirection.magnitude);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+
+    public bool IsMoving => _isMoving;
 }
