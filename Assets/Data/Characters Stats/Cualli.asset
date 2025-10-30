@@ -16,6 +16,7 @@ MonoBehaviour:
   team: 0
   maxHealth: 100
   attackPower: 20
+  actionPointsPerTurn: 2
   moveSpeed: 5
   movementRange: 20
   abilities:
