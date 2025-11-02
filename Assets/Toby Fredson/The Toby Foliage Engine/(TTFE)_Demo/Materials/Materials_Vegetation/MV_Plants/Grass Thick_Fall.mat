@@ -277,6 +277,7 @@ Material:
     - _ASEOutlineWidth: 0
     - _AlbedoLightness: 1
     - _Albedomultiplier: 10.16
+    - _AlphaClip: 0.4
     - _AlphaCutoff: 0.5
     - _AlphaFadeOnOff: 1
     - _Alphacutout: 1
@@ -355,6 +356,7 @@ Material:
     - _EdgeLength: 15
     - _Emiision: -1.03
     - _Emstrengh: 1
+    - _EnvironmentReflections: 1
     - _FKB_Offset: 1.15
     - _FKB_Scale: 0.71
     - _FKS_Offset: 0.37
@@ -484,10 +486,12 @@ Material:
     - _Radius1: 1
     - _Radius2: 1
     - _Radius3: 15
+    - _RandomColorScale: 1
     - _RandomContrast: 0.159
     - _RandomContrastOnOff: 0
     - _Randomrange: 0
     - _Range: 0.24
+    - _ReceiveShadows: 1
     - _RimOffset: 0.24
     - _RimPower: 0.5
     - _Roat: 0

@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Grass_Main_Fall
   m_Shader: {fileID: 4800000, guid: 9836eda9c73d0e7419630eb145f848ab, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _CONTINUOUSWINDGENTLE_ON
   - _SPECULARBACKFACEOCCLUSION_ON
@@ -118,6 +120,7 @@ Material:
   - TransparentBackfaceDebugDisplay
   - TransparentDepthPrepass
   - TransparentDepthPostpass
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -437,6 +440,7 @@ Material:
     - _AlbedoBoost: 0
     - _AlbedoLightness: 1
     - _Albedomultiplier: 10.16
+    - _AlphaClip: 0.4
     - _AlphaClipValue: 0.5
     - _AlphaCutoff: 0.5
     - _AlphaFadeOnOff: 1
@@ -587,6 +591,7 @@ Material:
     - _EmissiveTexMaxValue: 1
     - _EmissiveTexMinValue: 0
     - _Emstrengh: 1
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FACE: 1
     - _FANTA: 0
@@ -812,6 +817,7 @@ Material:
     - _RandomRange2: 0
     - _Randomrange: 1
     - _Range: 0.24
+    - _ReceiveShadows: 1
     - _RenderAmbient: 1
     - _RenderClip: 1
     - _RenderCoverage: 0
@@ -845,7 +851,7 @@ Material:
     - _SPEED: 1
     - _SSSFalloff: 0.1
     - _ScaleA: 0.4
-    - _SeasonChangeGlobal: -0.15
+    - _SeasonChangeGlobal: -0.1
     - _SeasonChangeGlobal1: 0.24
     - _SeasonVertexColorR: 0
     - _SeasonVertexColorR1: 0
@@ -886,10 +892,10 @@ Material:
     - _SpecularBias: 1
     - _SpecularHighlights: 1
     - _SpecularMapOffset: -0.03
-    - _SpecularMapScale: 1.5
+    - _SpecularMapScale: 5
     - _SpecularONOff: 0
     - _SpecularPower: 1
-    - _SpecularScale: -5
+    - _SpecularScale: -0.56
     - _SpecularStrength: 2
     - _Specularpower: 0.2
     - _SquashAmount: 1

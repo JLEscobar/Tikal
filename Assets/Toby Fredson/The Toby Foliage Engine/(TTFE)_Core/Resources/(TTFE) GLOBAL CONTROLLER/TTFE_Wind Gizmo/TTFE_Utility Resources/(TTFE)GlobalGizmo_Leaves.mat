@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: (TTFE)GlobalGizmo_Leaves
   m_Shader: {fileID: 4800000, guid: 6f53b8cb323b0614c82237d5b033019f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _LEAFFLUTTER_ON
   - _WINDTYPE_WINDOFF
@@ -27,6 +29,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -94,8 +97,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0.4
+    - _AlphaCutoff: 0.5
     - _AmbientOcclusionIntensity: 0
     - _BranchMaskR: 0
     - _BranchWindLarge: 1
@@ -124,6 +141,7 @@ Material:
     - _DryLeavesOffset: -0.5
     - _DryLeavesScale: 1
     - _DstBlend: 0
+    - _EnvironmentReflections: 1
     - _FlutterIntensity: 0.116
     - _FlutterTangentMode: 0
     - _FlutterTangentON: 0
@@ -156,16 +174,19 @@ Material:
     - _QuadScatterOnlybasiccards: 1
     - _Quadscatterpower: 1
     - _QuadscatterpowerX: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _Radius: 2
     - _RandomColorScale: 1
     - _RandomContrast: 0
     - _RandomContrastOnOff: 0
+    - _ReceiveShadows: 1
     - _SEASONSETTINGS: 0
     - _SP: 1
     - _SSSFalloff: 0
     - _SSSMapOffset: 0
     - _SSSMapScale: 1
-    - _SeasonChangeGlobal: -0.2
+    - _SeasonChangeGlobal: -0.1
     - _SeasonVertexColorR: 0
     - _SelfShadingVertexColor: 0
     - _Shininess: 0.1
@@ -176,12 +197,12 @@ Material:
     - _SpecularBackfaceOcclusion1: 0
     - _SpecularBias: 1
     - _SpecularHighlights: 1
-    - _SpecularMapOffset: 0
+    - _SpecularMapOffset: 1
     - _SpecularMapScale: 1
     - _SpecularONOff: 1
-    - _SpecularPower: 1
-    - _SpecularScale: -5
-    - _SpecularStrength: 2
+    - _SpecularPower: 0
+    - _SpecularScale: 0
+    - _SpecularStrength: 1
     - _Specularpower: 1
     - _SrcBlend: 1
     - _StrongWindSpeed: 1
@@ -231,3 +252,4 @@ Material:
     - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

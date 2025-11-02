@@ -9,104 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Grass_Main
   m_Shader: {fileID: 4800000, guid: 9836eda9c73d0e7419630eb145f848ab, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _CONTINUOUSWINDGENTLE_ON
   - _SPECULARBACKFACEOCCLUSION_ON
   - _WINDTYPE_GENTLEBREEZE
-  m_InvalidKeywords:
-  - GentleBreeze
-  - TVE_ALPHA_CLIP
-  - _2DQUAD_ON
-  - _3D_ON
-  - _ADDSWITCH_ON
-  - _ALPHAFADEONOFF_ON
-  - _BASICPULSE_ON
-  - _CENTEROFMASS3_ON
-  - _CENTEROFMASS_ON
-  - _CENTEROFMAS_ON
-  - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
-  - _CUSTOMSPECULAR_ON
-  - _DIRECTIONALWIND_ON
-  - _DIRECTIONWINDONOFF_ON
-  - _DIRECTIONWIND_ON
-  - _DIRWIND_ON
-  - _EASY_ON
-  - _EMISSION
-  - _FACE_ON
-  - _FADEONOFF_ON
-  - _FIXBACKFACESPECULAR1_ON
-  - _FIXBACKFACESPECULAR_ON
-  - _FIXBACKSPACESPEC_ON
-  - _FIXBCK_ON
-  - _FIXTHEBASEOFFOLIAGE_ON
-  - _FLUTTERV2_ON
-  - _GRASSFLUF_ON
-  - _ID_ON
-  - _LEAFFLUTTER_ON
-  - _LIGHTDETECTBACKFACE2_ON
-  - _LIGHTDETECTBACKFACEIRF1_ON
-  - _LIGHTDETECTBACKFACE_ON
-  - _MOBILESHADINGWORLDUP_ON
-  - _MOBILESHADING_ON
-  - _MOTIONFLUTTER1_ON
-  - _MOTIONFLUTTER2_ON
-  - _MOTIONFLUTTER_ON
-  - _NEWWIMND_ON
-  - _NEWWINDON_ON
-  - _NEW_ON
-  - _NIO_ON
-  - _NOISEZ_ON
-  - _OCASAN_ON
-  - _OLDWIND_ON
-  - _QUADMASK_ON
-  - _QUADSCATTERONLYBASICCARDS1_ON
-  - _QUADSCATTERONLYBASICCARDS_ON
-  - _QUADSCATTER_ON
-  - _QUAD_ON
-  - _RANDOMCONTRASTONOFF1_ON
-  - _RANDOMRANGE_ON
-  - _ROAT_ON
-  - _ROTATEBOUTAXIS_ON
-  - _ROTATE_ON
-  - _SATA_ON
-  - _SCALE_ON
-  - _SELFSHADING_ON
-  - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
-  - _SPECULARBACKFACEOCCLUSION1_ON
-  - _SPMASK_ON
-  - _STUPIDSWAY_ON
-  - _SWAYBIG_ON
-  - _TEXTUREAOON_ON
-  - _TOGGLESWITCH0_ON
-  - _TOOGLESCALE_ON
-  - _TRABSLUCENCYONOFF_ON
-  - _TRANSLUCENCYFLUFFINESS_ON
-  - _TRANSLUCENCYOCCLUSION_ON
-  - _TRANSLUCENCYONOFF_ON
-  - _TRANSLUCENCYON_ON
-  - _TRANSOCLUDER_ON
-  - _TRANSOCLUSION_ON
-  - _UNSHADED_ON
-  - _UPPERWINDTEST_ON
-  - _UV_ON
-  - _VERTESY_ON
-  - _VERTEXCOLORG_ON
-  - _VERTEXCOLORSUPPORTG_ON
-  - _VERTEXNORMALSFIX_ON
-  - _VERTEXPOSITIONYOFF_ON
-  - _VERTEXY2_ON
-  - _VETREXNORMALS_ON
-  - _VN_ON
-  - _WIND2_ON
-  - _WINDMASK2_ON
-  - _WINDMASK_ON
-  - _WINDNOISE2_ON
-  - _WINDOFF_OFF
-  - _WINDONN_ON
-  - _WINDONOFF_ON
-  - _WINDON_ON
-  - _WINDV2_ON
-  - _WIND_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -118,6 +27,7 @@ Material:
   - TransparentBackfaceDebugDisplay
   - TransparentDepthPrepass
   - TransparentDepthPostpass
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -270,7 +180,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 6aaac2c396376144b9eaca12299cab0c, type: 3}
+        m_Texture: {fileID: 2800000, guid: b445905ac87230346b258e41a8c22d68, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap1:
@@ -342,7 +252,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1aa2dbc69edd9cb47ac394d7b393b49b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample1:
@@ -437,6 +347,7 @@ Material:
     - _AlbedoBoost: 0
     - _AlbedoLightness: 1
     - _Albedomultiplier: 10.16
+    - _AlphaClip: 0.4
     - _AlphaClipValue: 0.5
     - _AlphaCutoff: 0.5
     - _AlphaFadeOnOff: 1
@@ -513,7 +424,7 @@ Material:
     - _Continuouswind: 0
     - _CustomMeshNormal: 0
     - _CustomSpecular: 1
-    - _Cutoff: 0.4
+    - _Cutoff: 0.5
     - _Cutout: 0.7
     - _CutoutAlphalOD: 0.9
     - _Cutuout: 0.4
@@ -587,6 +498,7 @@ Material:
     - _EmissiveTexMaxValue: 1
     - _EmissiveTexMinValue: 0
     - _Emstrengh: 1
+    - _EnvironmentReflections: 1
     - _ExtrasPositionMode: 0
     - _FACE: 1
     - _FANTA: 0
@@ -767,7 +679,7 @@ Material:
     - _NormalIntenisty: 0.4
     - _NormalIntenisty1: 1
     - _NormalIntens: 1
-    - _NormalIntensity: 1
+    - _NormalIntensity: 0.2
     - _NormalMaipMainIntensity: 1
     - _NormalWarpAmount: -1.55
     - _NormalWarpAmount1: 0
@@ -812,6 +724,7 @@ Material:
     - _RandomRange2: 0
     - _Randomrange: 1
     - _Range: 0.24
+    - _ReceiveShadows: 1
     - _RenderAmbient: 1
     - _RenderClip: 1
     - _RenderCoverage: 0
@@ -845,7 +758,7 @@ Material:
     - _SPEED: 1
     - _SSSFalloff: 0.1
     - _ScaleA: 0.4
-    - _SeasonChangeGlobal: -0.2
+    - _SeasonChangeGlobal: -0.1
     - _SeasonChangeGlobal1: 0.24
     - _SeasonVertexColorR: 0
     - _SeasonVertexColorR1: 0
@@ -885,12 +798,12 @@ Material:
     - _SpecularBackfaceOcclusion1: 1
     - _SpecularBias: 1
     - _SpecularHighlights: 1
-    - _SpecularMapOffset: -0.03
-    - _SpecularMapScale: 1.5
+    - _SpecularMapOffset: -0.2
+    - _SpecularMapScale: 4
     - _SpecularONOff: 0
     - _SpecularPower: 1
-    - _SpecularScale: -5
-    - _SpecularStrength: 2
+    - _SpecularScale: 0
+    - _SpecularStrength: 1
     - _Specularpower: 0.2
     - _SquashAmount: 1
     - _SrcBlend: 1
@@ -951,16 +864,16 @@ Material:
     - _TransStrength: 2
     - _Translucency: 2
     - _TranslucencyDirectIntensity: 1
-    - _TranslucencyFalloff: 0
+    - _TranslucencyFalloff: 0.02
     - _TranslucencyFluffiness: 1
     - _TranslucencyIntensity: 3
     - _TranslucencyMapMiplevels: 7
-    - _TranslucencyMapOffset: 0
-    - _TranslucencyMapScale: 1
+    - _TranslucencyMapOffset: -1.98
+    - _TranslucencyMapScale: 5
     - _TranslucencyOcclusion: 1
     - _TranslucencyOn: 1
     - _TranslucencyOnOff: 1
-    - _TranslucencyPower: 8
+    - _TranslucencyPower: 5
     - _TranslucencyRange: 1
     - _TranslucencySpreadAO: 0
     - _TranslucencyTreeTangents: 0
@@ -1172,3 +1085,4 @@ Material:
     - _render_normals_options1: {r: 1, g: 1, b: 1, a: 0}
     - _second_uvs_mode: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

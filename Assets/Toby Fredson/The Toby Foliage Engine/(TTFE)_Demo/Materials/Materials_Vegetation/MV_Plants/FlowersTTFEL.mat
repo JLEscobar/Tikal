@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: FlowersTTFEL
   m_Shader: {fileID: 4800000, guid: 6f53b8cb323b0614c82237d5b033019f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _LEAFFLUTTER_ON
   - _SELFSHADINGVERTEXCOLOR_ON
@@ -39,6 +41,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -174,6 +177,7 @@ Material:
     m_Floats:
     - _0: 0.52
     - _AlbedoLightness: 1
+    - _AlphaClip: 0.4
     - _AlphaClipThreshold: 0.3
     - _AlphaCutoff: 0.5
     - _AlphalOD: 0.9
@@ -198,7 +202,7 @@ Material:
     - _ColorVariation: 0.1
     - _ContinuousWindGentle: 1
     - _Culling: 0
-    - _Cutoff: 0.1
+    - _Cutoff: 0.4
     - _Cutout: 0.35
     - _CutoutAlphalOD: 0.9
     - _DIVIDER_01: 0
@@ -217,6 +221,7 @@ Material:
     - _EdgeFlutterInfluence: 0.25
     - _EnableLeafTurbulence: 0
     - _EnableTransFade: 0
+    - _EnvironmentReflections: 1
     - _FadeOnOff: 1
     - _FadeOutWind: 0
     - _Float10: 1
@@ -269,6 +274,7 @@ Material:
     - _QueueOffset: 0
     - _Radius: -3.85
     - _RandomColorScale: 1
+    - _ReceiveShadows: 1
     - _RotationStrenght: -4.05
     - _SC: 1
     - _SEASONSETTINGS: 0
@@ -277,7 +283,7 @@ Material:
     - _SSSMapOffset: 0.1
     - _SSSMapScale: 1
     - _Scale: 0
-    - _SeasonChangeGlobal: -0.2
+    - _SeasonChangeGlobal: -0.1
     - _SeasonVertexColorR: 1
     - _SelfShadingVertexColor: 1
     - _Shininess: 0.01
@@ -285,13 +291,13 @@ Material:
     - _SmoothnessIntensity: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularBackfaceOcclusion1: 1
-    - _SpecularBias: -0.1
+    - _SpecularBias: 0.27
     - _SpecularHighlights: 1
-    - _SpecularMapOffset: -0.2
+    - _SpecularMapOffset: 1
     - _SpecularMapScale: 1
     - _SpecularONOff: 1
     - _SpecularPower: 1
-    - _SpecularScale: 0.8
+    - _SpecularScale: 0
     - _SpecularStrenght: 2
     - _SpecularStrength: 1
     - _Specularpower: 1
@@ -364,3 +370,4 @@ Material:
     - _TranslucencyColor: {r: 0.9811321, g: 0.9284052, b: 0.80989677, a: 0}
     - _XXXXXXXXX: {r: 0.7924528, g: 0.7063729, b: 0.0710217, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

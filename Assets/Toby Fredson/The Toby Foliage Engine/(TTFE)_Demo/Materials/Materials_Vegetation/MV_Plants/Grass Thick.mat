@@ -9,67 +9,20 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Grass Thick
   m_Shader: {fileID: 4800000, guid: 9836eda9c73d0e7419630eb145f848ab, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _CONTINUOUSWINDGENTLE_ON
   - _SPECULARBACKFACEOCCLUSION_ON
   - _WINDTYPE_GENTLEBREEZE
-  m_InvalidKeywords:
-  - GentleBreeze
-  - _3D_ON
-  - _ALPHAFADEONOFF_ON
-  - _BOMBOCA_ON
-  - _BRANCHMASKR_ON
-  - _CENTEROFMASS3_ON
-  - _CENTEROFMASS_ON
-  - _CENTEROFMAS_ON
-  - _CONSTANTMASK_ON
-  - _CUSTOMSPECULAR_ON
-  - _DIRECTIONALWIND_ON
-  - _DIRECTIONWINDONOFF_ON
-  - _DIRECTIONWIND_ON
-  - _EMISSION
-  - _FADEONOFF_ON
-  - _FIXBACKFACESPECULAR1_ON
-  - _FIXBACKFACESPECULAR_ON
-  - _FIXBACKSPACESPEC_ON
-  - _FIXBCK_ON
-  - _GRASSFLUF_ON
-  - _LIGHTDETECTBACKFACE2_ON
-  - _LIGHTDETECTBACKFACEIRF1_ON
-  - _LIGHTDETECTBACKFACE_ON
-  - _LIGHTDETECTFRONTFACE_ON
-  - _MOBILESHADINGWORLDUP_ON
-  - _MOBILESHADING_ON
-  - _MOTIONFLUTTER1_ON
-  - _MOTIONFLUTTER2_ON
-  - _MOTIONFLUTTER_ON
-  - _NEWWINDON_ON
-  - _NIO_ON
-  - _QUADSCATTERONLYBASICCARDS1_ON
-  - _QUADSCATTERONLYBASICCARDS_ON
-  - _ROTATE_ON
-  - _SPMASK_ON
-  - _STRONGWIND_ON
-  - _TEXTUREAOON_ON
-  - _TRABSLUCENCYONOFF_ON
-  - _TRANSLUCENCYFLUFFINESS_ON
-  - _TRANSLUCENCYOCCLUSION_ON
-  - _TRANSLUCENCYONOFF_ON
-  - _TRANSLUCENCYON_ON
-  - _TRANSOCLUDER_ON
-  - _TRANSOCLUSION_ON
-  - _VERTEXNORMALSFIX_ON
-  - _WINDMASK2_ON
-  - _WINDMASK_ON
-  - _WINDOFF_OFF
-  - _WINDONN_ON
-  - _WINDONOFF_ON
-  - _WINDON_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -277,6 +230,7 @@ Material:
     - _ASEOutlineWidth: 0
     - _AlbedoLightness: 1
     - _Albedomultiplier: 10.16
+    - _AlphaClip: 0.35
     - _AlphaCutoff: 0.5
     - _AlphaFadeOnOff: 1
     - _Alphacutout: 1
@@ -295,7 +249,7 @@ Material:
     - _Bouncestrenght: 1
     - _BranchBending: 6.88
     - _BranchMask: 0
-    - _BranchMaskR: 1
+    - _BranchMaskR: 0
     - _BranchPhase: 0
     - _BumpScale: 1
     - _Caca: 4.64
@@ -311,11 +265,11 @@ Material:
     - _CenterofMassintensity: 0
     - _ChromaticAberration: 0.1
     - _Col: 0
-    - _ColorVariation: 0
+    - _ColorVariation: 0.1
     - _Constantmask: 1
     - _ContinuousWindGB: 0
     - _ContinuousWindGB1: 0
-    - _ContinuousWindGentle: 0
+    - _ContinuousWindGentle: 1
     - _CustomMeshNormal: 0
     - _CustomSpecular: 1
     - _Cutoff: 0.25
@@ -347,7 +301,7 @@ Material:
     - _Dither: 1
     - _Dither1: 1
     - _DryLeavesOffset: 1
-    - _DryLeavesScale: 1
+    - _DryLeavesScale: 1.4
     - _DstBlend: 0
     - _EMIT: 10.28
     - _EdgeFlutter: 1
@@ -355,6 +309,7 @@ Material:
     - _EdgeLength: 15
     - _Emiision: -1.03
     - _Emstrengh: 1
+    - _EnvironmentReflections: 1
     - _FKB_Offset: 1.15
     - _FKB_Scale: 0.71
     - _FKS_Offset: 0.37
@@ -457,7 +412,7 @@ Material:
     - _NormalFixMipMap: 0
     - _NormalFixMipMap1: 20
     - _NormalIntenisty: 0.4
-    - _NormalIntensity: 0.4
+    - _NormalIntensity: 0.2
     - _NormalMaipMainIntensity: 1
     - _NormalWarpAmount: -1.55
     - _NormalWarpAmount1: 0
@@ -484,11 +439,12 @@ Material:
     - _Radius1: 1
     - _Radius2: 1
     - _Radius3: 15
-    - _RandomColorScale: 1
+    - _RandomColorScale: 2
     - _RandomContrast: 0.159
     - _RandomContrastOnOff: 0
     - _Randomrange: 0
     - _Range: 0.24
+    - _ReceiveShadows: 1
     - _RimOffset: 0.24
     - _RimPower: 0.5
     - _Roat: 0
@@ -504,7 +460,7 @@ Material:
     - _SPECPOWER: 1
     - _SSSFalloff: 0
     - _ScaleA: 0.4
-    - _SeasonChangeGlobal: -0.2
+    - _SeasonChangeGlobal: -2
     - _SeasonVertexColorR: 0
     - _SecondaryFactor: 0.64
     - _SelfShading: 0
@@ -514,17 +470,17 @@ Material:
     - _Skylightintensity: 0.1
     - _Smooth: 0
     - _Smoothness: 1
-    - _SmoothnessIntensity: 0
+    - _SmoothnessIntensity: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularBackfaceOcclusion: 1
     - _SpecularBias: 1
     - _SpecularHighlights: 1
-    - _SpecularMapOffset: 0
-    - _SpecularMapScale: 1
+    - _SpecularMapOffset: -0.2
+    - _SpecularMapScale: 4
     - _SpecularONOff: 0
     - _SpecularPower: 1
-    - _SpecularScale: -5
-    - _SpecularStrength: 2
+    - _SpecularScale: 0
+    - _SpecularStrength: 1
     - _Specularpower: 0.5
     - _SquashAmount: 1
     - _SrcBlend: 1
@@ -559,16 +515,16 @@ Material:
     - _TransStrength: 1
     - _Translucency: 2
     - _TranslucencyDirectIntensity: 1
-    - _TranslucencyFalloff: 0
+    - _TranslucencyFalloff: 1
     - _TranslucencyFluffiness: 1
     - _TranslucencyIntensity: 3
     - _TranslucencyMapMiplevels: 7
-    - _TranslucencyMapOffset: 0
+    - _TranslucencyMapOffset: -0.3
     - _TranslucencyMapScale: 1
     - _TranslucencyOcclusion: 1
     - _TranslucencyOn: 1
     - _TranslucencyOnOff: 1
-    - _TranslucencyPower: 3
+    - _TranslucencyPower: 4
     - _TranslucencyRange: 1
     - _TranslucencySpreadAO: 0
     - _TranslucencyTreeTangents: 0
@@ -673,7 +629,7 @@ Material:
     - _xxxangle: 0
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
-    - _AlbedoColor: {r: 0.94509804, g: 0.87058824, b: 0.7882353, a: 1}
+    - _AlbedoColor: {r: 0.945098, g: 0.87058824, b: 0.7882353, a: 1}
     - _Albedocolor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0}
     - _AlebedoColor: {r: 0.7647059, g: 0.7647059, b: 0.7647059, a: 0}
     - _COM: {r: 0, g: 1, b: 0, a: 0}
@@ -681,7 +637,7 @@ Material:
     - _Color0: {r: 0.7647059, g: 0.7647059, b: 0.7647059, a: 0}
     - _Color1: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _DryLeafColor: {r: 0.9137255, g: 0.78431374, b: 0.5411765, a: 0}
+    - _DryLeafColor: {r: 0.9137255, g: 0.785491, b: 0.5411765, a: 0}
     - _Emcolor: {r: 1, g: 0, b: 0.39090347, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GrassColor: {r: 1, g: 0.53333336, b: 0, a: 0}
@@ -708,3 +664,4 @@ Material:
     - _render_normals_options: {r: 1, g: 1, b: 1, a: 0}
     - _render_normals_options1: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

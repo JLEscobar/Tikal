@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Shrub_Leaves_Bush Fall
   m_Shader: {fileID: 4800000, guid: 6f53b8cb323b0614c82237d5b033019f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _LEAFFLUTTER_ON
   - _SELFSHADINGVERTEXCOLOR_ON
@@ -74,6 +76,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -86,7 +89,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorMapRGB:
-        m_Texture: {fileID: 4929792473868046222, guid: a7082a3ea9f63fa41a26d8e017c9477b, type: 2}
+        m_Texture: {fileID: 4929792473868046222, guid: a7082a3ea9f63fa41a26d8e017c9477b,
+          type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -221,10 +225,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AMBIENT: 140
     - _Albedoligth: 0
+    - _AlphaClip: 0.4
+    - _AlphaCutoff: 0.5
     - _Alphacutout: 1
     - _AmbientOcclusionIntensity: 1
     - _BackfaceNormalKill: 0
@@ -264,6 +282,7 @@ Material:
     - _DryLeavesScale: 0
     - _DstBlend: 0
     - _EdgeLength: 15
+    - _EnvironmentReflections: 1
     - _FKB_Offset: 1
     - _FKB_Scale: 1.45
     - _FKS_Offset: 0.5
@@ -348,6 +367,8 @@ Material:
     - _QuadScatterStrong: 1
     - _Quadscatterpower: 1
     - _QuadscatterpowerX: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _R: 1
     - _RGBA: 1
     - _RRRRRRRRRRRR: 0
@@ -358,6 +379,7 @@ Material:
     - _RandomContrast: 0.5
     - _RandomContrastOnOff: 1
     - _Randomcolo: 0
+    - _ReceiveShadows: 1
     - _SEASONSETTINGS: 0
     - _SEASONSWICH: 0
     - _SEASONSWICH1: 1
@@ -367,7 +389,7 @@ Material:
     - _SSSMapScale: 1
     - _Scale: 5
     - _Sclevg: 1
-    - _SeasonChangeGlobal: -0.15
+    - _SeasonChangeGlobal: -0.1
     - _SeasonChnageA: 5
     - _SeasonChnageA1: 5
     - _SeasonChnageA2: 5
@@ -403,8 +425,8 @@ Material:
     - _SpecularBackfaceOcclusion1: 1
     - _SpecularBias: 1
     - _SpecularHighlights: 1
-    - _SpecularMapOffset: -0.1
-    - _SpecularMapScale: 1
+    - _SpecularMapOffset: 0
+    - _SpecularMapScale: 3
     - _SpecularPower: 1
     - _SpecularScale: 1
     - _SpecularStrength: 1
