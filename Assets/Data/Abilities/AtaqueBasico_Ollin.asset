@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22a40537f9364a64bb182b65161b73ba, type: 3}
-  m_Name: Melee Attack
-  m_EditorClassIdentifier: 
-  displayName: Ability
+  m_Name: AtaqueBasico_Ollin
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackAbility
+  displayName: "Ataque b\xE1sico Ollin"
   description: 
   costAP: 1
   range: 2
-  abilityParticles: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+  abilityParticles: {fileID: 0}
+  baseCooldownTurns: 0

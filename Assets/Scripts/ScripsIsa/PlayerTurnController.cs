@@ -17,7 +17,6 @@ public class PlayerTurnController : MonoBehaviour
     private int _cursor;
     private ITargetable _currentTarget;
     
-    // NUEVO: Lista de actores del jugador para selección por índice
     private IReadOnlyList<CharacterActor> _playerActors; 
 
     void OnEnable()
@@ -40,18 +39,14 @@ public class PlayerTurnController : MonoBehaviour
         if (PauseService.IsPaused) return;
         if (turnSystem.CurrentTeam != Team.Player) return;
 
-        // Lógica de SELECCIÓN de personaje (activa siempre durante el turno del jugador)
         CheckCharacterSelectionInput();
         
-        // Lógica de ACCIÓN (sólo si hay un personaje activo)
         if (_current == null) return; 
 
-        // Resto del código de Update para habilidades y clicks (MANTENIDO)
         if (Input.GetKeyDown(KeyCode.Tab)) CycleTarget();
-        if (Input.GetKeyDown(KeyCode.Alpha1)) TryUseAbility(0); // Usa la habilidad 0
-        if (Input.GetKeyDown(KeyCode.Alpha2)) TryUseAbility(1); // Usa la habilidad 1
+        if (Input.GetKeyDown(KeyCode.Alpha1)) TryUseAbility(0); 
+        if (Input.GetKeyDown(KeyCode.Alpha2)) TryUseAbility(1); 
         
-        // La tecla ENTER finaliza el turno del ACTOR actual.
         if (Input.GetKeyDown(KeyCode.Return)) turnSystem.EndTurn();
         
         if (Input.GetKeyDown(KeyCode.P)) TogglePause();
@@ -62,12 +57,12 @@ public class PlayerTurnController : MonoBehaviour
             if (Physics.Raycast(ray, out var hit, 200f, targetMask))
             {
                 var t = hit.collider.GetComponentInParent<CharacterActor>();
-                // Permitir seleccionar cualquier CharacterActor que no esté muerto
+                
                 if (t != null && !t.Health.IsDead)
                 {
                     _currentTarget = t;
                     string targetType = t.Team == _current.Team ? "ally" : "enemy";
-                    Debug.Log($"[v2] Selected {targetType}: {t.CharacterName}");
+                    Debug.Log($"[vFinal] Selected {targetType}: {t.CharacterName}");
 
                     if (attackOnClick)
                     {
@@ -76,21 +71,20 @@ public class PlayerTurnController : MonoBehaviour
                 }
                 else if (t != null && t.Health.IsDead)
                 {
-                    Debug.Log($"[v2] Cannot select {t.CharacterName} - already dead");
+                    Debug.Log($"[vFinal] Cannot select {t.CharacterName} - already dead");
                 }
             }
         }
     }
     
-    // NUEVO: Lógica de selección por teclado (1, 2, 3, 4)
     private void CheckCharacterSelectionInput()
     {
         int actorIndex = -1;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) actorIndex = 0; // Cualli
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) actorIndex = 1; // Ollin
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) actorIndex = 2; // Yaotl
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) actorIndex = 3; // Patlee
+        if (Input.GetKeyDown(KeyCode.Alpha1)) actorIndex = 0; 
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) actorIndex = 1; 
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) actorIndex = 2; 
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) actorIndex = 3; 
         
         if (actorIndex != -1)
         {
@@ -98,7 +92,6 @@ public class PlayerTurnController : MonoBehaviour
         }
     }
 
-    // NUEVO: Lógica para seleccionar y activar el personaje usando el índice
     private void SelectPlayerActor(int index)
     {
         if (_playerActors == null || index < 0 || index >= _playerActors.Count)
@@ -109,7 +102,6 @@ public class PlayerTurnController : MonoBehaviour
 
         var selectedActor = _playerActors[index];
         
-        // El TurnSystem hace todas las validaciones y activa el personaje.
         if (turnSystem.SetCurrentActor(selectedActor))
         {
             _current = selectedActor;
@@ -119,33 +111,59 @@ public class PlayerTurnController : MonoBehaviour
 
     private void TryUseAbility(int index)
     {
-        // ... (El resto del código se mantiene igual, usando _current)
-        if (_currentTarget == null)
+        if (_current.ActionPoints <= 0)
         {
-            Debug.Log("[v2] No target selected. Click on a character first.");
+            MessagesSystem.Instance.ShowMessage($"¡{_current.CharacterName} no tiene Puntos de Acción para usar habilidades!", Color.red);
             return;
         }
         
         var ability = _current.GetAbilityByIndex(index);
         if (ability == null)
         {
-            Debug.Log($"[v2] No ability at index {index}");
+            Debug.Log($"[vFinal] No ability at index {index}");
             return;
         }
 
         if (_current.TryUseAbility(index, _currentTarget))
         {
-            Debug.Log($"[v2] {_current.CharacterName} used {ability.DisplayName} on {(_currentTarget as CharacterActor)?.CharacterName}");
+            Debug.Log($"[vFinal] {_current.CharacterName} used {ability.DisplayName} on {(_currentTarget as CharacterActor)?.CharacterName}");
 
             if (attackOnClick && _current.ActionPoints <= 0)
             {
                 MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} finalizado. Elige otro personaje (1-4).", Color.yellow);
-                turnSystem.EndTurn(); // Finaliza el turno del ACTOR (lo setea a null en TurnSystem)
+                turnSystem.EndTurn(); 
             }
         }
         else
         {
-            // Diagnóstico de error (MANTENIDO)
+            var targetActor = _currentTarget as CharacterActor;
+            string reason = "";
+
+            if (_current.ActionPoints < ability.CostAP)
+            {
+                reason = $"Not enough AP (need {ability.CostAP}, have {_current.ActionPoints})";
+            }
+            else if (targetActor != null && targetActor.Health.IsDead)
+            {
+                reason = "Target is dead";
+            }
+            else
+            {
+                float distance = Vector3.Distance(_current.transform.position, _currentTarget.GetTransform().position);
+                if (distance > ability.Range)
+                {
+                    reason = $"Out of range (distance: {distance:F1}, max: {ability.Range})";
+                }
+                else if (_currentTarget == null && !(ability is AreaAttackAbility))
+                {
+                     reason = $"Must select a target for '{ability.DisplayName}'"; // Mensaje si falta target para habilidad no AoE
+                }
+                else
+                {
+                    reason = "Invalid target for this ability";
+                }
+            }
+             Debug.Log($"[vFinal] Cannot use {ability.DisplayName}: {reason}");
         }
     }
 
@@ -159,11 +177,10 @@ public class PlayerTurnController : MonoBehaviour
 
     private void CycleTarget()
     {
-        // ... (MANTENIDO)
         if (_cachedOpponents.Count == 0) return;
         _cursor = (_cursor + 1) % _cachedOpponents.Count;
         _currentTarget = _cachedOpponents[_cursor];
-        Debug.Log($"[v2] Cycled to target: {(_currentTarget as CharacterActor)?.CharacterName}");
+        Debug.Log($"[vFinal] Cycled to target: {(_currentTarget as CharacterActor)?.CharacterName}");
     }
 
     private void HandleTurnStart(Team team, CharacterActor actor)
@@ -176,18 +193,16 @@ public class PlayerTurnController : MonoBehaviour
             return;
         }
         
-        // Si team == Team.Player y actor == null, es la fase de selección.
         _playerActors = turnSystem.PlayerTeamActors; 
-        _current = actor; // Será null en fase de selección
+        _current = actor; 
         _cachedOpponents = turnSystem.GetOpponentsOf(Team.Player).Where(o => !o.Health.IsDead).ToList();
         _cursor = -1;
         _currentTarget = null;
-        Debug.Log($"[v2] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}");
+        Debug.Log($"[vFinal] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}");
     }
 
     private void HandleTurnEnd(Team team, CharacterActor actor)
     {
-        // Sólo reseteamos el estado si no es el turno del jugador, o si el actor finalizado era el único activo.
         if (team != Team.Player)
         {
             _current = null;
@@ -205,12 +220,10 @@ public class PlayerTurnController : MonoBehaviour
     
     public void ForceEndTurn()
     {
-        // ForceEndTurn del PlayerTurnController ahora usa EndTurn del TurnSystem
-        // El TurnSystem decide si esto finaliza el actor o el equipo completo.
         if (turnSystem.CurrentTeam == Team.Player)
         {
             turnSystem.EndTurn();
-            Debug.Log($"[v2] Turn force-ended by player.");
+            Debug.Log($"[vFinal] Turn force-ended by player.");
         }
     }
 }

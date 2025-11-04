@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Cualli
   team: 0
-  maxHealth: 100
-  attackPower: 20
+  maxHealth: 300
+  attackPower: 40
   actionPointsPerTurn: 2
   moveSpeed: 5
-  movementRange: 20
+  movementRange: 4
   abilities:
   - {fileID: 11400000, guid: d61d83f43225d724c932c198bf76ad3c, type: 2}

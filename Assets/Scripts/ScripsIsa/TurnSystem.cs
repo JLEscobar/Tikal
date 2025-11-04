@@ -16,7 +16,7 @@ public class TurnSystem : MonoBehaviour
     public event Action<Team, CharacterActor> OnTurnEnded;
     public event Action<Team> OnBattleEnded;
 
-    private int _playerIndex; // Se mantiene por si alguna lógica lo usa, pero no para iterar.
+    private int _playerIndex; 
     private int _enemyIndex;
     private Team _currentTeam;
     private CharacterActor _current;
@@ -32,11 +32,9 @@ public class TurnSystem : MonoBehaviour
         if (_started) return;
         CleanDeadFromLists();
         _started = true;
-        _currentTeam = Team.Player;
         _playerIndex = _enemyIndex = 0;
-        Debug.Log("[v2] Battle started!");
+        Debug.Log("[vFinal] Battle started!");
         
-        // Empezamos directamente la fase de selección
         StartPlayerSelectionPhase();
     }
 
@@ -47,21 +45,21 @@ public class TurnSystem : MonoBehaviour
     {
         if (!_started) return;
 
-        // Si no hay un actor actual (estamos en fase de selección), el EndTurn es forzar el fin de la fase del equipo
         if (_current == null && _currentTeam == Team.Player)
         {
-            Debug.Log("[v2] Forced end of Player Selection Phase. Switching to Enemy team.");
+            Debug.Log("[vFinal] Forced end of Player Selection Phase. Switching to Enemy team.");
             SwitchTeam();
             NextTurn();
             return;
         }
         
-        // Comportamiento normal: terminar el turno del actor actual
+        // 1. Finalizar turno del actor actual
         if (_current != null)
         {
+            TickCooldowns(_current); // NUEVO: Tick del cooldown del actor actual
             _current.EndTurn();
             OnTurnEnded?.Invoke(_currentTeam, _current);
-            Debug.Log($"[v2] Turn ended for {_currentTeam}: {_current.CharacterName}");
+            Debug.Log($"[vFinal] Turn ended for {_currentTeam}: {_current.CharacterName}");
         }
 
         if (CheckBattleEnd())
@@ -69,12 +67,14 @@ public class TurnSystem : MonoBehaviour
             return;
         }
 
-        // Si es el turno del jugador, volvemos a la fase de selección para elegir otro personaje.
+        // 2. Reducir Cooldowns del equipo que va a esperar
         if (_currentTeam == Team.Player)
         {
             _current = null;
             
-            // Si nadie tiene AP disponible, pasamos al enemigo.
+            // Tick a todo el equipo enemigo al final del turno del jugador
+            foreach(var enemy in enemyTeam) TickCooldowns(enemy); // NUEVO: Tick al equipo enemigo
+            
             if (!playerTeam.Any(a => !a.Health.IsDead && a.ActionPoints > 0))
             {
                 SwitchTeam();
@@ -82,67 +82,87 @@ public class TurnSystem : MonoBehaviour
             }
             else
             {
-                // Volvemos a la fase de selección
                 StartPlayerSelectionPhase();
             }
         }
-        else // Si es el turno del enemigo, se avanza automáticamente
+        else 
         {
+            // Tick a todo el equipo jugador al final del turno enemigo
+            foreach(var player in playerTeam) TickCooldowns(player); // NUEVO: Tick al equipo jugador
+            
             SwitchTeam();
             NextTurn();
         }
     }
     
-    // MÉTODO CLAVE: Permite al PlayerTurnController activar un personaje.
+    // MÉTODO MODIFICADO: Contador de cooldowns
+    private void TickCooldowns(CharacterActor actor)
+    {
+        if (actor.Stats == null || actor.Stats.abilities == null) return;
+
+        foreach (var ability in actor.Stats.abilities)
+        {
+            // Solo si la habilidad tiene un cooldown base y el contador actual es mayor a cero
+            if (ability != null && ability.BaseCooldownTurns > 0 && ability.currentCooldown > 0) 
+            {
+                ability.currentCooldown--;
+                Debug.Log($"[CD TICK] {actor.CharacterName}: {ability.DisplayName} restante: {ability.currentCooldown}");
+            }
+        }
+    }
+    
+    // MÉTODO SetCurrentActor (se mantiene la lógica de re-selección)
     public bool SetCurrentActor(CharacterActor actor)
     {
-        if (_currentTeam != Team.Player || actor.Team != Team.Player || actor.Health.IsDead || actor.ActionPoints <= 0)
+        if (_currentTeam != Team.Player || actor.Team != Team.Player || actor.Health.IsDead)
         {
             return false;
         }
         
-        // Finaliza el turno del actor anterior si estaba activo.
         if (_current != null && _current != actor)
         {
             _current.EndTurn();
             OnTurnEnded?.Invoke(_currentTeam, _current);
         }
         
-        // Si ya es el mismo actor, no hacemos nada más que retornar true
         if (_current == actor) return true;
 
-        // Activa el nuevo actor
         _current = actor;
-        _current.BeginTurn();
-        OnTurnStarted?.Invoke(_currentTeam, _current);
-        MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} Aliado (AP: {_current.ActionPoints})", Color.green);
+        
+        if (_current.ActionPoints > 0)
+        {
+            _current.BeginTurn(); 
+            OnTurnStarted?.Invoke(_currentTeam, _current);
+            MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} Aliado (AP: {_current.ActionPoints})", Color.green);
+        }
+        else
+        {
+            OnTurnStarted?.Invoke(_currentTeam, _current); 
+            MessagesSystem.Instance.ShowMessage($"Seleccionado {_current.CharacterName}, pero no le quedan Puntos de Acción.", Color.cyan);
+            
+            _current.ForceMovementPhaseActivation(); 
+        }
         
         return true;
     }
 
-    // NUEVO MÉTODO: Inicia la fase de selección del jugador.
     private void StartPlayerSelectionPhase()
     {
         _currentTeam = Team.Player;
-        _current = null; // Actor nulo -> estamos en fase de selección
-        
-        // Dispara el evento con actor null. Los listeners sabrán que es fase de selección.
+        _current = null; 
         OnTurnStarted?.Invoke(_currentTeam, null); 
         MessagesSystem.Instance.ShowMessage("Fase de Selección del Jugador: Elige un personaje (1, 2, 3 o 4)", Color.yellow);
-        Debug.Log("[v2] Player Selection Phase Started.");
+        Debug.Log("[vFinal] Player Selection Phase Started.");
     }
-
 
     private void NextTurn()
     {
-        // Si el equipo actual es el jugador, volvemos a la fase de selección
         if (_currentTeam == Team.Player)
         {
             StartPlayerSelectionPhase();
             return;
         }
         
-        // Si es el enemigo, se sigue el comportamiento automático de tu código original
         _current = GetNextActor(_currentTeam);
         if (_current == null)
         {
@@ -159,7 +179,6 @@ public class TurnSystem : MonoBehaviour
 
     private bool CheckBattleEnd()
     {
-        // ... (El resto se mantiene igual)
         CleanDeadFromLists();
         bool playersDead = playerTeam.Count == 0;
         bool enemiesDead = enemyTeam.Count == 0;
@@ -185,13 +204,12 @@ public class TurnSystem : MonoBehaviour
         CleanDeadFromList(list);
         if (list.Count == 0) return null;
 
-        if (team == Team.Enemy) // Solo iteramos automáticamente al enemigo
+        if (team == Team.Enemy) 
         {
             if (_enemyIndex >= list.Count) _enemyIndex = 0;
             return list[_enemyIndex++];
         }
         
-        // Para el jugador, devolvemos nulo en el flujo automático
         return null; 
     }
 
@@ -211,9 +229,19 @@ public class TurnSystem : MonoBehaviour
         return team == Team.Player ? enemyTeam : playerTeam;
     }
     
-    // PROPIEDAD CLAVE: Exponer la lista del equipo del jugador para la selección
     public IReadOnlyList<CharacterActor> PlayerTeamActors => playerTeam;
 
     public CharacterActor CurrentActor => _current;
     public Team CurrentTeam => _currentTeam;
+    
+    public void AddEnemyActor(CharacterActor newEnemy)
+    {
+        if (newEnemy == null || newEnemy.Team != Team.Enemy) return;
+        
+        if (!enemyTeam.Contains(newEnemy))
+        {
+            enemyTeam.Add(newEnemy);
+            Debug.Log($"[vFinal] New enemy added to the battle: {newEnemy.CharacterName}");
+        }
+    }
 }

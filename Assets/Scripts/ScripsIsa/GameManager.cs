@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Cinemachine; // Added Cinemachine namespace
+using Unity.Cinemachine; 
 
 public class GameManager : MonoBehaviour
 {
@@ -31,9 +31,14 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         
+        // Búsqueda segura de referencias
         if (turnSystem == null) turnSystem = FindFirstObjectByType<TurnSystem>();
         if (mainCamera == null) mainCamera = Camera.main;
         if (virtualCamera == null) virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+
+        // Si la cámara virtual es una CinemachineFreeLook, por defecto en Awake,
+        // podrías querer que siga un objeto vacío (pivot) si el juego no empieza inmediatamente
+        // en combate, pero la corrección principal está en el manejo de eventos.
     }
 
     void OnEnable()
@@ -43,7 +48,7 @@ public class GameManager : MonoBehaviour
         if (turnSystem != null)
         {
             turnSystem.OnBattleEnded += HandleBattleEnded;
-            turnSystem.OnTurnStarted += HandleTurnStarted; // Subscribe to turn started event
+            turnSystem.OnTurnStarted += HandleTurnStarted;
         }
     }
 
@@ -54,30 +59,8 @@ public class GameManager : MonoBehaviour
         if (turnSystem != null)
         {
             turnSystem.OnBattleEnded -= HandleBattleEnded;
-            turnSystem.OnTurnStarted -= HandleTurnStarted; // Unsubscribe from turn started event
+            turnSystem.OnTurnStarted -= HandleTurnStarted;
         }
-    }
-    
-    void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PauseService.TogglePause();
-        }
-    }
-    
-    public Camera GetMainCamera()
-    {
-        if (mainCamera == null) mainCamera = Camera.main;
-        return mainCamera;
     }
 
     private void HandlePauseChanged(bool isPaused)
@@ -87,11 +70,42 @@ public class GameManager : MonoBehaviour
             pauseMenu.SetActive(isPaused);
         }
     }
+    
+    // MÉTODO CORREGIDO: SOLO actualiza la cámara si hay un actor activo.
+    // Esto permite que el control de la cámara libre (por mouse) funcione durante la Fase de Selección (actor == null).
+    private void HandleTurnStarted(Team team, CharacterActor actor)
+    {
+        if (virtualCamera == null) return;
+        
+        // Solo actualizamos la cámara para el equipo jugador
+        if (team == Team.Player)
+        {
+            if (actor != null)
+            {
+                // Hay un actor activo: la cámara lo sigue
+                UpdateCameraTarget(actor.transform);
+                Debug.Log($"[vCorregido] Camera following: {actor.CharacterName}");
+            }
+            else
+            {
+                // Fase de Selección (actor es null): NO tocamos el target de la cámara.
+                // Esto debería permitir que el componente CinemachineFreeLook recupere el control
+                // del mouse y la cámara mantenga su última posición.
+                Debug.Log("[vCorregido] Camera in Selection Phase. Maintaining current view.");
+            }
+        }
+        else // Equipo Enemigo
+        {
+            if (actor != null)
+            {
+                // El equipo enemigo siempre debe seguir a su actor
+                UpdateCameraTarget(actor.transform);
+            }
+        }
+    }
 
     private void HandleBattleEnded(Team winner)
     {
-        Debug.Log($"[v0] GameManager: Battle ended, winner is {winner}");
-        
         if (winner == Team.Player)
         {
             ShowVictory();
@@ -101,6 +115,22 @@ public class GameManager : MonoBehaviour
             ShowDefeat();
         }
     }
+
+    // Método asumido que establece Follow y LookAt de la CinemachineCamera
+    private void UpdateCameraTarget(Transform target)
+    {
+        if (virtualCamera != null)
+        {
+            // Esto asume que virtualCamera es un CinemachineCamera (o FreeLook)
+            // y que establecer Follow/LookAt al objetivo es lo que quieres para el modo de seguimiento.
+            virtualCamera.Follow = target;
+            virtualCamera.LookAt = target;
+        }
+    }
+
+    // ... (El resto de métodos de UI permanecen sin cambios)
+
+    public Camera GetMainCamera() => mainCamera;
 
     public void ReturnToMenu()
     {
@@ -144,23 +174,5 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-    }
-
-    private void HandleTurnStarted(Team team, CharacterActor actor)
-    {
-        // Only update camera for player team
-        if (team == Team.Player && virtualCamera != null && actor != null)
-        {
-            UpdateCameraTarget(actor.transform);
-            Debug.Log($"[v0] Camera following: {actor.CharacterName}");
-        }
-    }
-
-    private void UpdateCameraTarget(Transform target)
-    {
-        if (virtualCamera == null) return;
-        
-        virtualCamera.Follow = target;
-        virtualCamera.LookAt = target;
     }
 }

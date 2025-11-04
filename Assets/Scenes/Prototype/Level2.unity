@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 9046629}
   - component: {fileID: 9046631}
   - component: {fileID: 9046630}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Speed_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 10864864}
   - component: {fileID: 10864866}
   - component: {fileID: 10864865}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1047,7 +1047,7 @@ GameObject:
   - component: {fileID: 85699406}
   - component: {fileID: 85699405}
   - component: {fileID: 85699404}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: WorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1289,7 +1289,7 @@ GameObject:
   - component: {fileID: 126787105}
   - component: {fileID: 126787106}
   - component: {fileID: 126787107}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1686,6 +1686,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 2dba8cea5a851624083614caa86bffd4, type: 2}
   tacticalMovement: {fileID: 177303852}
   currentActionPoints: 10
+  level: 1
+  currentXP: 0
 --- !u!114 &177303851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2192,7 +2194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 222409941}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2230,7 +2232,7 @@ GameObject:
   - component: {fileID: 223584883}
   - component: {fileID: 223584885}
   - component: {fileID: 223584884}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Attack_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2356,166 +2358,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223584882}
   m_CullTransparentMesh: 1
---- !u!1 &238402956
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 238402962}
-  - component: {fileID: 238402961}
-  - component: {fileID: 238402960}
-  - component: {fileID: 238402959}
-  - component: {fileID: 238402958}
-  - component: {fileID: 238402957}
-  m_Layer: 0
-  m_Name: Ollin
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &238402957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238402956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 0}
-  maxHealth: 100
-  health: 100
-  attackPower: 20
-  moveSpeed: 4
-  movementRange: 5
-  characterName: Default Name
---- !u!95 &238402958
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238402956}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!143 &238402959
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238402956}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &238402960
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238402956}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &238402961
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238402956}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &238402962
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238402956}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.3, y: 1.018, z: 201.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &246191740
 GameObject:
   m_ObjectHideFlags: 0
@@ -3735,7 +3577,7 @@ GameObject:
   - component: {fileID: 359077548}
   - component: {fileID: 359077550}
   - component: {fileID: 359077549}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Attack_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4137,166 +3979,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 404228832}
   m_CullTransparentMesh: 1
---- !u!1 &423191326
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 423191332}
-  - component: {fileID: 423191331}
-  - component: {fileID: 423191330}
-  - component: {fileID: 423191329}
-  - component: {fileID: 423191328}
-  - component: {fileID: 423191327}
-  m_Layer: 0
-  m_Name: Yaotl
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &423191327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423191326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 0}
-  maxHealth: 100
-  health: 100
-  attackPower: 20
-  moveSpeed: 4
-  movementRange: 5
-  characterName: Default Name
---- !u!95 &423191328
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423191326}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!143 &423191329
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423191326}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &423191330
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423191326}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &423191331
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423191326}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &423191332
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423191326}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.3, y: 1.018, z: 201.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &436216168
 GameObject:
   m_ObjectHideFlags: 0
@@ -4307,7 +3989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436216170}
   - component: {fileID: 436216169}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Hp Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4397,7 +4079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 467621479}
   - component: {fileID: 467621478}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Hp Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4488,7 +4170,7 @@ GameObject:
   - component: {fileID: 469744286}
   - component: {fileID: 469744288}
   - component: {fileID: 469744287}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Name_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5334,7 +5016,7 @@ GameObject:
   - component: {fileID: 553779842}
   - component: {fileID: 553779844}
   - component: {fileID: 553779843}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5768,7 +5450,7 @@ GameObject:
   - component: {fileID: 610799989}
   - component: {fileID: 610799988}
   - component: {fileID: 610799987}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: WorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5909,7 +5591,7 @@ GameObject:
   - component: {fileID: 635559763}
   - component: {fileID: 635559764}
   - component: {fileID: 635559765}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6219,7 +5901,7 @@ GameObject:
   - component: {fileID: 657182909}
   - component: {fileID: 657182911}
   - component: {fileID: 657182910}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6294,7 +5976,7 @@ GameObject:
   - component: {fileID: 657553891}
   - component: {fileID: 657553893}
   - component: {fileID: 657553892}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Speed_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6431,7 +6113,7 @@ GameObject:
   - component: {fileID: 658855323}
   - component: {fileID: 658855325}
   - component: {fileID: 658855324}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Name_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6702,7 +6384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 692665443}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7032,7 +6714,7 @@ GameObject:
   - component: {fileID: 752919729}
   - component: {fileID: 752919731}
   - component: {fileID: 752919730}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Attack_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7169,7 +6851,7 @@ GameObject:
   - component: {fileID: 762821585}
   - component: {fileID: 762821587}
   - component: {fileID: 762821586}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Name_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7682,7 +7364,7 @@ GameObject:
   - component: {fileID: 801391800}
   - component: {fileID: 801391802}
   - component: {fileID: 801391803}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy Test
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -7823,6 +7505,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: fb2f40da80dca6a4896d7b793cd6be70, type: 2}
   tacticalMovement: {fileID: 0}
   currentActionPoints: 0
+  level: 1
+  currentXP: 0
 --- !u!114 &801391801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8026,7 +7710,7 @@ GameObject:
   - component: {fileID: 833423103}
   - component: {fileID: 833423105}
   - component: {fileID: 833423104}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Attack_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8258,7 +7942,7 @@ GameObject:
   - component: {fileID: 854643507}
   - component: {fileID: 854643509}
   - component: {fileID: 854643508}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Speed_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8492,7 +8176,7 @@ GameObject:
   - component: {fileID: 898798393}
   - component: {fileID: 898798395}
   - component: {fileID: 898798394}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8715,7 +8399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 906476473}
   - component: {fileID: 906476472}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Hp Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8915,7 +8599,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 930853908}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9178,7 +8862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 965860877}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10257,7 +9941,7 @@ GameObject:
   - component: {fileID: 1051001849}
   - component: {fileID: 1051001848}
   - component: {fileID: 1051001847}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy Test (3)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -10314,6 +9998,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: fb2f40da80dca6a4896d7b793cd6be70, type: 2}
   tacticalMovement: {fileID: 0}
   currentActionPoints: 0
+  level: 1
+  currentXP: 0
 --- !u!114 &1051001850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10455,7 +10141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1097252247}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10760,7 +10446,7 @@ GameObject:
   - component: {fileID: 1115241199}
   - component: {fileID: 1115241198}
   - component: {fileID: 1115241197}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy Test (2)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -10817,6 +10503,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: fb2f40da80dca6a4896d7b793cd6be70, type: 2}
   tacticalMovement: {fileID: 0}
   currentActionPoints: 0
+  level: 1
+  currentXP: 0
 --- !u!114 &1115241200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11066,7 +10754,7 @@ GameObject:
   - component: {fileID: 1130792785}
   - component: {fileID: 1130792787}
   - component: {fileID: 1130792786}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12063,166 +11751,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244766850}
   m_CullTransparentMesh: 1
---- !u!1 &1259762122
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1259762128}
-  - component: {fileID: 1259762127}
-  - component: {fileID: 1259762126}
-  - component: {fileID: 1259762125}
-  - component: {fileID: 1259762124}
-  - component: {fileID: 1259762123}
-  m_Layer: 0
-  m_Name: Cuachimali
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1259762123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259762122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 0}
-  maxHealth: 100
-  health: 100
-  attackPower: 20
-  moveSpeed: 4
-  movementRange: 5
-  characterName: Default Name
---- !u!95 &1259762124
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259762122}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!143 &1259762125
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259762122}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1259762126
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259762122}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1259762127
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259762122}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1259762128
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259762122}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.3, y: 1.018, z: 201.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1278819508
 GameObject:
   m_ObjectHideFlags: 0
@@ -12788,7 +12316,7 @@ GameObject:
   - component: {fileID: 1330658514}
   - component: {fileID: 1330658516}
   - component: {fileID: 1330658515}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13371,7 +12899,7 @@ GameObject:
   - component: {fileID: 1410031520}
   - component: {fileID: 1410031522}
   - component: {fileID: 1410031521}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Range_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13676,6 +13204,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 7ce1bba87aef6b64ebdd893f0fecaf70, type: 2}
   tacticalMovement: {fileID: 1416151744}
   currentActionPoints: 10
+  level: 1
+  currentXP: 0
 --- !u!114 &1416151746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13721,7 +13251,7 @@ GameObject:
   - component: {fileID: 1421704689}
   - component: {fileID: 1421704691}
   - component: {fileID: 1421704690}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Name_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13858,7 +13388,7 @@ GameObject:
   - component: {fileID: 1440227278}
   - component: {fileID: 1440227279}
   - component: {fileID: 1440227280}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14081,7 +13611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1453940216}
   - component: {fileID: 1453940215}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Hp Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14419,7 +13949,7 @@ GameObject:
   - component: {fileID: 1490589204}
   - component: {fileID: 1490589205}
   - component: {fileID: 1490589206}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14781,7 +14311,7 @@ GameObject:
   - component: {fileID: 1514415971}
   - component: {fileID: 1514415970}
   - component: {fileID: 1514415969}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: WorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15269,7 +14799,7 @@ GameObject:
   - component: {fileID: 1624421687}
   - component: {fileID: 1624421689}
   - component: {fileID: 1624421688}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15344,7 +14874,7 @@ GameObject:
   - component: {fileID: 1628328399}
   - component: {fileID: 1628328401}
   - component: {fileID: 1628328400}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Speed_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15915,7 +15445,7 @@ GameObject:
   - component: {fileID: 1760328960}
   - component: {fileID: 1760328962}
   m_Layer: 0
-  m_Name: Chaman
+  m_Name: Ollin
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15935,13 +15465,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
   listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 2e48769f30785884ea389943a9b86772, type: 2}
+  statsObject: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
   maxHealth: 100
   health: 100
-  attackPower: 20
-  moveSpeed: 4
-  movementRange: 5
-  characterName: Default Name
+  attackPower: 50
+  moveSpeed: 5
+  movementRange: 7
+  characterName: Ollin
 --- !u!95 &1760328955
 Animator:
   serializedVersion: 7
@@ -16073,9 +15603,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156df8e167c203340bd94fc19da5d240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 2e48769f30785884ea389943a9b86772, type: 2}
+  stats: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
   tacticalMovement: {fileID: 1760328954}
-  currentActionPoints: 10
+  currentActionPoints: 1
+  level: 1
+  currentXP: 0
 --- !u!114 &1760328961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16122,7 +15654,7 @@ GameObject:
   - component: {fileID: 1771581557}
   - component: {fileID: 1771581556}
   - component: {fileID: 1771581555}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: WorldCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16227,7 +15759,7 @@ GameObject:
   - component: {fileID: 1774810815}
   - component: {fileID: 1774810817}
   - component: {fileID: 1774810816}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Range_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16596,7 +16128,7 @@ GameObject:
   - component: {fileID: 1806315191}
   - component: {fileID: 1806315190}
   - component: {fileID: 1806315198}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy Test (1)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -16632,6 +16164,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: fb2f40da80dca6a4896d7b793cd6be70, type: 2}
   tacticalMovement: {fileID: 0}
   currentActionPoints: 0
+  level: 1
+  currentXP: 0
 --- !u!114 &1806315192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17080,7 +16614,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1855522407}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17118,7 +16652,7 @@ GameObject:
   - component: {fileID: 1863205563}
   - component: {fileID: 1863205565}
   - component: {fileID: 1863205564}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17447,7 +16981,7 @@ GameObject:
   - component: {fileID: 1885161628}
   - component: {fileID: 1885161627}
   m_Layer: 0
-  m_Name: Ninja
+  m_Name: Yaotl
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17489,6 +17023,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 2dba8cea5a851624083614caa86bffd4, type: 2}
   tacticalMovement: {fileID: 1885161630}
   currentActionPoints: 10
+  level: 1
+  currentXP: 0
 --- !u!114 &1885161629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17651,7 +17187,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1894464456}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18047,7 +17583,7 @@ GameObject:
   - component: {fileID: 1938224555}
   - component: {fileID: 1938224557}
   - component: {fileID: 1938224556}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Range_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18671,7 +18207,7 @@ GameObject:
   - component: {fileID: 2070448132}
   - component: {fileID: 2070448134}
   - component: {fileID: 2070448133}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Range_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18841,7 +18377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2089496626}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19330,11 +18866,8 @@ SceneRoots:
   - {fileID: 1806315197}
   - {fileID: 1115241205}
   - {fileID: 1051001855}
-  - {fileID: 1259762128}
   - {fileID: 2109207498}
-  - {fileID: 238402962}
   - {fileID: 650250920}
-  - {fileID: 423191332}
   - {fileID: 1596107118}
   - {fileID: 1320077750}
   - {fileID: 190137160}
