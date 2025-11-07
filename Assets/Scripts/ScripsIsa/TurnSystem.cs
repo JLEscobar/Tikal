@@ -33,7 +33,7 @@ public class TurnSystem : MonoBehaviour
         CleanDeadFromLists();
         _started = true;
         _playerIndex = _enemyIndex = 0;
-        Debug.Log("[vFinal] Battle started!");
+        Debug.Log("[vDoT_FINAL] Battle started!");
         
         StartPlayerSelectionPhase();
     }
@@ -47,19 +47,26 @@ public class TurnSystem : MonoBehaviour
 
         if (_current == null && _currentTeam == Team.Player)
         {
-            Debug.Log("[vFinal] Forced end of Player Selection Phase. Switching to Enemy team.");
+            Debug.Log("[vDoT_FINAL] Forced end of Player Selection Phase. Switching to Enemy team.");
             SwitchTeam();
             NextTurn();
             return;
         }
         
         // 1. Finalizar turno del actor actual
-        if (_current != null)
+        if (_current != null && _current.gameObject != null)
         {
-            TickCooldowns(_current); // NUEVO: Tick del cooldown del actor actual
+            TickCooldowns(_current); 
+            TickStatusEffects(_current); 
+            _current.ApplyTurnDamageEffects(); // Llama a la lógica de Quemado/Envenenado para el actor actual
+            
             _current.EndTurn();
             OnTurnEnded?.Invoke(_currentTeam, _current);
-            Debug.Log($"[vFinal] Turn ended for {_currentTeam}: {_current.CharacterName}");
+            Debug.Log($"[vDoT_FINAL] Turn ended for {_current.CharacterName}.");
+        }
+        else if (_current != null && _current.gameObject == null)
+        {
+             CleanDeadFromLists();
         }
 
         if (CheckBattleEnd())
@@ -67,15 +74,20 @@ public class TurnSystem : MonoBehaviour
             return;
         }
 
-        // 2. Reducir Cooldowns del equipo que va a esperar
+        // 2. Reducir Cooldowns y Estados del equipo que va a esperar
         if (_currentTeam == Team.Player)
         {
             _current = null;
             
-            // Tick a todo el equipo enemigo al final del turno del jugador
-            foreach(var enemy in enemyTeam) TickCooldowns(enemy); // NUEVO: Tick al equipo enemigo
+            // Tick a todo el equipo enemigo 
+            foreach(var enemy in enemyTeam.Where(e => e != null)) 
+            {
+                TickCooldowns(enemy); 
+                TickStatusEffects(enemy); 
+                enemy.ApplyTurnDamageEffects(); // NUEVA LLAMADA: Aplica DoT al equipo enemigo que espera
+            }
             
-            if (!playerTeam.Any(a => !a.Health.IsDead && a.ActionPoints > 0))
+            if (!playerTeam.Any(a => a != null && !a.Health.IsDead && a.ActionPoints > 0))
             {
                 SwitchTeam();
                 NextTurn();
@@ -87,39 +99,34 @@ public class TurnSystem : MonoBehaviour
         }
         else 
         {
-            // Tick a todo el equipo jugador al final del turno enemigo
-            foreach(var player in playerTeam) TickCooldowns(player); // NUEVO: Tick al equipo jugador
+            // Tick a todo el equipo jugador
+            foreach(var player in playerTeam.Where(p => p != null)) 
+            {
+                TickCooldowns(player); 
+                TickStatusEffects(player); 
+                player.ApplyTurnDamageEffects(); // NUEVA LLAMADA: Aplica DoT al equipo jugador que espera
+            }
             
             SwitchTeam();
             NextTurn();
         }
     }
     
-    // MÉTODO MODIFICADO: Contador de cooldowns
-    private void TickCooldowns(CharacterActor actor)
-    {
-        if (actor.Stats == null || actor.Stats.abilities == null) return;
-
-        foreach (var ability in actor.Stats.abilities)
-        {
-            // Solo si la habilidad tiene un cooldown base y el contador actual es mayor a cero
-            if (ability != null && ability.BaseCooldownTurns > 0 && ability.currentCooldown > 0) 
-            {
-                ability.currentCooldown--;
-                Debug.Log($"[CD TICK] {actor.CharacterName}: {ability.DisplayName} restante: {ability.currentCooldown}");
-            }
-        }
-    }
-    
-    // MÉTODO SetCurrentActor (se mantiene la lógica de re-selección)
+    // MÉTODO SetCurrentActor (se mantiene)
     public bool SetCurrentActor(CharacterActor actor)
     {
+        if (actor == null)
+        {
+            Debug.LogWarning("SetCurrentActor llamado con actor nulo. Ignorando.");
+            return false;
+        }
+        
         if (_currentTeam != Team.Player || actor.Team != Team.Player || actor.Health.IsDead)
         {
             return false;
         }
         
-        if (_current != null && _current != actor)
+        if (_current != null && _current.gameObject != null && _current != actor) 
         {
             _current.EndTurn();
             OnTurnEnded?.Invoke(_currentTeam, _current);
@@ -129,18 +136,18 @@ public class TurnSystem : MonoBehaviour
 
         _current = actor;
         
-        if (_current.ActionPoints > 0)
+        if (actor.ActionPoints > 0)
         {
-            _current.BeginTurn(); 
-            OnTurnStarted?.Invoke(_currentTeam, _current);
-            MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} Aliado (AP: {_current.ActionPoints})", Color.green);
+            actor.BeginTurn(); 
+            OnTurnStarted?.Invoke(_currentTeam, actor);
+            MessagesSystem.Instance.ShowMessage($"Turno de {actor.CharacterName} Aliado (AP: {actor.ActionPoints})", Color.green);
         }
         else
         {
-            OnTurnStarted?.Invoke(_currentTeam, _current); 
-            MessagesSystem.Instance.ShowMessage($"Seleccionado {_current.CharacterName}, pero no le quedan Puntos de Acción.", Color.cyan);
+            OnTurnStarted?.Invoke(_currentTeam, actor); 
+            MessagesSystem.Instance.ShowMessage($"Seleccionado {actor.CharacterName}, pero no le quedan Puntos de Acción.", Color.cyan);
             
-            _current.ForceMovementPhaseActivation(); 
+            actor.ForceMovementPhaseActivation(); 
         }
         
         return true;
@@ -152,7 +159,7 @@ public class TurnSystem : MonoBehaviour
         _current = null; 
         OnTurnStarted?.Invoke(_currentTeam, null); 
         MessagesSystem.Instance.ShowMessage("Fase de Selección del Jugador: Elige un personaje (1, 2, 3 o 4)", Color.yellow);
-        Debug.Log("[vFinal] Player Selection Phase Started.");
+        Debug.Log("[vDoT_FINAL] Player Selection Phase Started.");
     }
 
     private void NextTurn()
@@ -221,7 +228,8 @@ public class TurnSystem : MonoBehaviour
 
     private void CleanDeadFromList(List<CharacterActor> list)
     {
-        list.RemoveAll(a => a == null || a.Health.IsDead || !a.gameObject.activeInHierarchy);
+        list.RemoveAll(a => a == null || (a.gameObject != null && a.Health.IsDead) || a.gameObject == null || !a.gameObject.activeInHierarchy);
+        list.RemoveAll(a => a == null); 
     }
 
     public IEnumerable<CharacterActor> GetOpponentsOf(Team team)
@@ -241,7 +249,33 @@ public class TurnSystem : MonoBehaviour
         if (!enemyTeam.Contains(newEnemy))
         {
             enemyTeam.Add(newEnemy);
-            Debug.Log($"[vFinal] New enemy added to the battle: {newEnemy.CharacterName}");
+            Debug.Log($"[vDoT_FINAL] New enemy added to the battle: {newEnemy.CharacterName}");
+        }
+    }
+    
+    private void TickStatusEffects(CharacterActor actor)
+    {
+        if (actor == null || actor.Health.IsDead) return;
+
+        foreach (var effect in actor.activeEffects)
+        {
+            effect.Duration--;
+        }
+        
+        actor.RemoveExpiredEffects();
+    }
+
+    private void TickCooldowns(CharacterActor actor)
+    {
+        if (actor.Stats == null || actor.Stats.abilities == null) return;
+
+        foreach (var ability in actor.Stats.abilities)
+        {
+            if (ability != null && ability.BaseCooldownTurns > 0 && ability.currentCooldown > 0) 
+            {
+                ability.currentCooldown--;
+                Debug.Log($"[CD TICK] {actor.CharacterName}: {ability.DisplayName} restante: {ability.currentCooldown}");
+            }
         }
     }
 }

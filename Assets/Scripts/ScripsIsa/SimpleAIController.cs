@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SimpleAIController : MonoBehaviour
 {
     [SerializeField] private TurnSystem turnSystem;
     [SerializeField] private float thinkDelay = 1f;
-    [SerializeField] private float moveWaitTime = 2f; // Time to wait for movement to complete
+    [SerializeField] private float moveWaitTime = 2f; 
+    
+    [Header("AI Combat Settings")]
+    [Tooltip("Índices de las habilidades que la IA puede usar (0 = Básico, 1 = Especial, etc.)")]
+    [SerializeField] private List<int> availableAbilityIndices = new List<int> { 0, 1 }; 
+    [Tooltip("Probabilidad (0 a 1) de que la IA intente usar una habilidad de debuff/especial antes que el ataque básico.")]
+    [SerializeField, Range(0f, 1f)] private float chanceToUseSpecial = 0.5f; 
 
     void OnEnable()
     {
@@ -30,85 +37,101 @@ public class SimpleAIController : MonoBehaviour
     {
         if (actor == null) yield break;
 
-        Debug.Log($"[v0] AI turn started for {actor.CharacterName}");
-
         yield return new WaitForSeconds(thinkDelay);
 
         var targets = turnSystem.GetOpponentsOf(Team.Enemy).Where(o => !o.Health.IsDead).ToList();
         if (targets.Count == 0)
         {
-            Debug.Log("[v0] AI: No targets available, ending turn");
             turnSystem.EndTurn();
             yield break;
         }
 
         var target = targets.OrderBy(t => Vector3.Distance(actor.transform.position, t.transform.position)).First();
-        Debug.Log($"[v0] AI selected target: {target.CharacterName}");
 
-        var attack = actor.GetAbilityByIndex(0);
-        if (attack == null)
+        // -----------------------------------------------------------
+        // 1. LÓGICA DE SELECCIÓN DE HABILIDAD
+        // -----------------------------------------------------------
+        AbilityBase bestAbility = null;
+        int abilityIndexToUse = -1;
+        
+        // Obtenemos todas las habilidades disponibles y que no están en cooldown
+        var availableAbilities = availableAbilityIndices
+            .Select(i => new { Ability = actor.GetAbilityByIndex(i), Index = i })
+            .Where(x => x.Ability != null && x.Ability.currentCooldown <= 0)
+            .ToList();
+            
+        // Si hay habilidades disponibles, decidimos si usar una especial
+        if (availableAbilities.Count > 0)
         {
-            Debug.Log("[v0] AI has no attack ability");
+            // Intentar usar la especial si existe y la suerte lo permite
+            if (Random.value < chanceToUseSpecial && availableAbilities.Count > 1)
+            {
+                // Elegimos una habilidad aleatoria que no sea el índice 0 (ataque básico)
+                var nonBasicAbilities = availableAbilities.Where(x => x.Index != 0).ToList();
+                if (nonBasicAbilities.Count > 0)
+                {
+                    var selected = nonBasicAbilities[Random.Range(0, nonBasicAbilities.Count)];
+                    bestAbility = selected.Ability;
+                    abilityIndexToUse = selected.Index;
+                }
+            }
+
+            // Si no elegimos una especial, usamos la básica (Índice 0)
+            if (bestAbility == null)
+            {
+                var basic = availableAbilities.FirstOrDefault(x => x.Index == 0);
+                if (basic != null)
+                {
+                    bestAbility = basic.Ability;
+                    abilityIndexToUse = basic.Index;
+                }
+            }
+        }
+
+        if (bestAbility == null)
+        {
+            Debug.Log("[vAI_Fix] AI has no valid attack ability");
             turnSystem.EndTurn();
             yield break;
         }
-
+        
+        // -----------------------------------------------------------
+        // 2. LÓGICA DE MOVIMIENTO (Aproximación)
+        // -----------------------------------------------------------
         float distanceToTarget = Vector3.Distance(actor.transform.position, target.transform.position);
-        float attackRange = attack.Range;
+        float attackRange = bestAbility.Range + 0.1f; // Usar el margen de error
 
-        Debug.Log($"[v0] AI distance to target: {distanceToTarget:F2}, attack range: {attackRange:F2}");
-
-        if (!attack.CanExecute(actor, target))
+        if (!bestAbility.CanExecute(actor, target))
         {
-            Debug.Log("[v0] AI cannot attack yet, attempting to move closer");
-
-            // If we're out of attack range, try to move closer
+            // Intentamos movernos si estamos fuera de rango
             if (distanceToTarget > attackRange)
             {
-                // Calculate direction to target
                 Vector3 directionToTarget = (target.transform.position - actor.transform.position).normalized;
-
-                // Calculate desired position (move as close as possible within movement range)
-                float moveDistance = Mathf.Min(actor.MovementRange, distanceToTarget - attackRange + 0.5f);
+                
+                float desiredDistanceToMove = distanceToTarget - attackRange + 0.1f; 
+                float moveDistance = Mathf.Min(actor.MovementRange, desiredDistanceToMove);
+                
                 Vector3 desiredPosition = actor.transform.position + directionToTarget * moveDistance;
 
-                Debug.Log($"[v0] AI calculated move: distance={moveDistance:F2}, from={actor.transform.position}, to={desiredPosition}");
-
-                // Check if we can move to that position
-                if (actor.CanMoveTo(desiredPosition))
+                // Ahora, llamamos a actor.MoveTo que existe en CharacterActor.cs
+                if (actor.CanMoveTo(desiredPosition)) 
                 {
-                    Debug.Log($"[v0] AI moving closer to target");
                     actor.MoveTo(desiredPosition);
 
-                    // Wait for movement to complete
-                    Debug.Log($"[v0] AI waiting {moveWaitTime}s for movement to complete");
                     yield return new WaitForSeconds(moveWaitTime);
-
-                    Debug.Log($"[v0] AI movement complete. New position: {actor.transform.position}");
                 }
-                else
-                {
-                    Debug.Log($"[v0] AI cannot move to desired position (out of movement range: {actor.MovementRange})");
-                }
-            }
-            else
-            {
-                Debug.Log($"[v0] AI is within attack range but cannot execute (might be AP issue)");
             }
         }
 
-        if (attack.CanExecute(actor, target))
+        // -----------------------------------------------------------
+        // 3. EJECUCIÓN DE HABILIDAD
+        // -----------------------------------------------------------
+        if (bestAbility.CanExecute(actor, target))
         {
-            Debug.Log($"[v0] AI attacking {target.CharacterName}");
-            attack.Execute(actor, target);
+            actor.TryUseAbility(abilityIndexToUse, target);
             yield return new WaitForSeconds(0.5f);
         }
-        else
-        {
-            Debug.Log("[v0] AI still cannot attack (out of range or no AP)");
-        }
-
-        Debug.Log("[v0] AI ending turn");
+        
         turnSystem.EndTurn();
     }
 }

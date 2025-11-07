@@ -11,6 +11,13 @@ public class LineAttackAbility : AbilityBase
     [Tooltip("Capa de máscara que contiene a los enemigos (CRUCIAL).")]
     [SerializeField] private LayerMask targetLayer;
 
+    [Header("Teleport Settings (Ollin)")]
+    [Tooltip("Si es True, el usuario se mueve a la posición del objetivo después del ataque.")]
+    [SerializeField] private bool moveUserToTarget = false;
+    [Tooltip("Distancia detrás del objetivo a la que aparecerá Ollin (0.5m por ejemplo).")]
+    [SerializeField] private float teleportOffset = 0.5f;
+
+
     public override bool CanExecute(CharacterActor user, ITargetable target)
     {
         // El target debe ser el objetivo clickeado
@@ -21,7 +28,7 @@ public class LineAttackAbility : AbilityBase
         // La distancia se basa en el objetivo final (7 metros).
         float distance = Vector3.Distance(user.transform.position, target.GetTransform().position);
         
-        return distance <= Range;
+        return distance <= Range + 0.1f; 
     }
 
     public override void Execute(CharacterActor user, ITargetable target)
@@ -31,17 +38,15 @@ public class LineAttackAbility : AbilityBase
         Vector3 userPosition = user.transform.position;
         Vector3 targetPosition = target.GetTransform().position;
 
-        // 1. Definir la trayectoria y la distancia
+        // 1. Lógica de Raycast y daño
         Vector3 direction = (targetPosition - userPosition).normalized;
         float maxDistance = Range; 
 
-        // 2. Usar Physics.RaycastAll para detectar todos los colliders en la trayectoria.
         RaycastHit[] hits = Physics.RaycastAll(userPosition, direction, maxDistance, targetLayer);
 
-        // 3. Filtrar y aplicar daño
         var validTargets = hits
             .Select(hit => hit.collider.GetComponentInParent<CharacterActor>())
-            .Where(t => t != null && t.Team != user.Team && !t.Health.IsDead) 
+            .Where(t => t != null && t.Team != user.Team && !t.Health.IsDead)
             .Distinct()
             .ToList();
 
@@ -52,13 +57,22 @@ public class LineAttackAbility : AbilityBase
             t.Health.TakeDamage(finalDamage);
         }
 
-        // 4. Consumir AP
+        // 2. Teleport (para Ollin)
+        if (moveUserToTarget && user.CharacterName == "Ollin") // Solo Ollin debería hacer esto
+        {
+            // Calcula la posición para aparecer detrás del objetivo, simulando el +3 teleport
+            Vector3 teleportPosition = targetPosition - direction * teleportOffset; 
+
+            // Esta es la llamada crítica a la nueva función:
+            user.ForceTeleportToPosition(teleportPosition); 
+            Debug.Log($"{user.CharacterName} se teletransporta a la posición del target.");
+        }
+
+        // 3. Consumir AP
         user.ConsumeActionPoints(CostAP);
 
-        // 5. LÓGICA DE PARTÍCULAS: Se instancian en el target clickeado (final de la línea)
         if (AbilityParticles != null)
         {
-            // Instancia las partículas en la posición del TARGET clickeado (final de la línea)
             GameObject particles = Instantiate(AbilityParticles, targetPosition, Quaternion.identity);
             Object.Destroy(particles, 3f);
         }

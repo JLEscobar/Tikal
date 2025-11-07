@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Chaman
   m_EditorClassIdentifier: 
   characterName: Chaman
-  team: 0
-  maxHealth: 50
-  attackPower: 30
-  actionPointsPerTurn: 2
-  moveSpeed: 4
-  movementRange: 15
+  team: 1
+  maxHealth: 90
+  attackPower: 15
+  actionPointsPerTurn: 1
+  moveSpeed: 5
+  movementRange: 5
   abilities:
-  - {fileID: 11400000, guid: ea498997800b2cd40aced941427c4c9f, type: 2}
+  - {fileID: 11400000, guid: 7c613facfcc50854b9a3a15380fafb6b, type: 2}
+  - {fileID: 11400000, guid: 13bad4d99b8a76d4a9385ada8fe92309, type: 2}
+  - {fileID: 11400000, guid: dbffa390a6ea39d42a011897b317ec10, type: 2}

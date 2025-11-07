@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Health))]
 public class CharacterActor : MonoBehaviour, ITargetable
@@ -6,12 +8,19 @@ public class CharacterActor : MonoBehaviour, ITargetable
     [Header("Configuration")]
     [SerializeField] private CharacterStats stats;
 
+    [Header("GDD Combat Rules")]
+    [SerializeField] private int baseAPPerTurn = 1;
+    [SerializeField] private int maxAccumulatedAP = 3;
+
     [Header("Optional Movement Controller")]
     [SerializeField] private TacticalMovementController tacticalMovement;
 
     [Header("Runtime State")]
     [SerializeField] private int currentActionPoints;
     
+    [Header("Status Effects")]
+    [SerializeField] public List<StatusEffect> activeEffects = new List<StatusEffect>();
+
     // Campos de progresión
     [Header("Progression")]
     [SerializeField] private int level = 1;
@@ -21,6 +30,7 @@ public class CharacterActor : MonoBehaviour, ITargetable
     // Cached components
     private Health _health;
     private CharacterMovement _movement;
+    private CharacterController _controller; 
 
     // Properties
     public CharacterStats Stats => stats;
@@ -29,10 +39,38 @@ public class CharacterActor : MonoBehaviour, ITargetable
     public int ActionPoints => currentActionPoints;
     public int MaxActionPoints => stats != null ? stats.actionPointsPerTurn : 2;
     public string CharacterName => stats != null ? stats.characterName : name;
-    public int AttackPower => stats != null ? stats.attackPower : 10;
-    public float MovementRange => stats != null ? stats.movementRange : 5f;
     
-    // Propiedades de progresión
+    public int AttackPower
+    {
+        get
+        {
+            int baseAttack = stats != null ? stats.attackPower : 10;
+            
+            if (activeEffects.Any(e => e.Type == StatusEffectType.Catalizador))
+            {
+                int buffAmount = Mathf.RoundToInt(baseAttack * 0.15f);
+                return baseAttack + buffAmount; 
+            }
+
+            return baseAttack;
+        }
+    }
+    
+    public float MovementRange
+    {
+        get
+        {
+            float baseRange = stats != null ? stats.movementRange : 5f;
+            
+            if (activeEffects.Any(e => e.Type == StatusEffectType.Ralentizado))
+            {
+                return baseRange * 0.8f; 
+            }
+
+            return baseRange;
+        }
+    }
+
     public int Level => level;
     public int CurrentXP => currentXP;
 
@@ -40,7 +78,8 @@ public class CharacterActor : MonoBehaviour, ITargetable
     {
         _health = GetComponent<Health>();
         _movement = GetComponent<CharacterMovement>();
-
+        _controller = GetComponent<CharacterController>(); 
+        
         if (stats != null)
         {
             _health.Initialize(stats.maxHealth);
@@ -59,15 +98,36 @@ public class CharacterActor : MonoBehaviour, ITargetable
         _health.OnDied -= OnDeath;
     }
 
-    public Transform GetTransform() => transform;
+    public Transform GetTransform() => transform; // Reimplementación de ITargetable
 
     public void BeginTurn()
     {
-        currentActionPoints = MaxActionPoints;
+        int apAfterRefill = currentActionPoints + baseAPPerTurn; 
+        currentActionPoints = Mathf.Min(apAfterRefill, maxAccumulatedAP); 
+        
+        bool isKnockedOut = activeEffects.Any(e => e.Type == StatusEffectType.Noqueado);
+
+        if (isKnockedOut)
+        {
+            MessagesSystem.Instance.ShowMessage($"{CharacterName} está Noqueado y no puede actuar.", Color.grey);
+            currentActionPoints = 0; 
+        }
 
         if (tacticalMovement != null)
         {
-            tacticalMovement.SetMovementPhase(true);
+            tacticalMovement.SetMovementPhase(!isKnockedOut); 
+        }
+        
+        // Tick de Cooldowns
+        if (stats != null && stats.abilities != null)
+        {
+            foreach (var ability in stats.abilities)
+            {
+                if (ability.currentCooldown > 0)
+                {
+                    ability.currentCooldown--;
+                }
+            }
         }
     }
 
@@ -81,7 +141,6 @@ public class CharacterActor : MonoBehaviour, ITargetable
         }
     }
     
-    // MÉTODO DE CORRECCIÓN DE NULLREF
     public void ForceMovementPhaseActivation()
     {
         if (tacticalMovement != null)
@@ -94,11 +153,85 @@ public class CharacterActor : MonoBehaviour, ITargetable
         }
     }
 
+    // MÉTODO DE TELEPORTACIÓN
+    public void ForceTeleportToPosition(Vector3 position)
+    {
+        if (_controller == null)
+        {
+            transform.position = position; 
+            Debug.LogWarning($"{CharacterName} teletransportado sin CharacterController. Usando transform.position.");
+        }
+        else
+        {
+            _controller.enabled = false;
+            transform.position = position; 
+            _controller.enabled = true;
+        }
+    }
+
     public void ConsumeActionPoints(int amount)
     {
         currentActionPoints = Mathf.Max(0, currentActionPoints - Mathf.Abs(amount));
+        Debug.Log($"[AP Consumption] {CharacterName} Consumed {Mathf.Abs(amount)} AP. Remaining AP: {currentActionPoints}");
     }
 
+    public void ApplyStatusEffect(StatusEffectType type, int duration)
+    {
+        if (activeEffects == null) activeEffects = new List<StatusEffect>();
+
+        activeEffects.RemoveAll(e => e.Type == type);
+        
+        if (duration > 0)
+        {
+            activeEffects.Add(new StatusEffect { Type = type, Duration = duration });
+            MessagesSystem.Instance.ShowMessage($"{CharacterName} ahora tiene {type} por {duration} turnos.", Color.yellow);
+        }
+        
+        UpdateMovementSpeedBasedOnEffects();
+    }
+    
+    public void UpdateMovementSpeedBasedOnEffects()
+    {
+        if (tacticalMovement != null)
+        {
+            Debug.Log($"[Estado] {CharacterName} Movement Range actualizado a: {MovementRange:F2}");
+        }
+    }
+    
+    public void RemoveExpiredEffects()
+    {
+        if (activeEffects == null) return; 
+
+        activeEffects.RemoveAll(e => e.Duration <= 0);
+        
+        UpdateMovementSpeedBasedOnEffects();
+    }
+    
+    // MÉTODO REQUERIDO POR TURNSYSTEM.CS (CS1061)
+    public void ApplyTurnDamageEffects()
+    {
+        if (activeEffects.Any(e => e.Type == StatusEffectType.Quemado))
+        {
+            int burnDamage = Mathf.RoundToInt(_health.MaxHealth * 0.10f);
+            if (burnDamage > 0)
+            {
+                _health.TakeDamage(burnDamage);
+                MessagesSystem.Instance.ShowMessage($"{CharacterName} recibe {burnDamage} de daño por Quemado.", Color.red);
+            }
+        }
+
+        if (activeEffects.Any(e => e.Type == StatusEffectType.Envenenado))
+        {
+            int poisonDamage = Mathf.RoundToInt(_health.MaxHealth * 0.03f);
+            if (poisonDamage > 0)
+            {
+                _health.TakeDamage(poisonDamage);
+                MessagesSystem.Instance.ShowMessage($"{CharacterName} recibe {poisonDamage} de daño por Envenenado.", Color.magenta);
+            }
+        }
+    }
+
+    // MÉTODO REQUERIDO POR SimpleAIController.cs y PlayerTurnController.cs (CS1061)
     public AbilityBase GetAbilityByIndex(int index)
     {
         if (stats == null || stats.abilities == null) return null;
@@ -106,13 +239,11 @@ public class CharacterActor : MonoBehaviour, ITargetable
         return stats.abilities[index];
     }
 
-    // MÉTODO MODIFICADO: Inicia el Cooldown
     public bool TryUseAbility(int abilityIndex, ITargetable target)
     {
         var ability = GetAbilityByIndex(abilityIndex);
         if (ability == null) return false;
 
-        // Lógica para permitir habilidades AoE/Self-Cast
         if (target == null && ability is AreaAttackAbility)
         {
              target = this; 
@@ -120,30 +251,46 @@ public class CharacterActor : MonoBehaviour, ITargetable
         
         if (target == null) return false; 
 
+        if (ability.currentCooldown > 0)
+        {
+             MessagesSystem.Instance.ShowMessage($"{CharacterName}: {ability.DisplayName} está en Cooldown ({ability.currentCooldown} turnos).", Color.red);
+             return false;
+        }
+
         if (!ability.CanExecute(this, target)) return false;
+        
+        if (activeEffects.Any(e => e.Type == StatusEffectType.Noqueado))
+        {
+             MessagesSystem.Instance.ShowMessage($"{CharacterName} no puede usar habilidades, está Noqueado.", Color.grey);
+             return false;
+        }
 
         ability.Execute(this, target);
         
-        // NUEVO: Iniciar el Cooldown después de la ejecución exitosa
         if (ability.BaseCooldownTurns > 0)
         {
             ability.currentCooldown = ability.BaseCooldownTurns; 
-            Debug.Log($"[CD] {CharacterName}: {ability.DisplayName} en cooldown por {ability.currentCooldown} turnos.");
         }
 
         return true;
     }
 
+    // MÉTODO REQUERIDO POR SimpleAIController.cs (CS1061)
     public bool CanMoveTo(Vector3 position)
     {
         float distance = Vector3.Distance(transform.position, position);
-        return distance <= MovementRange;
+        return distance <= MovementRange; 
     }
 
+    // MÉTODO REQUERIDO POR SimpleAIController.cs (CS1061)
     public void MoveTo(Vector3 position)
     {
-        Debug.Log($"[v0] {CharacterName} MoveTo called. Target: {position}");
-
+        if (activeEffects.Any(e => e.Type == StatusEffectType.Noqueado))
+        {
+             MessagesSystem.Instance.ShowMessage($"{CharacterName} no puede moverse, está Noqueado.", Color.grey);
+             return;
+        }
+        
         if (_movement == null)
         {
             Debug.LogError($"[v0] {CharacterName} has no CharacterMovement component!");
@@ -152,12 +299,9 @@ public class CharacterActor : MonoBehaviour, ITargetable
 
         if (!CanMoveTo(position))
         {
-            float distance = Vector3.Distance(transform.position, position);
-            Debug.LogWarning($"[v0] {CharacterName} cannot move to {position}. Distance: {distance:F2}, Max Range: {MovementRange:F2}");
             return;
         }
 
-        Debug.Log($"[v0] {CharacterName} starting movement to {position}");
         _movement.MoveToPosition(position);
     }
     
@@ -166,8 +310,6 @@ public class CharacterActor : MonoBehaviour, ITargetable
         if (amount <= 0) return;
         currentXP += amount;
         
-        Debug.Log($"[vFinal] {CharacterName} gained {amount} XP. Total: {currentXP}");
-
         CheckLevelUp();
     }
 
@@ -179,7 +321,6 @@ public class CharacterActor : MonoBehaviour, ITargetable
             level++;
             
             MessagesSystem.Instance.ShowMessage($"{CharacterName} subió al Nivel {level}!", Color.yellow);
-            Debug.Log($"[vFinal] {CharacterName} leveled up to Level {level}!");
         }
     }
 

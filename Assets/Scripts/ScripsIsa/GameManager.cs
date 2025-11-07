@@ -31,14 +31,9 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         
-        // Búsqueda segura de referencias
         if (turnSystem == null) turnSystem = FindFirstObjectByType<TurnSystem>();
         if (mainCamera == null) mainCamera = Camera.main;
         if (virtualCamera == null) virtualCamera = FindFirstObjectByType<CinemachineCamera>();
-
-        // Si la cámara virtual es una CinemachineFreeLook, por defecto en Awake,
-        // podrías querer que siga un objeto vacío (pivot) si el juego no empieza inmediatamente
-        // en combate, pero la corrección principal está en el manejo de eventos.
     }
 
     void OnEnable()
@@ -63,44 +58,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseService.TogglePause();
+        }
+    }
+    
+    public Camera GetMainCamera()
+    {
+        if (mainCamera == null) mainCamera = Camera.main;
+        return mainCamera;
+    }
+
     private void HandlePauseChanged(bool isPaused)
     {
         if (pauseMenu != null)
         {
             pauseMenu.SetActive(isPaused);
-        }
-    }
-    
-    // MÉTODO CORREGIDO: SOLO actualiza la cámara si hay un actor activo.
-    // Esto permite que el control de la cámara libre (por mouse) funcione durante la Fase de Selección (actor == null).
-    private void HandleTurnStarted(Team team, CharacterActor actor)
-    {
-        if (virtualCamera == null) return;
-        
-        // Solo actualizamos la cámara para el equipo jugador
-        if (team == Team.Player)
-        {
-            if (actor != null)
-            {
-                // Hay un actor activo: la cámara lo sigue
-                UpdateCameraTarget(actor.transform);
-                Debug.Log($"[vCorregido] Camera following: {actor.CharacterName}");
-            }
-            else
-            {
-                // Fase de Selección (actor es null): NO tocamos el target de la cámara.
-                // Esto debería permitir que el componente CinemachineFreeLook recupere el control
-                // del mouse y la cámara mantenga su última posición.
-                Debug.Log("[vCorregido] Camera in Selection Phase. Maintaining current view.");
-            }
-        }
-        else // Equipo Enemigo
-        {
-            if (actor != null)
-            {
-                // El equipo enemigo siempre debe seguir a su actor
-                UpdateCameraTarget(actor.transform);
-            }
         }
     }
 
@@ -115,22 +99,70 @@ public class GameManager : MonoBehaviour
             ShowDefeat();
         }
     }
+    
+    // NUEVO MÉTODO: Llamado directamente por el botón UI
+    public void EndTurnFromButton()
+    {
+        if (turnSystem == null)
+        {
+            Debug.LogError("TurnSystem no está asignado en GameManager. No se puede finalizar el turno.");
+            return;
+        }
+        
+        // Verificamos si es el turno del jugador y si hay un actor activo
+        if (turnSystem.CurrentTeam == Team.Player && turnSystem.CurrentActor != null)
+        {
+            // Lógica de consumo de AP (asumiendo que gasta 1 AP para finalizar el turno, 
+            // aunque el GDD permite finalizar el turno sin gastar AP si no hay más acciones)
+            
+            // Llamamos a EndTurn del TurnSystem. El TurnSystem se encargará de resetear el AP
+            // del personaje actual y pasar al siguiente estado/equipo.
+            turnSystem.EndTurn();
+            Debug.Log("[EndTurnButton] Turno del actor actual finalizado por botón.");
+        }
+        else if (turnSystem.CurrentTeam == Team.Player && turnSystem.CurrentActor == null)
+        {
+            // Esto ocurre cuando se presiona EndTurn en la Fase de Selección, 
+            // indicando que el jugador quiere finalizar la fase de todo el equipo.
+            turnSystem.EndTurn(); 
+            Debug.Log("[EndTurnButton] Fase de Selección finalizada por botón.");
+        }
+    }
 
     // Método asumido que establece Follow y LookAt de la CinemachineCamera
     private void UpdateCameraTarget(Transform target)
     {
         if (virtualCamera != null)
         {
-            // Esto asume que virtualCamera es un CinemachineCamera (o FreeLook)
-            // y que establecer Follow/LookAt al objetivo es lo que quieres para el modo de seguimiento.
             virtualCamera.Follow = target;
             virtualCamera.LookAt = target;
         }
     }
 
-    // ... (El resto de métodos de UI permanecen sin cambios)
+    private void HandleTurnStarted(Team team, CharacterActor actor)
+    {
+        if (virtualCamera == null) return;
+        
+        if (team == Team.Player)
+        {
+            if (actor != null)
+            {
+                UpdateCameraTarget(actor.transform);
+            }
+            else
+            {
+                // Fase de Selección (actor es null): No tocamos el target para que el mouse pueda moverse.
+            }
+        }
+        else // Equipo Enemigo
+        {
+            if (actor != null)
+            {
+                UpdateCameraTarget(actor.transform);
+            }
+        }
+    }
 
-    public Camera GetMainCamera() => mainCamera;
 
     public void ReturnToMenu()
     {

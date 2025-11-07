@@ -13,6 +13,7 @@ public class Health : MonoBehaviour, IHealth
 
     public event Action<int, int> OnHealthChanged;
     public event Action OnDied;
+    public event OnCharacterKilled OnKilledBy; // DECLARACIÓN DEL NUEVO EVENTO
 
     void Awake()
     {
@@ -38,6 +39,7 @@ public class Health : MonoBehaviour, IHealth
         if (_currentHealth == 0)
         {
             OnDied?.Invoke();
+            // Nota: OnKilledBy se dispara desde el script de la habilidad (MeleeAttackAbility, etc.)
         }
     }
 
