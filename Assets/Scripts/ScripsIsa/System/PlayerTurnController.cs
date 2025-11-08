@@ -12,7 +12,7 @@ public class PlayerTurnController : MonoBehaviour
     [Header("Input Settings")]
     [SerializeField] private bool attackOnClick = true;
     [SerializeField] private int defaultAbilityIndex = 0;
-    
+
     private CharacterActor _current;
     private List<CharacterActor> _cachedOpponents = new();
     private int _cursor;
@@ -24,6 +24,8 @@ public class PlayerTurnController : MonoBehaviour
     {
         if (turnSystem == null) turnSystem = FindFirstObjectByType<TurnSystem>();
         if (cam == null) cam = Camera.main;
+        
+        // CONEXIÓN CORRECTA DE EVENTOS (CS0103)
         turnSystem.OnTurnStarted += HandleTurnStart;
         turnSystem.OnTurnEnded += HandleTurnEnd;
     }
@@ -40,11 +42,11 @@ public class PlayerTurnController : MonoBehaviour
         if (PauseService.IsPaused) return;
         if (turnSystem.CurrentTeam != Team.Player) return;
 
-        CheckCharacterSelectionInput();
+        CheckCharacterSelectionInput(); // MÉTODO ACCESIBLE
         
         if (_current == null) return; 
 
-        if (Input.GetKeyDown(KeyCode.Tab)) CycleTarget();
+        if (Input.GetKeyDown(KeyCode.Tab)) CycleTarget(); // MÉTODO ACCESIBLE
         
         // Teclas Q y E (Habilidades 0 y 1)
         if (Input.GetKeyDown(KeyCode.Q)) 
@@ -61,7 +63,7 @@ public class PlayerTurnController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Return)) turnSystem.EndTurn();
         
-        if (Input.GetKeyDown(KeyCode.P)) TogglePause();
+        if (Input.GetKeyDown(KeyCode.P)) TogglePause(); // MÉTODO ACCESIBLE
 
         // Lógica de detección por Clic (Mouse)
         if (Input.GetMouseButtonDown(0))
@@ -94,26 +96,17 @@ public class PlayerTurnController : MonoBehaviour
         }
     }
     
+    // ********************************************
+    // * MÉTODOS AUXILIARES Y MANEJADORES DE EVENTOS *
+    // * (Ahora accesibles por el contexto de la clase) *
+    // ********************************************
+
     private void TryUseAbility(int index)
     {
         if (_current.ActionPoints < 1) return; 
 
         var ability = _current.GetAbilityByIndex(index);
         if (ability == null) return;
-
-        // **CORRECCIÓN 1: Evitar el error de distancia gigante (3402823...)**
-        float distance = 0f;
-        if (_currentTarget != null)
-        {
-            distance = Vector3.Distance(_current.transform.position, _currentTarget.GetTransform().position);
-        }
-        else
-        {
-            // Asigna un valor alto pero manejable para que falle el chequeo de rango si target es nulo.
-            distance = 9999f; 
-        }
-        // ***************************************************************
-        
         
         if (_current.TryUseAbility(index, _currentTarget))
         {
@@ -129,8 +122,9 @@ public class PlayerTurnController : MonoBehaviour
         {
             var targetActor = _currentTarget as CharacterActor;
             string reason = "";
+            float distance = (_currentTarget != null) ? Vector3.Distance(_current.transform.position, _currentTarget.GetTransform().position) : 9999f;
             
-            // Diagnóstico de error (usa la distancia corregida)
+            // Diagnóstico de error
             if (distance > ability.Range + 0.1f)
             {
                 reason = $"OUT OF RANGE! Distance: {distance:F1}m, Max: {ability.Range}m.";
@@ -149,14 +143,12 @@ public class PlayerTurnController : MonoBehaviour
             }
             else
             {
-                reason = "Invalid target/ability check failed (Target Type Error)";
+                reason = "Invalid target/ability check failed";
             }
              Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
         }
     }
     
-    // ... (El resto de los métodos se mantienen sin cambios: CheckCharacterSelectionInput, SelectPlayerActor, etc.) ...
-
     private void CheckCharacterSelectionInput()
     {
         int actorIndex = -1;
@@ -192,9 +184,7 @@ public class PlayerTurnController : MonoBehaviour
     private void AutoEndTurn()
     {
         if (_current != null && turnSystem.CurrentTeam == Team.Player)
-        {
             turnSystem.EndTurn();
-        }
     }
 
     private void CycleTarget()
@@ -205,6 +195,13 @@ public class PlayerTurnController : MonoBehaviour
         Debug.Log($"[vAP_FIX_FINAL] Cycled to target: {(_currentTarget as CharacterActor)?.CharacterName}");
     }
 
+    private void TogglePause()
+    {
+        if (PauseService.IsPaused) turnSystem.Resume();
+        else turnSystem.Pause();
+    }
+
+    // MANEJADORES DE EVENTOS DEL TURNSYSTEM (CS0103 en OnEnable)
     private void HandleTurnStart(Team team, CharacterActor actor)
     {
         if (team != Team.Player)
@@ -232,12 +229,6 @@ public class PlayerTurnController : MonoBehaviour
             _currentTarget = null; 
             _cursor = -1;
         }
-    }
-
-    private void TogglePause()
-    {
-        if (PauseService.IsPaused) turnSystem.Resume();
-        else turnSystem.Pause();
     }
     
     public void ForceEndTurn()

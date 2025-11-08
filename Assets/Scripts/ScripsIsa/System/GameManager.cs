@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Cinemachine; 
+using Unity.Cinemachine; // Added Cinemachine namespace
 
 public class GameManager : MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         if (turnSystem != null)
         {
             turnSystem.OnBattleEnded += HandleBattleEnded;
-            turnSystem.OnTurnStarted += HandleTurnStarted;
+            turnSystem.OnTurnStarted += HandleTurnStarted; // Subscribe to turn started event
         }
     }
 
@@ -54,10 +54,10 @@ public class GameManager : MonoBehaviour
         if (turnSystem != null)
         {
             turnSystem.OnBattleEnded -= HandleBattleEnded;
-            turnSystem.OnTurnStarted -= HandleTurnStarted;
+            turnSystem.OnTurnStarted -= HandleTurnStarted; // Unsubscribe from turn started event
         }
     }
-
+    
     void OnDestroy()
     {
         if (Instance == this)
@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
 
     private void HandleBattleEnded(Team winner)
     {
+        Debug.Log($"[v0] GameManager: Battle ended, winner is {winner}");
+        
         if (winner == Team.Player)
         {
             ShowVictory();
@@ -99,70 +101,6 @@ public class GameManager : MonoBehaviour
             ShowDefeat();
         }
     }
-    
-    // NUEVO MÉTODO: Llamado directamente por el botón UI
-    public void EndTurnFromButton()
-    {
-        if (turnSystem == null)
-        {
-            Debug.LogError("TurnSystem no está asignado en GameManager. No se puede finalizar el turno.");
-            return;
-        }
-        
-        // Verificamos si es el turno del jugador y si hay un actor activo
-        if (turnSystem.CurrentTeam == Team.Player && turnSystem.CurrentActor != null)
-        {
-            // Lógica de consumo de AP (asumiendo que gasta 1 AP para finalizar el turno, 
-            // aunque el GDD permite finalizar el turno sin gastar AP si no hay más acciones)
-            
-            // Llamamos a EndTurn del TurnSystem. El TurnSystem se encargará de resetear el AP
-            // del personaje actual y pasar al siguiente estado/equipo.
-            turnSystem.EndTurn();
-            Debug.Log("[EndTurnButton] Turno del actor actual finalizado por botón.");
-        }
-        else if (turnSystem.CurrentTeam == Team.Player && turnSystem.CurrentActor == null)
-        {
-            // Esto ocurre cuando se presiona EndTurn en la Fase de Selección, 
-            // indicando que el jugador quiere finalizar la fase de todo el equipo.
-            turnSystem.EndTurn(); 
-            Debug.Log("[EndTurnButton] Fase de Selección finalizada por botón.");
-        }
-    }
-
-    // Método asumido que establece Follow y LookAt de la CinemachineCamera
-    private void UpdateCameraTarget(Transform target)
-    {
-        if (virtualCamera != null)
-        {
-            virtualCamera.Follow = target;
-            virtualCamera.LookAt = target;
-        }
-    }
-
-    private void HandleTurnStarted(Team team, CharacterActor actor)
-    {
-        if (virtualCamera == null) return;
-        
-        if (team == Team.Player)
-        {
-            if (actor != null)
-            {
-                UpdateCameraTarget(actor.transform);
-            }
-            else
-            {
-                // Fase de Selección (actor es null): No tocamos el target para que el mouse pueda moverse.
-            }
-        }
-        else // Equipo Enemigo
-        {
-            if (actor != null)
-            {
-                UpdateCameraTarget(actor.transform);
-            }
-        }
-    }
-
 
     public void ReturnToMenu()
     {
@@ -206,5 +144,23 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    private void HandleTurnStarted(Team team, CharacterActor actor)
+    {
+        // Only update camera for player team
+        if (team == Team.Player && virtualCamera != null && actor != null)
+        {
+            UpdateCameraTarget(actor.transform);
+            Debug.Log($"[v0] Camera following: {actor.CharacterName}");
+        }
+    }
+
+    private void UpdateCameraTarget(Transform target)
+    {
+        if (virtualCamera == null) return;
+        
+        virtualCamera.Follow = target;
+        virtualCamera.LookAt = target;
     }
 }

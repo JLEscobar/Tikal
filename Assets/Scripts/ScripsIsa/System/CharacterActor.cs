@@ -100,8 +100,10 @@ public class CharacterActor : MonoBehaviour, ITargetable
 
     public Transform GetTransform() => transform; // Reimplementación de ITargetable
 
+    // CORRECCIÓN 1: Lógica de AP Acumulativo
     public void BeginTurn()
     {
+        // Sumar AP base al remanente, con límite de 3.
         int apAfterRefill = currentActionPoints + baseAPPerTurn; 
         currentActionPoints = Mathf.Min(apAfterRefill, maxAccumulatedAP); 
         
@@ -131,14 +133,14 @@ public class CharacterActor : MonoBehaviour, ITargetable
         }
     }
 
+    // CORRECCIÓN 2: EndTurn NO debe resetear el AP. Solo detiene el movimiento.
     public void EndTurn()
     {
-        currentActionPoints = 0;
-
         if (tacticalMovement != null)
         {
             tacticalMovement.SetMovementPhase(false);
         }
+        // Nota: El AP se mantiene para la lógica de acumulación y chequeo de PlayerTurnController.
     }
     
     public void ForceMovementPhaseActivation()
@@ -153,7 +155,14 @@ public class CharacterActor : MonoBehaviour, ITargetable
         }
     }
 
-    // MÉTODO DE TELEPORTACIÓN
+    public void ConsumeActionPoints(int amount)
+    {
+        currentActionPoints = Mathf.Max(0, currentActionPoints - Mathf.Abs(amount));
+        Debug.Log($"[AP Consumption] {CharacterName} Consumed {Mathf.Abs(amount)} AP. Remaining AP: {currentActionPoints}");
+    }
+
+    // ... (El resto de métodos se mantiene, incluyendo TryUseAbility, etc.) ...
+    
     public void ForceTeleportToPosition(Vector3 position)
     {
         if (_controller == null)
@@ -167,12 +176,6 @@ public class CharacterActor : MonoBehaviour, ITargetable
             transform.position = position; 
             _controller.enabled = true;
         }
-    }
-
-    public void ConsumeActionPoints(int amount)
-    {
-        currentActionPoints = Mathf.Max(0, currentActionPoints - Mathf.Abs(amount));
-        Debug.Log($"[AP Consumption] {CharacterName} Consumed {Mathf.Abs(amount)} AP. Remaining AP: {currentActionPoints}");
     }
 
     public void ApplyStatusEffect(StatusEffectType type, int duration)
@@ -207,7 +210,6 @@ public class CharacterActor : MonoBehaviour, ITargetable
         UpdateMovementSpeedBasedOnEffects();
     }
     
-    // MÉTODO REQUERIDO POR TURNSYSTEM.CS (CS1061)
     public void ApplyTurnDamageEffects()
     {
         if (activeEffects.Any(e => e.Type == StatusEffectType.Quemado))
@@ -231,7 +233,7 @@ public class CharacterActor : MonoBehaviour, ITargetable
         }
     }
 
-    // MÉTODO REQUERIDO POR SimpleAIController.cs y PlayerTurnController.cs (CS1061)
+
     public AbilityBase GetAbilityByIndex(int index)
     {
         if (stats == null || stats.abilities == null) return null;
@@ -275,14 +277,12 @@ public class CharacterActor : MonoBehaviour, ITargetable
         return true;
     }
 
-    // MÉTODO REQUERIDO POR SimpleAIController.cs (CS1061)
     public bool CanMoveTo(Vector3 position)
     {
         float distance = Vector3.Distance(transform.position, position);
         return distance <= MovementRange; 
     }
 
-    // MÉTODO REQUERIDO POR SimpleAIController.cs (CS1061)
     public void MoveTo(Vector3 position)
     {
         if (activeEffects.Any(e => e.Type == StatusEffectType.Noqueado))

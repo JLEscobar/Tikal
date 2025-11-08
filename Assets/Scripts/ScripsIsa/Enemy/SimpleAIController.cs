@@ -46,7 +46,11 @@ public class SimpleAIController : MonoBehaviour
             yield break;
         }
 
-        var target = targets.OrderBy(t => Vector3.Distance(actor.transform.position, t.transform.position)).First();
+        // CORRECCIÓN CLAVE: Elegir un objetivo aleatorio de la lista para distribuir el daño
+        var targetIndex = Random.Range(0, targets.Count);
+        var target = targets[targetIndex];
+        
+        Debug.Log($"[vAI_RANDOM] AI selected target: {target.CharacterName} (Randomized)");
 
         // -----------------------------------------------------------
         // 1. LÓGICA DE SELECCIÓN DE HABILIDAD
@@ -54,19 +58,15 @@ public class SimpleAIController : MonoBehaviour
         AbilityBase bestAbility = null;
         int abilityIndexToUse = -1;
         
-        // Obtenemos todas las habilidades disponibles y que no están en cooldown
         var availableAbilities = availableAbilityIndices
             .Select(i => new { Ability = actor.GetAbilityByIndex(i), Index = i })
             .Where(x => x.Ability != null && x.Ability.currentCooldown <= 0)
             .ToList();
             
-        // Si hay habilidades disponibles, decidimos si usar una especial
         if (availableAbilities.Count > 0)
         {
-            // Intentar usar la especial si existe y la suerte lo permite
             if (Random.value < chanceToUseSpecial && availableAbilities.Count > 1)
             {
-                // Elegimos una habilidad aleatoria que no sea el índice 0 (ataque básico)
                 var nonBasicAbilities = availableAbilities.Where(x => x.Index != 0).ToList();
                 if (nonBasicAbilities.Count > 0)
                 {
@@ -76,7 +76,6 @@ public class SimpleAIController : MonoBehaviour
                 }
             }
 
-            // Si no elegimos una especial, usamos la básica (Índice 0)
             if (bestAbility == null)
             {
                 var basic = availableAbilities.FirstOrDefault(x => x.Index == 0);
@@ -90,7 +89,6 @@ public class SimpleAIController : MonoBehaviour
 
         if (bestAbility == null)
         {
-            Debug.Log("[vAI_Fix] AI has no valid attack ability");
             turnSystem.EndTurn();
             yield break;
         }
@@ -103,7 +101,6 @@ public class SimpleAIController : MonoBehaviour
 
         if (!bestAbility.CanExecute(actor, target))
         {
-            // Intentamos movernos si estamos fuera de rango
             if (distanceToTarget > attackRange)
             {
                 Vector3 directionToTarget = (target.transform.position - actor.transform.position).normalized;
@@ -113,11 +110,9 @@ public class SimpleAIController : MonoBehaviour
                 
                 Vector3 desiredPosition = actor.transform.position + directionToTarget * moveDistance;
 
-                // Ahora, llamamos a actor.MoveTo que existe en CharacterActor.cs
                 if (actor.CanMoveTo(desiredPosition)) 
                 {
                     actor.MoveTo(desiredPosition);
-
                     yield return new WaitForSeconds(moveWaitTime);
                 }
             }
