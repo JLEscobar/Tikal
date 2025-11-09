@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ActivarElementoAlClick : MonoBehaviour, IPointerClickHandler
 {
     [Header("Objeto a activar")]
-    [Tooltip("Arrastra aquí el objeto (imagen, texto, empty, etc.) que quieras activar al hacer clic.")]
+    [Tooltip("Arrastra aquÃ­ el objeto (imagen, texto, empty, etc.) que quieras activar al hacer clic.")]
     public GameObject objetoActivar;
 
     public void OnPointerClick(PointerEventData eventData)
@@ -16,7 +16,9 @@ public class ActivarElementoAlClick : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            Debug.LogWarning("No hay ningún objeto asignado para activar en " + gameObject.name);
+            Debug.LogWarning("No hay ningÃºn objeto asignado para activar en " + gameObject.name);
         }
     }
 }
+
+
