@@ -2777,6 +2777,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309933629}
   m_CullTransparentMesh: 1
+--- !u!1 &311578905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 122275817866005452, guid: 12ff6fe51f6db9843b87df609698bc58, type: 3}
+  m_PrefabInstance: {fileID: 1215110700}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &337207763
 GameObject:
   m_ObjectHideFlags: 0
@@ -3943,7 +3948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7478021455312029417, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: m_text
-      value: "Guardar Nive\xF1"
+      value: Guardar Nivel
       objectReference: {fileID: 0}
     - target: {fileID: 7478021455312029417, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: m_fontSize
@@ -6640,7 +6645,6 @@ GameObject:
   - component: {fileID: 795809275}
   - component: {fileID: 795809277}
   - component: {fileID: 795809276}
-  - component: {fileID: 795809278}
   m_Layer: 5
   m_Name: PersonajeSeleccionado1
   m_TagString: Untagged
@@ -6704,19 +6708,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795809274}
   m_CullTransparentMesh: 1
---- !u!114 &795809278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795809274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88489dd424b07114eb735f3be51da0af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ActivarElementoAlClick
-  objetoActivar: {fileID: 1541857083}
 --- !u!1 &802081018
 GameObject:
   m_ObjectHideFlags: 0
@@ -7560,7 +7551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarDesactivarUI
   objeto: {fileID: 1308472635}
-  teclaActivar: 109
+  teclaActivar: 0
 --- !u!1 &919508389
 GameObject:
   m_ObjectHideFlags: 0
@@ -9767,6 +9758,7 @@ GameObject:
   - component: {fileID: 1174533098}
   - component: {fileID: 1174533100}
   - component: {fileID: 1174533099}
+  - component: {fileID: 1174533101}
   m_Layer: 5
   m_Name: Personaje2
   m_TagString: Untagged
@@ -9828,6 +9820,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174533097}
   m_CullTransparentMesh: 1
+--- !u!114 &1174533101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174533097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88489dd424b07114eb735f3be51da0af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActivarElementoAlClick
+  objetoActivar: {fileID: 1541857083}
 --- !u!1 &1176552606
 GameObject:
   m_ObjectHideFlags: 0
@@ -10426,13 +10431,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 122275817866005452, guid: 12ff6fe51f6db9843b87df609698bc58, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1215110704}
   m_SourcePrefab: {fileID: 100100000, guid: 12ff6fe51f6db9843b87df609698bc58, type: 3}
 --- !u!224 &1215110701 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2948367484208957596, guid: 12ff6fe51f6db9843b87df609698bc58, type: 3}
   m_PrefabInstance: {fileID: 1215110700}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1215110704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311578905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d56db9c0fc3c9949918d1de3d45d227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DesactivarElementoAlClick
+  objetoDesactivar: {fileID: 1541857083}
 --- !u!1 &1228600054
 GameObject:
   m_ObjectHideFlags: 0
@@ -19529,13 +19550,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2040639528}
   m_SourcePrefab: {fileID: 100100000, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
 --- !u!224 &2040639526 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5877842127789282063, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
   m_PrefabInstance: {fileID: 2040639525}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2040639527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+  m_PrefabInstance: {fileID: 2040639525}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2040639528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040639527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb2c9245914ec0498f1a6fabbadf7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CambiarEscenaAlClick
+  nombreEscena: UI Nivel 1 Turno enemigo
 --- !u!1 &2045708653
 GameObject:
   m_ObjectHideFlags: 0

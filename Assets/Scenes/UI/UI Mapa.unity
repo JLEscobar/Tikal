@@ -1373,7 +1373,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
   m_PrefabInstance: {fileID: 330719376774573172}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &307543379
+--- !u!114 &307543381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1382,10 +1382,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 307543377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88489dd424b07114eb735f3be51da0af, type: 3}
+  m_Script: {fileID: 11500000, guid: ab271d2689c3f7e44aced03a01112ff9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ActivarElementoAlClick
-  objetoActivar: {fileID: 388583527}
+  m_EditorClassIdentifier: Assembly-CSharp::ActivarDesactivarUI
+  objeto: {fileID: 388583527}
+  teclaActivar: 0
 --- !u!1 &308345684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +1945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &388583528
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1957,7 +1958,6 @@ RectTransform:
   m_LocalScale: {x: 0.94342, y: 0.94342, z: 0.94342}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1388223040}
   - {fileID: 934544491}
   - {fileID: 1819424241}
   - {fileID: 1289482730}
@@ -1965,6 +1965,7 @@ RectTransform:
   - {fileID: 828382324}
   - {fileID: 1177633441}
   - {fileID: 1295225861}
+  - {fileID: 1388223040}
   m_Father: {fileID: 1522353091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8480,13 +8481,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1133877885}
-  - {fileID: 126496114}
   - {fileID: 1706680172}
   - {fileID: 931670274}
   - {fileID: 1338770452}
   - {fileID: 1451167653}
   - {fileID: 1618067695}
   - {fileID: 388583528}
+  - {fileID: 126496114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12712,7 +12713,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 307543379}
+      addedObject: {fileID: 307543381}
   m_SourcePrefab: {fileID: 100100000, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
 --- !u!1001 &1772755588392066724
 PrefabInstance:
