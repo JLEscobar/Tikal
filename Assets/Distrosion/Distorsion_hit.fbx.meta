@@ -1,0 +1,444 @@
+fileFormatVersion: 2
+guid: 42677d8ed2dbecc46a55f30f203f95da
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightForeArm'
+      has translation animation that will be discarded.\n\t'tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftForeArm'
+      has translation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Distorsion_hit
+      takeName: Take 001
+      internalID: 1827226128182048838
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Hips
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftUpLeg
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightUpLeg
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftLeg
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightLeg
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine1
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Neck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftShoulder
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Righ_b5292e4
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftForeArm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightForeArm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftHand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightHand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftToeBase
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightToeBase
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine2
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: distorsion (rig texturizado)(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: materialXStack1
+      parentName: distorsion (rig texturizado)(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 0.01, y: 0.01, z: 0.01}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Mesh.001
+      parentName: distorsion (rig texturizado)(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Hips
+      parentName: distorsion (rig texturizado)(Clone)
+      position: {x: 0.00043234002, y: 0.6558196, z: -0.040451057}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Hips
+      position: {x: -0, y: 0.05870849, z: -0.00021510999}
+      rotation: {x: -0.0018320036, y: 0, z: -0, w: 0.99999833}
+      scale: {x: 1, y: 0.9999997, z: 0.9999997}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine1
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine
+      position: {x: -0, y: 0.068493366, z: 0.000000009705616}
+      rotation: {x: -2.1684043e-19, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine2
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine1
+      position: {x: -0, y: 0.07827832, z: 0.000000011756886}
+      rotation: {x: -2.1684043e-19, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Righ_b5292e4
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine2
+      position: {x: 0.0519284, y: 0.07776173, z: 0.0012648879}
+      rotation: {x: 0.55696225, y: 0.4387205, z: -0.54368126, w: 0.4491414}
+      scale: {x: 1.0000008, y: 0.99999994, z: 1.0000004}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightArm
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Righ_b5292e4
+      position: {x: 8.2900914e-10, y: 0.108382955, z: 0.00000006424188}
+      rotation: {x: -0.08960548, y: 0.015435291, z: -0.01968807, w: 0.99566305}
+      scale: {x: 0.99999946, y: 1.0000001, z: 1.0000001}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightForeArm
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightArm
+      position: {x: -0.000000035252363, y: 0.243911, z: 0.00000009741551}
+      rotation: {x: -0.017108675, y: -0.2516667, z: 0.062370233, w: 0.9656506}
+      scale: {x: 0.9999997, y: 1.0000002, z: 0.9999999}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightHand
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightForeArm
+      position: {x: -0.00000016802842, y: 0.17790611, z: 0.00000012444774}
+      rotation: {x: 0.0000011705985, y: -0.0000004755932, z: -0.0000010117052, w: 1}
+      scale: {x: 0.99999994, y: 0.99999976, z: 1.0000001}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Neck
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine2
+      position: {x: -0, y: 0.08806261, z: 0.000000041389725}
+      rotation: {x: -0.05687764, y: -0, z: -0, w: 0.9983812}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Head
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Neck
+      position: {x: -0, y: 0.043789327, z: 0.030698048}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftShoulder
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Spine2
+      position: {x: -0.051927947, y: 0.077771395, z: -0.001340245}
+      rotation: {x: 0.54322255, y: -0.44955698, z: 0.5573307, w: 0.43839514}
+      scale: {x: 1.0000005, y: 0.99999994, z: 1.0000004}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftArm
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftShoulder
+      position: {x: 0.000000029671774, y: 0.1083838, z: 0.000000007007735}
+      rotation: {x: -0.081660785, y: -0.010344549, z: 0.03945289, w: 0.9958253}
+      scale: {x: 1.0000001, y: 1, z: 0.9999997}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftForeArm
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftArm
+      position: {x: 0.0000003806008, y: 0.24196057, z: -0.00000058556896}
+      rotation: {x: -0.024232343, y: 0.2608932, z: -0.063092396, w: 0.9629989}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftHand
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftForeArm
+      position: {x: -0.00000031599131, y: 0.17770612, z: -0.00000003135187}
+      rotation: {x: -0.0000005619887, y: -9.74895e-24, z: 1.7347235e-17, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftUpLeg
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Hips
+      position: {x: -0.10706752, y: -0.03255677, z: 0.00664469}
+      rotation: {x: 0.0011445152, y: -0.01501666, z: 0.9969983, w: 0.075944625}
+      scale: {x: 0.99999374, y: 1, z: 0.99999964}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftLeg
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftUpLeg
+      position: {x: -0.0000011600605, y: 0.27941847, z: 0.00000015648071}
+      rotation: {x: 0.006120096, y: 0.0005007723, z: 0.07982501, w: 0.99679}
+      scale: {x: 0.99999934, y: 1.0000004, z: 1.0000005}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftFoot
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftLeg
+      position: {x: 0.0000008342734, y: 0.24929817, z: 0.000000042713154}
+      rotation: {x: 0.54721886, y: 0.11342735, z: -0.07516194, w: 0.825855}
+      scale: {x: 1.0000008, y: 0.9999989, z: 0.9999988}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftToeBase
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:LeftFoot
+      position: {x: -0.0000019916945, y: 0.14935398, z: -0.000000054716907}
+      rotation: {x: 0.15154813, y: -0.00031725713, z: -0.0020823418, w: 0.98844767}
+      scale: {x: 1.0000006, y: 1, z: 1.0000002}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightUpLeg
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:Hips
+      position: {x: 0.1070675, y: -0.032556828, z: 0.021587018}
+      rotation: {x: -0.0037287618, y: -0.049117934, z: 0.9959261, w: -0.07553067}
+      scale: {x: 1.0000026, y: 1.0000001, z: 1.000001}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightLeg
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightUpLeg
+      position: {x: -0.000000016286315, y: 0.28062505, z: -0.000000032981}
+      rotation: {x: 0.0555188, y: -0.0044292826, z: -0.07941076, w: 0.9952849}
+      scale: {x: 1.0000002, y: 0.99999934, z: 1.0000005}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightFoot
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightLeg
+      position: {x: -0.000000076988286, y: 0.24927516, z: 0.00000012204292}
+      rotation: {x: 0.5571333, y: -0.09850542, z: 0.06677624, w: 0.8218517}
+      scale: {x: 0.9999993, y: 1.0000007, z: 0.9999999}
+    - name: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightToeBase
+      parentName: tripo_convert_8cbf21eb_4b42_4b6b_a550_d1650bfdc887:RightFoot
+      position: {x: -0.0000012214983, y: 0.16844144, z: 0.00000012825268}
+      rotation: {x: 0.13303849, y: 0.0005148496, z: 0.0038308292, w: 0.99110335}
+      scale: {x: 0.9999996, y: 1.0000007, z: 0.99999994}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
