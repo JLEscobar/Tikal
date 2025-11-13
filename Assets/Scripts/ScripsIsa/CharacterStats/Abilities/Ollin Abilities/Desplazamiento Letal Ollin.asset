@@ -16,9 +16,11 @@ MonoBehaviour:
   description: 
   costAP: 1
   range: 7
-  abilityParticles: {fileID: 0}
+  abilityParticles: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
   baseCooldownTurns: 1
   fixedDamage: 15
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  moveUserToTarget: 0
+  teleportOffset: 0.5

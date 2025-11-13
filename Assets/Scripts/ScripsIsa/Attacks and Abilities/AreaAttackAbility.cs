@@ -7,7 +7,6 @@ public class AreaAttackAbility : AbilityBase
     [Header("Area Damage Settings")]
     [Tooltip("Daño fijo (50 PD para Cualli).")]
     [SerializeField] private int fixedDamage = 50;
-    
     [Tooltip("Capa de máscara que contiene a los enemigos (IMPORTANTE configurar).")]
     [SerializeField] private LayerMask targetLayer;
 
@@ -15,6 +14,9 @@ public class AreaAttackAbility : AbilityBase
     {
         if (user == null) return false;
         if (user.ActionPoints < CostAP) return false;
+        
+        // Cooldown y otros checks
+        if (currentCooldown > 0) return false;
         
         return !user.Health.IsDead;
     }
@@ -26,7 +28,7 @@ public class AreaAttackAbility : AbilityBase
         Vector3 center = user.transform.position;
         float radius = Range; 
         
-        // Usamos OverlapSphere para detectar enemigos en el área
+        // 1. Lógica de detección y daño
         Collider[] colliders = Physics.OverlapSphere(center, radius, targetLayer);
         
         var validTargets = colliders
@@ -44,11 +46,27 @@ public class AreaAttackAbility : AbilityBase
 
         user.ConsumeActionPoints(CostAP);
 
+        // **********************************
+        // * CORRECCIÓN FINAL: ACTIVACIÓN FORZADA DEL VFX *
+        // **********************************
         if (AbilityParticles != null)
         {
-            GameObject particles = Instantiate(AbilityParticles, center, Quaternion.identity);
-            Object.Destroy(particles, 3f);
+            Vector3 spawnPosition = new Vector3(center.x, center.y + 2.0f, center.z); 
+            
+            GameObject particlesGO = Instantiate(AbilityParticles, spawnPosition, Quaternion.identity);
+            
+            // OBTENER Y FORZAR REPRODUCCIÓN
+            if (particlesGO.TryGetComponent<ParticleSystem>(out var ps))
+            {
+                ps.Play(); // Forzamos el inicio de la emisión
+            }
+
+            Debug.Log($"[VFX CRITICAL] Instanciando {AbilityParticles.name} en Y={spawnPosition.y}.");
+            
+            // Destruir el GameObject instanciado (que contiene el sistema de partículas)
+            Object.Destroy(particlesGO, 3f);
         }
+        // **********************************
 
         Debug.Log($"[PISOTÓN] {user.CharacterName} usa Pisotón Sísmico, golpeando a {validTargets.Count} targets por {finalDamage} PD.");
     }

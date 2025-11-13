@@ -16,5 +16,6 @@ MonoBehaviour:
   description: 
   costAP: 1
   range: 2
-  abilityParticles: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+  abilityParticles: {fileID: 4416080445347060711, guid: 0a6aa35eeb2241a43befc4ccae423907, type: 3}
   baseCooldownTurns: 0
+  killXP: 10

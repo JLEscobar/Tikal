@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.cqf.urpvolumetricfog": "file:C:/Users/Isabella Mejìa/Downloads/Unity-URP-Volumetric-Light-main/Unity-URP-Volumetric-Light-main",
     "com.unity.ai.navigation": "2.0.9",
     "com.unity.cinemachine": "3.1.4",
     "com.unity.collab-proxy": "2.9.3",
@@ -12,7 +13,7 @@
     "com.unity.inputsystem": "1.14.2",
     "com.unity.multiplayer.center": "1.0.0",
     "com.unity.performance.profile-analyzer": "1.2.3",
-    "com.unity.postprocessing": "3.5.0",
+    "com.unity.postprocessing": "3.5.1",
     "com.unity.render-pipelines.core": "17.2.0",
     "com.unity.render-pipelines.universal": "17.2.0",
     "com.unity.render-pipelines.universal-config": "17.0.3",
