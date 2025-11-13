@@ -44,5 +44,50 @@ public class EnemyChasingState : EnemyState
     public override void UpdateState()
     {
         base.UpdateState();
+
+        if (enemy.IsDead) return;
+
+        enemy.UpdateTarget();
+
+        if (enemy.Target != null)
+        {
+            float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.Target.position);
+
+            if (distanceToPlayer <= enemy.AttackRange)
+            {
+                stateMachine.ChangeState(enemy.attackState);
+                return;
+            }
+
+            Vector3 direction = (enemy.Target.position - enemy.transform.position).normalized;
+            enemy.moveEnemy(direction);
+
+            enemy.CurrentSearchTurns = 0; // reinicia búsqueda
+        }
+        else if (enemy.LastSeenPosition.HasValue)
+        {
+            Vector3 direction = (enemy.LastSeenPosition.Value - enemy.transform.position).normalized;
+            enemy.moveEnemy(direction);
+
+            if (Vector3.Distance(enemy.transform.position, enemy.LastSeenPosition.Value) < 0.5f)
+            {
+                enemy.CurrentSearchTurns++;
+                if (enemy.CurrentSearchTurns >= enemy.MaxSearchTurns)
+                {
+                    enemy.LastSeenPosition = null;
+                    enemy.CurrentSearchTurns = 0;
+                    stateMachine.ChangeState(enemy.patrollingState);
+                }
+            }
+        }
+        else
+        {
+            stateMachine.ChangeState(enemy.patrollingState);
+        }
+
+        if (enemy.CurrentHealth <= enemy.RetreatHealthThreshold)
+        {
+            stateMachine.ChangeState(enemy.retreatState);
+        }
     }
 }

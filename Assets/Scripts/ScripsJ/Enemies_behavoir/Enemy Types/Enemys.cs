@@ -15,7 +15,25 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     public bool facingPlayer { get; set; } = false;
     [field: SerializeField] public float moveSpeed { get; set; }
 
-    private Transform target;
+    [SerializeField] private Transform target;
+    public Transform Target => target;
+
+    private Vector3? lastSeenPosition;
+    public Vector3? LastSeenPosition
+    {
+        get => lastSeenPosition;
+        set => lastSeenPosition = value;
+    }
+
+    [SerializeField] private int maxSearchTurns = 1; 
+    private int currentSearchTurns = 0;
+
+    public int MaxSearchTurns => maxSearchTurns;
+    public int CurrentSearchTurns
+    {
+        get => currentSearchTurns;
+        set => currentSearchTurns = value;
+    }
     #endregion
 
     #region State Machine Variables
@@ -27,6 +45,46 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     public EnemyChasingState chasingState { get; set; }
 
     public EnemyAttackState attackState { get; set; }
+    public EnemyPatrollingState patrollingState { get; set; }
+    public EnemyRetreatState retreatState { get; set; }
+
+    #endregion
+
+    #region Stats Variables
+    // Rango de visión
+    [SerializeField] private float visionRange = 10f;
+    public float VisionRange => visionRange;
+
+    // Rango de ataque
+    [SerializeField] private float attackRange = 2f;
+    public float AttackRange => attackRange;
+
+    // Umbral de salud para retirarse
+    [SerializeField] private float retreatHealthThreshold = 30f;
+    public float RetreatHealthThreshold => retreatHealthThreshold;
+
+    // Puntos de patrullaje
+    [SerializeField] private Transform[] patrolPoints;
+    public Transform[] PatrolPoints => patrolPoints;
+
+    // Puntos de espera (idle)
+    [SerializeField] private Transform[] idlePoints;
+    public Transform[] IdlePoints => idlePoints;
+
+    // Índices de patrullaje/idle
+    private int currentPatrolIndex = 0;
+    public int CurrentPatrolIndex
+    {
+        get => currentPatrolIndex;
+        set => currentPatrolIndex = value;
+    }
+
+    private int currentIdleIndex = 0;
+    public int CurrentIdleIndex
+    {
+        get => currentIdleIndex;
+        set => currentIdleIndex = value;
+    }
 
     #endregion
 
@@ -38,6 +96,8 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         idleState = new EnemyIdleState(this, stateMachine);
         chasingState = new EnemyChasingState(this, stateMachine);
         attackState = new EnemyAttackState(this, stateMachine);
+        patrollingState = new EnemyPatrollingState(this, stateMachine);
+        retreatState = new EnemyRetreatState(this, stateMachine);
     }
     private void Start()
     {
@@ -102,24 +162,38 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     #region Animations/triggers
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
-        /*switch (triggerType)
-         {
-             case AnimationTriggerType.EnemyDamaged:
-                 // Handle enemy damaged animation trigger
-                 break;
-             case AnimationTriggerType.playFootstepSound:
-                 // Handle footstep sound trigger
-                 break;
-             default:
-                 break;
-         }*/
-        // Currently empty as per the original code
-
-        stateMachine.CurrentState.AnimationTriggerEvent(triggerType);
+        //stateMachine.CurrentState.AnimationTriggerEvent(triggerType);
     }
     public enum AnimationTriggerType     {
         EnemyDamaged,
         playFootstepSound
     }
     #endregion
+
+    public void UpdateTarget()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        Transform closest = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (GameObject player in players)
+        {
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+
+            if (distance < minDistance && distance <= VisionRange)
+            {
+                minDistance = distance;
+                closest = player.transform;
+            }
+        }
+
+        target = closest;
+
+        if (target != null)
+        {
+            LastSeenPosition = target.position;
+        }
+    }
+
+
 }
