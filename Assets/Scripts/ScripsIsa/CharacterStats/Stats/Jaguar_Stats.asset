@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87180527350d2ff4a979fee74df3c012, type: 3}
+  m_Name: Jaguar_Stats
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
+  characterName: Jaguar_Stats
+  team: 1
+  maxHealth: 250
+  attackPower: 20
+  actionPointsPerTurn: 1
+  moveSpeed: 5
+  movementRange: 4
+  abilities:
+  - {fileID: 11400000, guid: 297510b206ec19f40991e955985539c5, type: 2}
+  - {fileID: 11400000, guid: ccd356e0be1803c41af915d2e2af8c09, type: 2}
