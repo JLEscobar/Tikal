@@ -1460,6 +1460,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 7040914a9d896c44b90657bb521e0dfc, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 177303852}
@@ -11731,6 +11733,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   attackOnClick: 1
   defaultAbilityIndex: 0
+  specialAbilityIndex: 1
 --- !u!114 &780077678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16893,6 +16896,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: fb2f40da80dca6a4896d7b793cd6be70, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 0}
@@ -19298,6 +19303,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: dee73d7d4c7ec4e42ac8f849d9afa119, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1051001856}
@@ -19826,6 +19833,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: e31095d3633d0cc4294981b8508cba6c, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1115241206}
@@ -22916,6 +22925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 7ce1bba87aef6b64ebdd893f0fecaf70, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1416151744}
@@ -25350,7 +25361,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e50b06f63dc96664fb9871221be957e0, type: 2}
+  - {fileID: 2100000, guid: 75eb29d9944958b49925ea862d855938, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25411,6 +25422,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
+  specialAbilityVFXPrefab: {fileID: 2060418090655630911, guid: 4fb7673fa1cb7e34ea16f350b1e1fba9, type: 3}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1760328954}
@@ -26116,6 +26129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 2e48769f30785884ea389943a9b86772, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1806315199}
@@ -26997,6 +27012,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 3d875927bfd4e56449d493027a967fce, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1885161630}
@@ -28844,63 +28861,6 @@ Transform:
   - {fileID: 1416151743}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1171105730438701526
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 71.35303
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.67286
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.68589
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2178762704418971810, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5594368029056771378, guid: 7e60917862341a244b91f22316b44726, type: 3}
-      propertyPath: m_Name
-      value: VFXCUBE_TEST
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7e60917862341a244b91f22316b44726, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -28925,4 +28885,3 @@ SceneRoots:
   - {fileID: 1769937740}
   - {fileID: 1156742029}
   - {fileID: 2069875118}
-  - {fileID: 1171105730438701526}

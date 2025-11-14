@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "LineAttack", menuName = "QijTikal/Abilities/Line Attack")]
 public class LineAttackAbility : AbilityBase
@@ -20,25 +21,17 @@ public class LineAttackAbility : AbilityBase
 
     public override bool CanExecute(CharacterActor user, ITargetable target)
     {
-        // El target debe ser el objetivo clickeado
-        if (user == null || target == null) return false;
-        if (user.ActionPoints < CostAP) return false;
-        if (target.Health.IsDead) return false;
-
-        // La distancia se basa en el objetivo final (7 metros).
-        float distance = Vector3.Distance(user.transform.position, target.GetTransform().position);
-        
-        return distance <= Range + 0.1f; 
+        if (!base.CanExecute(user, target)) return false;
+        return user.Team != target.Team;
     }
 
     public override void Execute(CharacterActor user, ITargetable target)
     {
-        if (!CanExecute(user, target)) return;
+        if (!CanExecute(user, target)) return; 
         
         Vector3 userPosition = user.transform.position;
         Vector3 targetPosition = target.GetTransform().position;
 
-        // 1. Lógica de Raycast y daño
         Vector3 direction = (targetPosition - userPosition).normalized;
         float maxDistance = Range; 
 
@@ -57,25 +50,16 @@ public class LineAttackAbility : AbilityBase
             t.Health.TakeDamage(finalDamage);
         }
 
-        // 2. Teleport (para Ollin)
-        if (moveUserToTarget && user.CharacterName == "Ollin") // Solo Ollin debería hacer esto
+        if (moveUserToTarget) 
         {
-            // Calcula la posición para aparecer detrás del objetivo, simulando el +3 teleport
             Vector3 teleportPosition = targetPosition - direction * teleportOffset; 
-
-            // Esta es la llamada crítica a la nueva función:
             user.ForceTeleportToPosition(teleportPosition); 
-            Debug.Log($"{user.CharacterName} se teletransporta a la posición del target.");
         }
 
-        // 3. Consumir AP
         user.ConsumeActionPoints(CostAP);
 
-        if (AbilityParticles != null)
-        {
-            GameObject particles = Instantiate(AbilityParticles, targetPosition, Quaternion.identity);
-            Object.Destroy(particles, 3f);
-        }
+        // CORRECCIÓN: Llamada a InstantiateVFX con 'user'
+        InstantiateVFX(user, target, 2.0f);
 
         Debug.Log($"[DESPLAZAMIENTO] {user.CharacterName} usa Desplazamiento Letal, golpeando a {validTargets.Count} targets.");
     }

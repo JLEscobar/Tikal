@@ -9,23 +9,28 @@ public class MeleeAttackAbility : AbilityBase
 
     public override bool CanExecute(CharacterActor user, ITargetable target)
     {
+        // Delega la verificación de rango, AP y target muerto a AbilityBase
         if (!base.CanExecute(user, target)) return false;
-        return user.Team != target.Team; 
+        return user.Team != target.Team; // Solo enemigos
     }
 
     public override void Execute(CharacterActor user, ITargetable target)
     {
-        if (!CanExecute(user, target)) return;
+        // Vuelve a verificar que las condiciones se cumplan
+        if (!CanExecute(user, target)) return; 
 
-        // Lógica de detonación del objeto explosivo
+        // Lógica de detonación del objeto explosivo 
         if (target is MonoBehaviour targetMono && targetMono.TryGetComponent<ExplosiveObject>(out var explosiveObject))
         {
             explosiveObject.Explode(user);
-            user.ConsumeActionPoints(CostAP);
-            return; 
+            user.ConsumeActionPoints(CostAP); 
+            
+            // LLAMADA AL NUEVO SISTEMA DE INYECCIÓN DE VFX
+            InstantiateVFX(user, target, 1.0f);
+            return; // Sale temprano, lo cual es correcto para explosivos
         }
         
-        // Lógica de ataque normal si no es un objeto explosivo
+        // Lógica de ataque normal
         int damage = Mathf.Max(1, user.AttackPower);
         target.Health.TakeDamage(damage);
         
@@ -33,28 +38,16 @@ public class MeleeAttackAbility : AbilityBase
         if (target.Health.IsDead && user.Team == Team.Player)
         {
             user.GrantExperience(killXP);
-            Debug.Log($"{user.CharacterName} eliminó a {((CharacterActor)target).CharacterName} y ganó {killXP} XP!");
         }
         
+        // CONSUMO DE AP SÓLO SI EL ATAQUE FUE EXITOSO
         user.ConsumeActionPoints(CostAP);
 
-        // **********************************
-        // * ZONA DE DIAGNÓSTICO DE VFX *
-        // **********************************
-        if (AbilityParticles != null)
-        {
-            // NUEVO: Mensaje de diagnóstico CRÍTICO
-            Debug.Log($"[VFX DEBUG] Intentando instanciar {AbilityParticles.name} en {target.GetTransform().name}.");
+        // **********************************************************
+        // * ENFOQUE FINAL: AHORA EL VFX SE INSTANCIA Y LUEGO HACE EL LOG *
+        // **********************************************************
+        InstantiateVFX(user, target, 1.0f);
 
-            GameObject particles = Instantiate(AbilityParticles, target.GetTransform().position, Quaternion.identity);
-            Object.Destroy(particles, 3f);
-        }
-        else
-        {
-            Debug.Log("[VFX DEBUG] AbilityParticles es NULL. No se intentó instanciar.");
-        }
-        // **********************************
-
-        Debug.Log($"{user.CharacterName} attacks {((CharacterActor)target).CharacterName} for {damage} damage!");
+        Debug.Log($"{user.CharacterName} attacks {target.GetTransform().name} for {damage} damage!");
     }
 }

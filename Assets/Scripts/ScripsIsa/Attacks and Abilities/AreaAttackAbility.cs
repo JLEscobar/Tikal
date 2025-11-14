@@ -12,13 +12,8 @@ public class AreaAttackAbility : AbilityBase
 
     public override bool CanExecute(CharacterActor user, ITargetable target)
     {
-        if (user == null) return false;
-        if (user.ActionPoints < CostAP) return false;
-        
-        // Cooldown y otros checks
-        if (currentCooldown > 0) return false;
-        
-        return !user.Health.IsDead;
+        if (!base.CanExecute(user, target)) return false;
+        return true;
     }
 
     public override void Execute(CharacterActor user, ITargetable target)
@@ -28,7 +23,6 @@ public class AreaAttackAbility : AbilityBase
         Vector3 center = user.transform.position;
         float radius = Range; 
         
-        // 1. Lógica de detección y daño
         Collider[] colliders = Physics.OverlapSphere(center, radius, targetLayer);
         
         var validTargets = colliders
@@ -46,27 +40,8 @@ public class AreaAttackAbility : AbilityBase
 
         user.ConsumeActionPoints(CostAP);
 
-        // **********************************
-        // * CORRECCIÓN FINAL: ACTIVACIÓN FORZADA DEL VFX *
-        // **********************************
-        if (AbilityParticles != null)
-        {
-            Vector3 spawnPosition = new Vector3(center.x, center.y + 2.0f, center.z); 
-            
-            GameObject particlesGO = Instantiate(AbilityParticles, spawnPosition, Quaternion.identity);
-            
-            // OBTENER Y FORZAR REPRODUCCIÓN
-            if (particlesGO.TryGetComponent<ParticleSystem>(out var ps))
-            {
-                ps.Play(); // Forzamos el inicio de la emisión
-            }
-
-            Debug.Log($"[VFX CRITICAL] Instanciando {AbilityParticles.name} en Y={spawnPosition.y}.");
-            
-            // Destruir el GameObject instanciado (que contiene el sistema de partículas)
-            Object.Destroy(particlesGO, 3f);
-        }
-        // **********************************
+        // CORRECCIÓN: Llamada a InstantiateVFX con 'user' y target 'user' (centro del AoE)
+        InstantiateVFX(user, user, 2.0f);
 
         Debug.Log($"[PISOTÓN] {user.CharacterName} usa Pisotón Sísmico, golpeando a {validTargets.Count} targets por {finalDamage} PD.");
     }

@@ -10,22 +10,10 @@ public class SupportAbility : AbilityBase
 
     public override bool CanExecute(CharacterActor user, ITargetable target)
     {
-        // 1. Revisa condiciones base (rango, AP, target vivo)
         if (!base.CanExecute(user, target)) return false;
         
-        // 2. CHEQUEO CRÍTICO: Debe ser un aliado
-        if (user.Team != target.Team)
-        {
-             Debug.Log("Soporte Fallido: Solo se puede usar en aliados.");
-             return false;
-        }
-
-        // 3. Chequeo de estado (no tiene sentido curar/buffear a alguien muerto)
-        if (target is CharacterActor targetActor && targetActor.Health.IsDead)
-        {
-             Debug.Log("Soporte Fallido: El objetivo está fuera de combate.");
-             return false;
-        }
+        if (user.Team != target.Team) return false;
+        if (target is CharacterActor targetActor && targetActor.Health.IsDead) return false;
         
         return true;
     }
@@ -34,14 +22,12 @@ public class SupportAbility : AbilityBase
     {
         if (!CanExecute(user, target)) return;
         
-        // 1. Curación
         if (healAmount > 0)
         {
             target.Health.Heal(healAmount);
             MessagesSystem.Instance.ShowMessage($"{target.GetTransform().name} se cura {healAmount} PV.", Color.green);
         }
         
-        // 2. Aplicar Buff/Status Effect
         if (buffType != StatusEffectType.None && target is CharacterActor targetActor)
         {
             targetActor.ApplyStatusEffect(buffType, buffDuration);
@@ -49,11 +35,8 @@ public class SupportAbility : AbilityBase
 
         user.ConsumeActionPoints(CostAP);
 
-        if (AbilityParticles != null)
-        {
-            GameObject particles = Instantiate(AbilityParticles, target.GetTransform().position, Quaternion.identity);
-            Object.Destroy(particles, 3f);
-        }
+        // CORRECCIÓN: Llamada a InstantiateVFX con 'user'
+        InstantiateVFX(user, target, 1.0f);
 
         Debug.Log($"{user.CharacterName} usa {DisplayName} en {target.GetTransform().name}.");
     }

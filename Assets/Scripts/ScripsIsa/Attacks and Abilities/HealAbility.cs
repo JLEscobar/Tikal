@@ -19,12 +19,9 @@ public class HealAbility : AbilityBase
         target.Health.Heal(healAmount);
         user.ConsumeActionPoints(CostAP);
 
-        if (AbilityParticles != null)
-        {
-            GameObject particles = Instantiate(AbilityParticles, target.GetTransform().position, Quaternion.identity);
-            Object.Destroy(particles, 3f);
-        }
+        // CORRECCIÓN: Llamada a InstantiateVFX con 'user'
+        InstantiateVFX(user, target, 1.0f);
 
-        Debug.Log($"{user.CharacterName} heals {((CharacterActor)target).CharacterName} for {healAmount} HP!");
+        Debug.Log($"{user.CharacterName} heals {target.GetTransform().name} for {healAmount} HP!");
     }
 }
