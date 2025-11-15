@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// Controla la UI de resultados cambiando colores, textos y objetos visibles según si cada objetivo se cumplió.
+// Calcula la experiencia total, muestra “Nivel Completado” o “Fallido” y activa elementos según victoria o derrota.
+// Funciona también en el editor gracias a ExecuteAlways y actualiza inmediatamente cada cambio del inspector.
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;

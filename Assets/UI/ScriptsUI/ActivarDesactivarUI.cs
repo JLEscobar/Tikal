@@ -1,3 +1,6 @@
+// Permite activar o desactivar un objeto UI haciendo clic o presionando una tecla.
+// Alterna automáticamente la visibilidad del objeto asignado.
+// Útil para mostrar/ocultar menús, paneles o elementos interactivos.
 using UnityEngine;
 using UnityEngine.EventSystems;
 

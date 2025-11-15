@@ -9668,7 +9668,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Conquistar el campamento enemigo
+  m_text: 'Cerrar el fragmento del nodo '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
   m_sharedMaterial: {fileID: 288930221808236843, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
@@ -12694,7 +12694,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Derrotar al comandante Cotzil
+  m_text: 'Derrotar al comandante Cuachimalli
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
   m_sharedMaterial: {fileID: 288930221808236843, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
@@ -12721,8 +12723,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3.59
-  m_fontSizeBase: 3.59
+  m_fontSize: 3.42
+  m_fontSizeBase: 3.42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

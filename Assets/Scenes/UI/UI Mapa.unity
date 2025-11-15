@@ -4821,7 +4821,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Derrotar al comandante Cotzil
+  m_text: Derrotar al comandante Cuachimalli
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
   m_sharedMaterial: {fileID: 288930221808236843, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
@@ -4848,8 +4848,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3.59
-  m_fontSizeBase: 3.59
+  m_fontSize: 3.4
+  m_fontSizeBase: 3.4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4886,7 +4886,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 32.352688, y: 0, z: 125.4231, w: 34.509502}
+  m_margin: {x: 32.352688, y: 0, z: 122.69509, w: 34.509502}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8901,7 +8901,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1618067695
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11764,7 +11764,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Comandante Cotzil
+  m_text: Comandante
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -12103,7 +12103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Conquistar el campamento enemigo
+  m_text: 'Cerrar el fragmento del nodo '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}
   m_sharedMaterial: {fileID: 288930221808236843, guid: 9d50e24593a3d3d45b7ecaa32f23a842, type: 2}

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// Activa un objeto específico cuando se hace clic sobre el elemento que tiene este script.
+// Útil para mostrar imágenes, textos o paneles al interactuar.
+// Solo requiere asignar el objeto a activar desde el inspector.
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ActivarElementoAlClick : MonoBehaviour, IPointerClickHandler

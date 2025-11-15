@@ -1,3 +1,6 @@
+// Controla una barra de vida SVG ajustando tamaño, color y texto según la vida actual.
+// Cambia automáticamente a colores de "vida baja" al pasar un umbral.
+// Funciona tanto en modo Play como en el editor gracias a ExecuteAlways.
 using UnityEngine;
 using Unity.VectorGraphics;
 using TMPro;

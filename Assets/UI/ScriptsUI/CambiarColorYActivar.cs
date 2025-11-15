@@ -1,3 +1,6 @@
+// Cambia el color de varios elementos UI/SVG y activa una imagen al cumplirse una condición.
+// Guarda los colores originales y los restaura cuando la condición deja de cumplirse.
+// Funciona también en el editor gracias a ExecuteAlways.
 using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_VECTOR_GRAPHICS
