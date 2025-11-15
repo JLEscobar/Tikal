@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -327,8 +327,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -463,8 +463,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -909,7 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1396,7 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2768,7 +2768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4028,7 +4028,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &771390359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4101,7 +4101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5815,7 +5815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5890,7 +5890,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -5899,8 +5899,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6732,8 +6732,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6927,7 +6927,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 55
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -7284,7 +7284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1513813506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7808,7 +7808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResultadosUI
   objetivoPrincipal:
     nombre: Principal
-    cumplido: 0
+    cumplido: 1
     puntos: 30
     elementos:
     - {fileID: 1781928063}
@@ -7820,7 +7820,7 @@ MonoBehaviour:
     textoPuntos: {fileID: 1799189749}
   objetivoSecundario:
     nombre: Secundario
-    cumplido: 0
+    cumplido: 1
     puntos: 15
     elementos:
     - {fileID: 254134239}
@@ -7832,7 +7832,7 @@ MonoBehaviour:
     textoPuntos: {fileID: 1166085237}
   objetivoOculto:
     nombre: Oculto
-    cumplido: 0
+    cumplido: 1
     puntos: 10
     elementos:
     - {fileID: 469155087}
@@ -8015,8 +8015,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8142,7 +8142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nivel Fallido
+  m_text: Nivel Completado
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -8151,8 +8151,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8405,7 +8405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8608,7 +8608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8803,8 +8803,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8931,7 +8931,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 30
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -8940,8 +8940,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10068,8 +10068,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10196,7 +10196,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -10205,8 +10205,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283069951
-  m_fontColor: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+    rgba: 4292736857
+  m_fontColor: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
