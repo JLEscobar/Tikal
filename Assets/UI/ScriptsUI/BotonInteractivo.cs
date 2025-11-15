@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// Controla un botón SVG cambiando colores según su estado: normal, hover, clic o deshabilitado.
+// Responde a eventos del mouse con transiciones visuales para marco, interior y texto.
+// Permite activar/desactivar el botón y actualizar su apariencia automáticamente.
+using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.VectorGraphics;
 using TMPro;

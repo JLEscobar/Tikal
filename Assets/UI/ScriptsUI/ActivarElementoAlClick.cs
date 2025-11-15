@@ -1,10 +1,13 @@
+﻿// Activa un objeto específico cuando se hace clic sobre el elemento que tiene este script.
+// Útil para mostrar imágenes, textos o paneles al interactuar.
+// Solo requiere asignar el objeto a activar desde el inspector.
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ActivarElementoAlClick : MonoBehaviour, IPointerClickHandler
 {
     [Header("Objeto a activar")]
-    [Tooltip("Arrastra aqu� el objeto (imagen, texto, empty, etc.) que quieras activar al hacer clic.")]
+    [Tooltip("Arrastra aquí el objeto (imagen, texto, empty, etc.) que quieras activar al hacer clic.")]
     public GameObject objetoActivar;
 
     public void OnPointerClick(PointerEventData eventData)
@@ -16,7 +19,9 @@ public class ActivarElementoAlClick : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            Debug.LogWarning("No hay ning�n objeto asignado para activar en " + gameObject.name);
+            Debug.LogWarning("No hay ningún objeto asignado para activar en " + gameObject.name);
         }
     }
 }
+
+

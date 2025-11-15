@@ -14,5 +14,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/UI Mapa.unity
     guid: 1d4eb6d140f5b1a43a1f7be2ebbe90f8
+  - enabled: 1
+    path: Assets/Scenes/UI/UI Objetivo.unity
+    guid: 80afa7cc6ad16204ca0e7c525a37d21d
+  - enabled: 1
+    path: Assets/Scenes/UI/UI Nivel 1.unity
+    guid: db9c83b47e28be041aa2c9e51eb00d75
+  - enabled: 1
+    path: Assets/Scenes/UI/UI Nivel 1 Turno enemigo.unity
+    guid: c259807f4923ee34ba42baa09a0ee2ff
+  - enabled: 1
+    path: Assets/Scenes/UI/UI Resultado.unity
+    guid: 0a86f6d90ba75ff4ca6dc0f1d7997cfb
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -1,3 +1,6 @@
+// Activa un objeto cuando el mouse pasa por encima y lo desactiva al salir.
+// Usa los eventos del puntero para mostrar u ocultar el objeto asignado.
+// Ideal para efectos de hover en UI u otros elementos interactivos.
 using UnityEngine;
 using UnityEngine.EventSystems;
 
