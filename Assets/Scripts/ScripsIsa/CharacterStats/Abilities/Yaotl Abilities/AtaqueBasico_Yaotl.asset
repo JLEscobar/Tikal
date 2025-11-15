@@ -16,8 +16,10 @@ MonoBehaviour:
   description: "L\xE1tigo enredador"
   costAP: 1
   range: 2
-  abilityParticles: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+  abilityParticles: {fileID: 9177886612219991525, guid: f90fc7acf1ef2fa4c85896a9afc17028, type: 3}
   baseCooldownTurns: 0
   effectType: 1
   effectDuration: 1
   attackDamage: 25
+  bonusDamagePerUnit: 0
+  movementUnitThreshold: 1

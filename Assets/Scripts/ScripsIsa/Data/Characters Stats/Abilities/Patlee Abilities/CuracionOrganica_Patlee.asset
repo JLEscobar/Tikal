@@ -16,7 +16,7 @@ MonoBehaviour:
   description: 
   costAP: 1
   range: 3
-  abilityParticles: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+  abilityParticles: {fileID: 5545173171955001552, guid: 7ac879c2caac1ca41b6c438e77d8b25d, type: 3}
   baseCooldownTurns: 0
   healAmount: 25
   buffType: 0

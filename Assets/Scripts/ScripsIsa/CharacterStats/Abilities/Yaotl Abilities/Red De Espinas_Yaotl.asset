@@ -16,8 +16,10 @@ MonoBehaviour:
   description: 
   costAP: 1
   range: 5
-  abilityParticles: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+  abilityParticles: {fileID: 5313456068782518071, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
   baseCooldownTurns: 4
   effectType: 1
   effectDuration: 4
   attackDamage: 20
+  bonusDamagePerUnit: 0
+  movementUnitThreshold: 1
