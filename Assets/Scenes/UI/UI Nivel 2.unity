@@ -6667,7 +6667,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 883793494}
-  - component: {fileID: 883793495}
   m_Layer: 5
   m_Name: Personaje2
   m_TagString: Untagged
@@ -6695,20 +6694,6 @@ RectTransform:
   m_AnchoredPosition: {x: 83.4, y: -166.00002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &883793495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883793493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195ce99b94844f042ab3fe848a0e892c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BotonPersonaje
-  indiceMini: 0
-  manejador: {fileID: 1320802688}
 --- !u!1 &902445322
 GameObject:
   m_ObjectHideFlags: 0
@@ -10842,11 +10827,6 @@ RectTransform:
   m_AnchoredPosition: {x: -11.213, y: 5.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1298422652 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
-  m_PrefabInstance: {fileID: 1860867284}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1299765143
 GameObject:
   m_ObjectHideFlags: 0
@@ -11030,109 +11010,6 @@ RectTransform:
   m_AnchoredPosition: {x: -22.197, y: -10}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1320802686
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1320802687}
-  - component: {fileID: 1320802688}
-  m_Layer: 5
-  m_Name: UIJugadorManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1320802687
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320802686}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1522353091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1320802688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320802686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da39272910daed54c96cca016784faf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIJugador
-  personajePrincipal:
-    nombre: Cualli
-    rol: Tank - protector
-    imagen: {fileID: 21300000, guid: 3b1ed60c77a41464bb53f625372a4812, type: 3}
-    numero: 1
-    vidaActual: 300
-    vidaMaxima: 300
-    imagenUI: {fileID: 1844336567}
-    nombreUI: {fileID: 902445324}
-    rolUI: {fileID: 636517515}
-    numeroUI: {fileID: 1738698506}
-    barraVidaTransform: {fileID: 1733156418}
-    barraVidaRelleno: {fileID: 1392928395}
-    textoVida: {fileID: 1781285513}
-  personajesMini:
-  - nombre: Ollin
-    rol: Asesino
-    imagen: {fileID: 21300000, guid: 7b3308654d25a9d45b1029add2cad4f0, type: 3}
-    numero: 2
-    vidaActual: 100
-    vidaMaxima: 100
-    imagenUI: {fileID: 1028708847}
-    nombreUI: {fileID: 89012757}
-    rolUI: {fileID: 0}
-    numeroUI: {fileID: 1192769063}
-    barraVidaTransform: {fileID: 227985703}
-    barraVidaRelleno: {fileID: 1662267416}
-    textoVida: {fileID: 1644641315}
-  - nombre: Yaotl
-    rol: Iniciador
-    imagen: {fileID: 21300000, guid: d2dcfcda727488c46b41bee6a94de641, type: 3}
-    numero: 3
-    vidaActual: 150
-    vidaMaxima: 150
-    imagenUI: {fileID: 566546305}
-    nombreUI: {fileID: 1841042293}
-    rolUI: {fileID: 0}
-    numeroUI: {fileID: 2132744379}
-    barraVidaTransform: {fileID: 2082523064}
-    barraVidaRelleno: {fileID: 1697865387}
-    textoVida: {fileID: 671063405}
-  - nombre: Patlee
-    rol: Soporte
-    imagen: {fileID: 21300000, guid: 4c05356236ca50743b3b1e77ec412fd6, type: 3}
-    numero: 4
-    vidaActual: 80
-    vidaMaxima: 80
-    imagenUI: {fileID: 1302350399}
-    nombreUI: {fileID: 196286509}
-    rolUI: {fileID: 0}
-    numeroUI: {fileID: 1281837734}
-    barraVidaTransform: {fileID: 1803603594}
-    barraVidaRelleno: {fileID: 2010519722}
-    textoVida: {fileID: 241217722}
-  ventana: {fileID: 1541857085}
 --- !u!1 &1320954975
 GameObject:
   m_ObjectHideFlags: 0
@@ -11586,7 +11463,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1356167080}
-  - component: {fileID: 1356167081}
   m_Layer: 5
   m_Name: Personaje3
   m_TagString: Untagged
@@ -11614,20 +11490,6 @@ RectTransform:
   m_AnchoredPosition: {x: 173.7, y: -166.00002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1356167081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356167079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195ce99b94844f042ab3fe848a0e892c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BotonPersonaje
-  indiceMini: 1
-  manejador: {fileID: 1320802688}
 --- !u!1 &1359312500
 GameObject:
   m_ObjectHideFlags: 0
@@ -13141,7 +13003,6 @@ RectTransform:
   - {fileID: 1541857084}
   - {fileID: 873258817}
   - {fileID: 434483662}
-  - {fileID: 1320802687}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -13158,7 +13019,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1541857084}
-  - component: {fileID: 1541857085}
   m_Layer: 5
   m_Name: ConfirmarAcciones
   m_TagString: Untagged
@@ -13189,19 +13049,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1541857085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541857083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d508e1f9fae547c4bb5e8879d6d75611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VentanaConfirmacion1
-  textoPregunta: {fileID: 1025786927}
 --- !u!1 &1545943388
 GameObject:
   m_ObjectHideFlags: 0
@@ -17075,72 +16922,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1860867287}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
 --- !u!224 &1860867285 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5877842127789282063, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
   m_PrefabInstance: {fileID: 1860867284}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1860867287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298422652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: d508e1f9fae547c4bb5e8879d6d75611, type: 3}
-        m_TargetAssemblyTypeName: UnityEditor.MonoScript, UnityEditor.CoreModule
-        m_MethodName: set_name
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: ConfirmarAccion()
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1873460490
 GameObject:
   m_ObjectHideFlags: 0
@@ -17322,7 +17110,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1939885153}
-  - component: {fileID: 1939885154}
   m_Layer: 5
   m_Name: Personaje4
   m_TagString: Untagged
@@ -17350,20 +17137,6 @@ RectTransform:
   m_AnchoredPosition: {x: 262, y: -166.00002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1939885154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939885152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 195ce99b94844f042ab3fe848a0e892c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BotonPersonaje
-  indiceMini: 2
-  manejador: {fileID: 0}
 --- !u!1 &1951150112
 GameObject:
   m_ObjectHideFlags: 0
