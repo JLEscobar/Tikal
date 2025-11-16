@@ -143,14 +143,36 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     #region movement/facing
     public void moveEnemy(Vector3 direction)
     {
-        controller.Move(direction * moveSpeed * Time.deltaTime);
-        CheckFacing(direction);
+        if (direction == Vector3.zero) return;
+
+        // Movimiento básico (puedes adaptarlo a tu sistema de grid o NavMesh)
+        transform.position += direction * moveSpeed * Time.deltaTime;
+
+        // Solo rotamos si hay target
+        if (target != null)
+        {
+            CheckFacing(direction);
+        }
+        else
+        {
+            // Si no hay target, rotamos hacia la dirección de movimiento
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+        }
     }
 
     public void CheckFacing(Vector3 direction)
     {
+        // Si no hay target, no intentamos rotar
+        if (target == null)
+        {
+            Debug.LogWarning("CheckFacing llamado sin target en " + gameObject.name);
+            return;
+        }
+
         Vector3 lookDirection = target.position - transform.position;
         lookDirection.y = 0f;
+
         if (lookDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
@@ -193,6 +215,12 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         {
             LastSeenPosition = target.position;
         }
+    }
+
+    public void ExecuteTurn()
+    {
+        if (IsDead) return;
+        stateMachine.currentState.UpdateState();
     }
 
 

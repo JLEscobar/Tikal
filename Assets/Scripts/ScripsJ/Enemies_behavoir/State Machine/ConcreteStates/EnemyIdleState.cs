@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyIdleState : EnemyState
 {
-    private float idleTimer;
-    private float idleDuration = 2f; 
+    private int idleTurnsWaited;
+    private int idleTurnsToWait = 2;
     public EnemyIdleState(Enemys enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
@@ -15,7 +15,7 @@ public class EnemyIdleState : EnemyState
 
     public override void EnterState()
     {
-        idleTimer = 0f;
+        idleTurnsWaited = 0;
         base.EnterState();
     }
 
@@ -57,18 +57,23 @@ public class EnemyIdleState : EnemyState
             return;
         }
 
-        idleTimer += Time.deltaTime;
-        if (idleTimer >= idleDuration)
+        // Espera unos turnos antes de moverse
+        if (idleTurnsWaited < idleTurnsToWait)
         {
-            Transform idleTarget = enemy.IdlePoints[enemy.CurrentIdleIndex];
-            Vector3 direction = (idleTarget.position - enemy.transform.position).normalized;
-            enemy.moveEnemy(direction);
+            idleTurnsWaited++;
+            Debug.Log("Enemy waits in idle.");
+            return;
+        }
 
-            if (Vector3.Distance(enemy.transform.position, idleTarget.position) < 0.5f)
-            {
-                enemy.CurrentIdleIndex = (enemy.CurrentIdleIndex + 1) % enemy.IdlePoints.Length;
-                idleTimer = 0f;
-            }
+        // Moverse un paso hacia el siguiente punto idle
+        Transform idleTarget = enemy.IdlePoints[enemy.CurrentIdleIndex];
+        Vector3 direction = (idleTarget.position - enemy.transform.position).normalized;
+        enemy.moveEnemy(direction);
+
+        if (Vector3.Distance(enemy.transform.position, idleTarget.position) < 0.5f)
+        {
+            enemy.CurrentIdleIndex = (enemy.CurrentIdleIndex + 1) % enemy.IdlePoints.Length;
+            idleTurnsWaited = 0;
         }
     }
 }

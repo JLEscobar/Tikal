@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyState
 {
-    private float attackCooldown = 1.5f;
-    private float lastAttackTime;
+    private int attackCooldownTurns = 2;
+    private int turnsSinceLastAttack = 0;
     public EnemyAttackState(Enemys enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
@@ -16,7 +16,6 @@ public class EnemyAttackState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
-        lastAttackTime = -attackCooldown;
     }
 
     public override bool Equals(object obj)
@@ -54,11 +53,16 @@ public class EnemyAttackState : EnemyState
 
         if (distanceToPlayer <= enemy.AttackRange)
         {
-            if (Time.time - lastAttackTime >= attackCooldown)
+            if (turnsSinceLastAttack >= attackCooldownTurns)
             {
                 Debug.Log("Enemy attacks player!");
                 // Aquí iría la lógica real de daño
-                lastAttackTime = Time.time;
+                turnsSinceLastAttack = 0;
+            }
+            else
+            {
+                turnsSinceLastAttack++;
+                Debug.Log("Enemy waits for attack cooldown.");
             }
         }
         else

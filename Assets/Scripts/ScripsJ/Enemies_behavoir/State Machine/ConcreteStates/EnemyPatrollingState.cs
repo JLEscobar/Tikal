@@ -18,7 +18,25 @@ public class EnemyPatrollingState : EnemyState
     public override void UpdateState()
     {
         base.UpdateState();
-        // Lógica de patrullaje pendiente
+
+        if (enemy.IsDead) return;
+
+        enemy.UpdateTarget();
+        if (enemy.Target != null)
+        {
+            stateMachine.ChangeState(enemy.chasingState);
+            return;
+        }
+
+        // Avanza un paso hacia el siguiente punto de patrulla
+        Transform patrolTarget = enemy.PatrolPoints[enemy.CurrentPatrolIndex];
+        Vector3 direction = (patrolTarget.position - enemy.transform.position).normalized;
+        enemy.moveEnemy(direction);
+
+        if (Vector3.Distance(enemy.transform.position, patrolTarget.position) < 0.5f)
+        {
+            enemy.CurrentPatrolIndex = (enemy.CurrentPatrolIndex + 1) % enemy.PatrolPoints.Length;
+        }
     }
 
     public override void ExitState()
@@ -35,28 +53,5 @@ public class EnemyPatrollingState : EnemyState
     public override void AnimationTriggerEvent(Enemys.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
-
-        if (enemy.IsDead) return;
-
-        enemy.UpdateTarget();
-        if (enemy.Target != null)
-        {
-            stateMachine.ChangeState(enemy.chasingState);
-            return;
-        }
-
-        Transform patrolTarget = enemy.PatrolPoints[enemy.CurrentPatrolIndex];
-        Vector3 direction = (patrolTarget.position - enemy.transform.position).normalized;
-        enemy.moveEnemy(direction);
-
-        if (Vector3.Distance(enemy.transform.position, patrolTarget.position) < 0.5f)
-        {
-            waitTimer += Time.deltaTime;
-            if (waitTimer >= waitDuration)
-            {
-                enemy.CurrentPatrolIndex = (enemy.CurrentPatrolIndex + 1) % enemy.PatrolPoints.Length;
-                waitTimer = 0f;
-            }
-        }
     }
 }

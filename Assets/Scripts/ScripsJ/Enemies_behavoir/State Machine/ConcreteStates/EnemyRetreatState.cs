@@ -16,7 +16,24 @@ public class EnemyRetreatState : EnemyState
     public override void UpdateState()
     {
         base.UpdateState();
-        // Lógica de retirada pendiente
+
+        if (enemy.IsDead) return;
+
+        float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.Target.position);
+
+        // Alejarse del jugador un paso
+        Vector3 direction = (enemy.transform.position - enemy.Target.position).normalized;
+        enemy.moveEnemy(direction);
+
+        if (distanceToPlayer > enemy.VisionRange * 2f)
+        {
+            stateMachine.ChangeState(enemy.patrollingState);
+        }
+
+        if (enemy.CurrentHealth > enemy.RetreatHealthThreshold)
+        {
+            stateMachine.ChangeState(enemy.idleState);
+        }
     }
 
     public override void ExitState()
@@ -34,28 +51,5 @@ public class EnemyRetreatState : EnemyState
     {
         base.AnimationTriggerEvent(triggerType);
 
-        if (enemy.IsDead) return;
-
-        float distanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.Target.position);
-
-        if (distanceToPlayer <= enemy.AttackRange)
-        {
-            stateMachine.ChangeState(enemy.attackState);
-            return;
-        }
-
-        // Alejarse del jugador
-        Vector3 direction = (enemy.transform.position - enemy.Target.position).normalized;
-        enemy.moveEnemy(direction);
-
-        if (distanceToPlayer > enemy.VisionRange * 2f)
-        {
-            stateMachine.ChangeState(enemy.patrollingState);
-        }
-
-        if (enemy.CurrentHealth > enemy.RetreatHealthThreshold)
-        {
-            stateMachine.ChangeState(enemy.idleState);
-        }
     }
 }

@@ -169,19 +169,34 @@ public class TurnSystem : MonoBehaviour
             StartPlayerSelectionPhase();
             return;
         }
-        
+
         _current = GetNextActor(_currentTeam);
         if (_current == null)
         {
             SwitchTeam();
-            NextTurn(); 
+            NextTurn();
             return;
         }
 
         _current.BeginTurn();
         OnTurnStarted?.Invoke(_currentTeam, _current);
-        MessagesSystem.Instance.ShowMessage($"Turno del {_current.CharacterName} Enemigo.", Color.red);
-        
+
+        if (_currentTeam == Team.Enemy)
+        {
+            MessagesSystem.Instance.ShowMessage($"Turno del {_current.CharacterName} Enemigo.", Color.red);
+
+            // Buscar el componente Enemys en el actor actual
+            var enemyAI = _current.GetComponent<Enemys>();
+            if (enemyAI != null)
+            {
+                enemyAI.ExecuteTurn(); 
+            }
+            EndTurn();
+        }
+        else
+        {
+            MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} Aliado.", Color.green);
+        }
     }
 
     private bool CheckBattleEnd()
@@ -278,4 +293,5 @@ public class TurnSystem : MonoBehaviour
             }
         }
     }
+
 }
