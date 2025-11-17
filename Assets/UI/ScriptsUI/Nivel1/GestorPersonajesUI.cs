@@ -109,7 +109,7 @@ public class GestorPersonajesUI : MonoBehaviour
 
         string nombrePrincipal = personajes[indicePrincipal].nombre;
         string nombreNuevo = personajes[slotIndex].nombre;
-        string mensaje = $"¿Reemplazar {nombrePrincipal} por {nombreNuevo}?";
+        string mensaje = $"¿Confirmas las acciones de {nombrePrincipal}?";
 
         // POPUP POR SLOT (si existe)
         if (slotIndex < popupPorSlot.Count && popupPorSlot[slotIndex] != null)
