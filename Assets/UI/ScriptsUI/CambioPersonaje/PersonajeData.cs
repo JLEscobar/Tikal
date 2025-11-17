@@ -1,3 +1,6 @@
+// Contiene la información básica de cada personaje (nombre, rol, número y retrato).  
+// Incluye vida inicial, su barra de vida y un objeto de habilidades para activar cuando es principal.  
+// Se usa como estructura de datos para la UI y el sistema de intercambio de personajes.
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

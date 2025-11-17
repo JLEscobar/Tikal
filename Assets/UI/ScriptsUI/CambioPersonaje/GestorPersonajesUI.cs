@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Gestiona los personajes y actualiza la UI principal y de los slots.
+// Muestra popups al seleccionar un personaje por número y permite confirmar el intercambio.
+// Realiza el swap y activa solo las habilidades del personaje principal.
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
