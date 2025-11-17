@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3529412}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.4392157}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -324,6 +324,7 @@ MonoBehaviour:
   ImagenMarco: {fileID: 1497126424299095355}
   ImagenInterior: {fileID: 5445350775930660575}
   Texto: {fileID: 7478021455312029417}
+  estaDeshabilitado: 0
   colorMarcoNormal: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   colorInteriorNormal: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.4392157}
   colorTextoNormal: {r: 0.34901962, g: 0.9686275, b: 0.86666673, a: 1}
@@ -333,3 +334,6 @@ MonoBehaviour:
   colorMarcoClick: {r: 1, g: 1, b: 1, a: 1}
   colorInteriorClick: {r: 0.34901962, g: 0.9686275, b: 0.86666673, a: 0.8}
   colorTextoClick: {r: 1, g: 1, b: 1, a: 1}
+  colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
+  colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
+  colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
