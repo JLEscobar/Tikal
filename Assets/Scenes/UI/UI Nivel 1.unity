@@ -2019,6 +2019,7 @@ GameObject:
   - component: {fileID: 200086835}
   - component: {fileID: 200086834}
   - component: {fileID: 200086836}
+  - component: {fileID: 200086837}
   m_Layer: 5
   m_Name: HabilidadNormal
   m_TagString: Untagged
@@ -2119,6 +2120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 583517572}
+--- !u!114 &200086837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200086831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &212428700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2280,6 +2294,7 @@ GameObject:
   - component: {fileID: 214501652}
   - component: {fileID: 214501654}
   - component: {fileID: 214501655}
+  - component: {fileID: 214501656}
   m_Layer: 5
   m_Name: HabilidadEspecial
   m_TagString: Untagged
@@ -2352,6 +2367,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 656200499}
+--- !u!114 &214501656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214501651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &222645867
 GameObject:
   m_ObjectHideFlags: 0
@@ -11745,6 +11773,7 @@ GameObject:
   - component: {fileID: 914128695}
   - component: {fileID: 914128694}
   - component: {fileID: 914128696}
+  - component: {fileID: 914128697}
   m_Layer: 5
   m_Name: HabilidadNormal
   m_TagString: Untagged
@@ -11845,6 +11874,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 531713380}
+--- !u!114 &914128697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914128692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &919508389
 GameObject:
   m_ObjectHideFlags: 0
@@ -12209,6 +12251,7 @@ GameObject:
   - component: {fileID: 965445093}
   - component: {fileID: 965445095}
   - component: {fileID: 965445096}
+  - component: {fileID: 965445097}
   m_Layer: 5
   m_Name: HabilidadEspecial
   m_TagString: Untagged
@@ -12281,6 +12324,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 371248760}
+--- !u!114 &965445097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965445092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &965756935
 GameObject:
   m_ObjectHideFlags: 0
@@ -12292,6 +12348,7 @@ GameObject:
   - component: {fileID: 965756936}
   - component: {fileID: 965756938}
   - component: {fileID: 965756939}
+  - component: {fileID: 965756940}
   m_Layer: 5
   m_Name: HabilidadEspecial
   m_TagString: Untagged
@@ -12364,6 +12421,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 1826513939}
+--- !u!114 &965756940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965756935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &972112430
 GameObject:
   m_ObjectHideFlags: 0
@@ -18272,6 +18342,7 @@ GameObject:
   - component: {fileID: 1452824563}
   - component: {fileID: 1452824564}
   - component: {fileID: 1452824565}
+  - component: {fileID: 1452824566}
   m_Layer: 5
   m_Name: HabilidadEspecial
   m_TagString: Untagged
@@ -18344,6 +18415,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 972112430}
+--- !u!114 &1452824566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452824562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &1479413349
 GameObject:
   m_ObjectHideFlags: 0
@@ -18356,6 +18440,7 @@ GameObject:
   - component: {fileID: 1479413353}
   - component: {fileID: 1479413352}
   - component: {fileID: 1479413354}
+  - component: {fileID: 1479413355}
   m_Layer: 5
   m_Name: "HabilidadCuraci\xF3n"
   m_TagString: Untagged
@@ -18456,6 +18541,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 367533470}
+--- !u!114 &1479413355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479413349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &1485932356
 GameObject:
   m_ObjectHideFlags: 0
@@ -19808,6 +19906,7 @@ GameObject:
   - component: {fileID: 1624222255}
   - component: {fileID: 1624222254}
   - component: {fileID: 1624222256}
+  - component: {fileID: 1624222257}
   m_Layer: 5
   m_Name: HabilidadNormal
   m_TagString: Untagged
@@ -19908,6 +20007,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 2012907631}
+--- !u!114 &1624222257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624222251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &1637672875
 GameObject:
   m_ObjectHideFlags: 0
@@ -23775,6 +23887,7 @@ GameObject:
   - component: {fileID: 1886674568}
   - component: {fileID: 1886674567}
   - component: {fileID: 1886674569}
+  - component: {fileID: 1886674570}
   m_Layer: 5
   m_Name: HabilidadNormal
   m_TagString: Untagged
@@ -23875,6 +23988,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivarAlPasar
   objetoAlPasar: {fileID: 2112016015}
+--- !u!114 &1886674570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886674564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7173c04ed44dc04abf4d9ed52f4abec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjetoDesactivado
+  desactivar: 0
 --- !u!1 &1898372539
 GameObject:
   m_ObjectHideFlags: 0
