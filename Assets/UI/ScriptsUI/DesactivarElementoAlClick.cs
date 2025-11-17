@@ -1,3 +1,6 @@
+// Desactiva un objeto específico cuando se hace clic sobre este elemento.
+// Útil para ocultar imágenes, textos o paneles al interactuar.
+// Solo requiere asignar el objeto a desactivar desde el inspector.
 using UnityEngine;
 using UnityEngine.EventSystems;
 
