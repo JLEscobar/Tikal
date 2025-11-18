@@ -62,12 +62,15 @@ public class EnemyChasingState : EnemyState
             Vector3 direction = (enemy.Target.position - enemy.transform.position).normalized;
             enemy.moveEnemy(direction);
 
-            enemy.CurrentSearchTurns = 0; // reinicia búsqueda
+            enemy.CurrentSearchTurns = 0; // reinicia bï¿½squeda
         }
         else if (enemy.LastSeenPosition.HasValue)
         {
             Vector3 direction = (enemy.LastSeenPosition.Value - enemy.transform.position).normalized;
             enemy.moveEnemy(direction);
+            
+            // Completar el turno despuÃ©s de moverse
+            enemy.CompleteTurnAction();
 
             if (Vector3.Distance(enemy.transform.position, enemy.LastSeenPosition.Value) < 0.5f)
             {

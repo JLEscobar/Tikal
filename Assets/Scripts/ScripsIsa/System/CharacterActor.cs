@@ -56,6 +56,12 @@ public class CharacterActor : MonoBehaviour, ITargetable
         _health = GetComponent<Health>();
         _movement = GetComponent<CharacterMovement>();
         _controller = GetComponent<CharacterController>();
+        
+        // Buscar automáticamente TacticalMovementController si no está asignado
+        if (tacticalMovement == null)
+        {
+            tacticalMovement = GetComponent<TacticalMovementController>();
+        }
 
         if (stats != null)
         {
@@ -63,6 +69,11 @@ public class CharacterActor : MonoBehaviour, ITargetable
             if (tacticalMovement != null)
             {
                 tacticalMovement.SetCharacterStats(stats);
+            }
+            // Configurar velocidad de movimiento para CharacterMovement (usado por enemigos)
+            if (_movement != null)
+            {
+                _movement.SetMoveSpeed(stats.moveSpeed);
             }
         }
         _health.OnDied += OnDeath;
@@ -85,10 +96,21 @@ public class CharacterActor : MonoBehaviour, ITargetable
             currentActionPoints = 0; 
         }
 
+        // Asegurar que tacticalMovement esté inicializado
+        if (tacticalMovement == null)
+        {
+            tacticalMovement = GetComponent<TacticalMovementController>();
+        }
+
         if (tacticalMovement != null)
         {
             tacticalMovement.SetMovementPhase(!isKnockedOut); 
             tacticalMovement.SetMovementRange(MovementRange);
+            Debug.Log($"[MOVEMENT] {CharacterName}: Movement phase activated = {!isKnockedOut}");
+        }
+        else
+        {
+            Debug.LogWarning($"[MOVEMENT] {CharacterName}: No TacticalMovementController found. Movement will not work.");
         }
     }
 
@@ -126,14 +148,21 @@ public class CharacterActor : MonoBehaviour, ITargetable
     
     public void ForceMovementPhaseActivation()
     {
+        // Asegurar que tacticalMovement esté inicializado
+        if (tacticalMovement == null)
+        {
+            tacticalMovement = GetComponent<TacticalMovementController>();
+        }
+        
         if (tacticalMovement != null)
         {
             tacticalMovement.SetMovementPhase(true);
             tacticalMovement.SetMovementRange(MovementRange);
+            Debug.Log($"[MOVEMENT] {CharacterName}: Movement phase force activated");
         }
         else
         {
-            Debug.LogWarning($"[vFinal] {CharacterName} no tiene asignado TacticalMovementController en el Inspector.");
+            Debug.LogWarning($"[MOVEMENT] {CharacterName}: No TacticalMovementController found. Cannot activate movement.");
         }
     }
 

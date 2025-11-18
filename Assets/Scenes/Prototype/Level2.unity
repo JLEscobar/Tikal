@@ -492,13 +492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 0}
-  farStars: {fileID: 0}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &64286291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3993,13 +3986,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 0}
-  farStars: {fileID: 0}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &386801521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5755,13 +5741,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 1150439031}
-  farStars: {fileID: 1226486892}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &602915909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17316,6 +17295,8 @@ GameObject:
   - component: {fileID: 801391800}
   - component: {fileID: 801391802}
   - component: {fileID: 801391803}
+  - component: {fileID: 801391804}
+  - component: {fileID: 801391805}
   m_Layer: 3
   m_Name: Enemy Test
   m_TagString: Player
@@ -17435,7 +17416,7 @@ Transform:
   m_GameObject: {fileID: 801391793}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.492588, y: -0.8, z: -201.22899}
+  m_LocalPosition: {x: 13.42, y: -0.8, z: -189.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17512,6 +17493,52 @@ MonoBehaviour:
   speedText: {fileID: 9046630}
   rangeText: {fileID: 1938224556}
   offset: {x: 0, y: 2, z: 0}
+--- !u!114 &801391804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801391793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0a9e5bf2e92ba489bebc1f0336450f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemys
+  <IsDead>k__BackingField: 0
+  <CurrentHealth>k__BackingField: 0
+  <MaxHealth>k__BackingField: 100
+  <moveSpeed>k__BackingField: 5
+  target: {fileID: 0}
+  maxSearchTurns: 1
+  visionRange: 10
+  attackRange: 2
+  retreatHealthThreshold: 30
+  patrolPoints:
+  - {fileID: 177303857}
+  - {fileID: 1416151743}
+  idlePoints:
+  - {fileID: 177303857}
+  - {fileID: 1885161635}
+--- !u!114 &801391805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801391793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
+  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 86d823f6a3d3a414e8074825765c555d, type: 2}
+  maxHealth: 100
+  health: 100
+  attackPower: 20
+  characterName: Default Name
 --- !u!1 &803970110
 GameObject:
   m_ObjectHideFlags: 0
@@ -17594,13 +17621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 0}
-  farStars: {fileID: 0}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &822742939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17961,13 +17981,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 0}
-  farStars: {fileID: 0}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &843157907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18195,13 +18208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 822742937}
-  farStars: {fileID: 64286289}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &884008624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21302,13 +21308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 0}
-  farStars: {fileID: 0}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &1150439033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21940,13 +21939,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 0}
-  farStars: {fileID: 0}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &1226486894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27146,13 +27138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8523b0a74f1014988c37e0799435a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nearStars: {fileID: 386801519}
-  farStars: {fileID: 843157905}
-  maxOffsetPixels: 40
-  nearIntensity: 1
-  farIntensity: 0.4
-  smoothTime: 0.08
-  maxTiltDegrees: 4
 --- !u!114 &1278819511
 MonoBehaviour:
   m_ObjectHideFlags: 0

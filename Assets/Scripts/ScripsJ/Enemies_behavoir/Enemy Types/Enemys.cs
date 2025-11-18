@@ -47,11 +47,24 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     public EnemyAttackState attackState { get; set; }
     public EnemyPatrollingState patrollingState { get; set; }
     public EnemyRetreatState retreatState { get; set; }
+    public EnemyWaitingTurnState waitingTurnState { get; set; }
+
+    #endregion
+
+    #region Turn System Integration
+
+    private TurnSystem turnSystem;
+    private CharacterActor characterActor;
+    private bool isMyTurn = false;
+    private bool hasCompletedTurnAction = false;
+
+    public bool IsMyTurn => isMyTurn;
+    public bool HasCompletedTurnAction => hasCompletedTurnAction;
 
     #endregion
 
     #region Stats Variables
-    // Rango de visi�n
+    // Rango de visi�n
     [SerializeField] private float visionRange = 10f;
     public float VisionRange => visionRange;
 
@@ -71,7 +84,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     [SerializeField] private Transform[] idlePoints;
     public Transform[] IdlePoints => idlePoints;
 
-    // �ndices de patrullaje/idle
+    // �ndices de patrullaje/idle
     private int currentPatrolIndex = 0;
     public int CurrentPatrolIndex
     {
@@ -98,11 +111,16 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         attackState = new EnemyAttackState(this, stateMachine);
         patrollingState = new EnemyPatrollingState(this, stateMachine);
         retreatState = new EnemyRetreatState(this, stateMachine);
+        waitingTurnState = new EnemyWaitingTurnState(this, stateMachine);
+        
+        // Turn System Integration
+        turnSystem = FindFirstObjectByType<TurnSystem>();
+        characterActor = GetComponent<CharacterActor>();
     }
     private void Start()
     {
-        //state machine 
-        stateMachine.Initialize(idleState);
+        //state machine - Iniciar en estado de espera
+        stateMachine.Initialize(waitingTurnState);
 
         //Movement
         controller = GetComponent<CharacterController>();
@@ -111,16 +129,41 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         //Health
         CurrentHealth = MaxHealth;
         IsDead = false;
+
+        // Suscribirse a eventos del TurnSystem
+        if (turnSystem != null)
+        {
+            turnSystem.OnTurnStarted += HandleTurnStarted;
+            turnSystem.OnTurnEnded += HandleTurnEnded;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Desuscribirse de eventos
+        if (turnSystem != null)
+        {
+            turnSystem.OnTurnStarted -= HandleTurnStarted;
+            turnSystem.OnTurnEnded -= HandleTurnEnded;
+        }
     }
 
     private void Update()
     {
-        stateMachine.currentState.UpdateState();
+        // Solo ejecutar la máquina de estados si es nuestro turno
+        if (isMyTurn && !hasCompletedTurnAction)
+        {
+            stateMachine.currentState.UpdateState();
+        }
     }
 
     private void FixedUpdate()
     {
-        stateMachine.currentState.PhysicsUpdate();
+        // Solo ejecutar física si es nuestro turno
+        if (isMyTurn && !hasCompletedTurnAction)
+        {
+            stateMachine.currentState.PhysicsUpdate();
+        }
     }
     #region Damage/Die
     public void TakeDamage(int damageAmount)
@@ -145,7 +188,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     {
         if (direction == Vector3.zero) return;
 
-        // Movimiento b�sico (puedes adaptarlo a tu sistema de grid o NavMesh)
+        // Movimiento b�sico (puedes adaptarlo a tu sistema de grid o NavMesh)
         transform.position += direction * moveSpeed * Time.deltaTime;
 
         // Solo rotamos si hay target
@@ -155,7 +198,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         }
         else
         {
-            // Si no hay target, rotamos hacia la direcci�n de movimiento
+            // Si no hay target, rotamos hacia la direcci�n de movimiento
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
         }
@@ -223,5 +266,109 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         stateMachine.currentState.UpdateState();
     }
 
+    #region Turn System Handlers
+
+    private void HandleTurnStarted(Team team, CharacterActor actor)
+    {
+        // Verificar si es nuestro turno
+        if (team == Team.Enemy && characterActor != null && actor == characterActor)
+        {
+            isMyTurn = true;
+            hasCompletedTurnAction = false;
+            
+            Debug.Log($"[ENEMY_STATE_MACHINE] {gameObject.name}: My turn started. Activating state machine.");
+            
+            // Cambiar de estado de espera al estado apropiado según la situación
+            if (stateMachine.currentState == waitingTurnState)
+            {
+                // Decidir qué estado usar basado en la situación
+                UpdateTarget();
+                
+                if (Target != null)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, Target.position);
+                    
+                    if (distanceToTarget <= AttackRange)
+                    {
+                        stateMachine.ChangeState(attackState);
+                    }
+                    else if (distanceToTarget <= VisionRange)
+                    {
+                        stateMachine.ChangeState(chasingState);
+                    }
+                    else
+                    {
+                        stateMachine.ChangeState(idleState);
+                    }
+                }
+                else if (PatrolPoints != null && PatrolPoints.Length > 0)
+                {
+                    stateMachine.ChangeState(patrollingState);
+                }
+                else
+                {
+                    stateMachine.ChangeState(idleState);
+                }
+            }
+        }
+        else if (team == Team.Enemy && characterActor != null && actor != characterActor)
+        {
+            // Es el turno de otro enemigo, asegurarse de estar en estado de espera
+            if (stateMachine.currentState != waitingTurnState)
+            {
+                stateMachine.ChangeState(waitingTurnState);
+            }
+            isMyTurn = false;
+            hasCompletedTurnAction = false;
+        }
+        else if (team == Team.Player)
+        {
+            // Es turno del jugador, ir a estado de espera
+            if (stateMachine.currentState != waitingTurnState)
+            {
+                stateMachine.ChangeState(waitingTurnState);
+            }
+            isMyTurn = false;
+            hasCompletedTurnAction = false;
+        }
+    }
+
+    private void HandleTurnEnded(Team team, CharacterActor actor)
+    {
+        // Si terminó nuestro turno, marcar como completado
+        if (team == Team.Enemy && characterActor != null && actor == characterActor)
+        {
+            hasCompletedTurnAction = true;
+            isMyTurn = false;
+            
+            Debug.Log($"[ENEMY_STATE_MACHINE] {gameObject.name}: My turn ended. Returning to waiting state.");
+            
+            // Volver al estado de espera
+            if (stateMachine.currentState != waitingTurnState)
+            {
+                stateMachine.ChangeState(waitingTurnState);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Método para que los estados llamen cuando completan su acción de turno
+    /// </summary>
+    public void CompleteTurnAction()
+    {
+        if (isMyTurn && !hasCompletedTurnAction)
+        {
+            hasCompletedTurnAction = true;
+            Debug.Log($"[ENEMY_STATE_MACHINE] {gameObject.name}: Turn action completed. Ending turn.");
+            
+            // Terminar el turno a través del TurnSystem
+            if (turnSystem != null && characterActor != null)
+            {
+                turnSystem.EndTurn();
+            }
+        }
+    }
+
+    #endregion
 
 }

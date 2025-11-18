@@ -56,13 +56,18 @@ public class EnemyAttackState : EnemyState
             if (turnsSinceLastAttack >= attackCooldownTurns)
             {
                 Debug.Log("Enemy attacks player!");
-                // Aquí iría la lógica real de daño
+                // Aquï¿½ irï¿½a la lï¿½gica real de daï¿½o
                 turnsSinceLastAttack = 0;
+                
+                // Completar la acciÃ³n del turno despuÃ©s de atacar
+                enemy.CompleteTurnAction();
             }
             else
             {
                 turnsSinceLastAttack++;
                 Debug.Log("Enemy waits for attack cooldown.");
+                // Si estÃ¡ en cooldown, completar el turno de todas formas
+                enemy.CompleteTurnAction();
             }
         }
         else

@@ -30,6 +30,7 @@ public class SimpleAIController : MonoBehaviour
     private void HandleTurnStart(Team team, CharacterActor actor)
     {
         if (team != Team.Enemy) return;
+        Debug.Log($"[ENEMY_AI] Turn started for enemy: {actor?.CharacterName}");
         StartCoroutine(DoEnemyTurn(actor));
     }
 
@@ -99,6 +100,8 @@ public class SimpleAIController : MonoBehaviour
         float distanceToTarget = Vector3.Distance(actor.transform.position, target.transform.position);
         float attackRange = bestAbility.Range + 0.1f; // Usar el margen de error
 
+        Debug.Log($"[ENEMY_AI] {actor.CharacterName}: Distance to target: {distanceToTarget:F2}, Attack range: {attackRange:F2}");
+
         if (!bestAbility.CanExecute(actor, target))
         {
             if (distanceToTarget > attackRange)
@@ -110,10 +113,31 @@ public class SimpleAIController : MonoBehaviour
                 
                 Vector3 desiredPosition = actor.transform.position + directionToTarget * moveDistance;
 
+                Debug.Log($"[ENEMY_AI] {actor.CharacterName}: Need to move closer. Moving {moveDistance:F2} units towards target.");
+
                 if (actor.CanMoveTo(desiredPosition)) 
                 {
                     actor.MoveTo(desiredPosition);
-                    yield return new WaitForSeconds(moveWaitTime);
+                    
+                    // Esperar a que el movimiento termine
+                    var movement = actor.GetComponent<CharacterMovement>();
+                    if (movement != null)
+                    {
+                        float waitTime = 0f;
+                        while (movement.IsMoving && waitTime < moveWaitTime * 2f) // Timeout de seguridad
+                        {
+                            yield return new WaitForSeconds(0.1f);
+                            waitTime += 0.1f;
+                        }
+                    }
+                    else
+                    {
+                        yield return new WaitForSeconds(moveWaitTime);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[ENEMY_AI] {actor.CharacterName}: Cannot move to desired position (out of range).");
                 }
             }
         }

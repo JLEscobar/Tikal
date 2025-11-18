@@ -33,7 +33,16 @@ public class TurnSystem : MonoBehaviour
         CleanDeadFromLists();
         _started = true;
         _playerIndex = _enemyIndex = 0;
-        Debug.Log("[vDoT_FINAL] Battle started!");
+        Debug.Log($"[vDoT_FINAL] Battle started! Player count: {playerTeam.Count}, Enemy count: {enemyTeam.Count}");
+        
+        // Log de enemigos para debug
+        foreach(var enemy in enemyTeam)
+        {
+            if (enemy != null)
+            {
+                Debug.Log($"[TURN_SYSTEM] Enemy in list: {enemy.CharacterName}");
+            }
+        }
         
         StartPlayerSelectionPhase();
     }
@@ -41,19 +50,13 @@ public class TurnSystem : MonoBehaviour
     public void Pause() => PauseService.SetPaused(true);
     public void Resume() => PauseService.SetPaused(false);
 
-    public void EndTurn()
+    public void EndTurn(bool forcePlayerPhaseEnd = false)
     {
         if (!_started) return;
 
-        if (_current == null && _currentTeam == Team.Player)
-        {
-            Debug.Log("[vDoT_FINAL] Forced end of Player Selection Phase. Switching to Enemy team.");
-            SwitchTeam();
-            NextTurn();
-            return;
-        }
-        
-        // 1. Finalizar turno del actor actual
+        Debug.Log($"[TURN_SYSTEM] EndTurn called. forcePlayerPhaseEnd: {forcePlayerPhaseEnd}, CurrentTeam: {_currentTeam}, CurrentActor: {(_current != null ? _current.CharacterName : "null")}");
+
+        // 1. Finalizar turno del actor actual (si existe)
         if (_current != null && _current.gameObject != null)
         {
             TickCooldowns(_current); 
@@ -74,9 +77,29 @@ public class TurnSystem : MonoBehaviour
             return;
         }
 
-        // 2. Reducir Cooldowns y Estados del equipo que va a esperar
         if (_currentTeam == Team.Player)
         {
+            // Si estamos forzando el fin de la fase del jugador, no importa si hay más jugadores con AP
+            if (forcePlayerPhaseEnd)
+            {
+                Debug.Log("[TURN_SYSTEM] Force ending player phase. Switching to Enemy team.");
+                _current = null;
+                
+                // Tick a todo el equipo enemigo 
+                foreach(var enemy in enemyTeam.Where(e => e != null)) 
+                {
+                    TickCooldowns(enemy); 
+                    TickStatusEffects(enemy); 
+                    enemy.ApplyTurnDamageEffects();
+                }
+                
+                _enemyIndex = 0;
+                _currentTeam = Team.Enemy;
+                NextTurn();
+                return;
+            }
+
+            // Si no estamos forzando, verificar si hay más jugadores con AP
             _current = null;
             
             // Tick a todo el equipo enemigo 
@@ -84,18 +107,22 @@ public class TurnSystem : MonoBehaviour
             {
                 TickCooldowns(enemy); 
                 TickStatusEffects(enemy); 
-                enemy.ApplyTurnDamageEffects(); // NUEVA LLAMADA: Aplica DoT al equipo enemigo que espera
+                enemy.ApplyTurnDamageEffects();
             }
             
-            if (!playerTeam.Any(a => a != null && !a.Health.IsDead && a.ActionPoints > 0))
+            bool playersHaveActions = playerTeam.Any(a => a != null && !a.Health.IsDead && a.ActionPoints > 0);
+
+            if (playersHaveActions)
             {
-                SwitchTeam();
-                NextTurn();
-            }
-            else
-            {
+                Debug.Log("[TURN_SYSTEM] More players have actions. Returning to player selection phase.");
                 StartPlayerSelectionPhase();
+                return;
             }
+
+            Debug.Log("[TURN_SYSTEM] No more players with actions. Switching to Enemy team.");
+            _enemyIndex = 0;
+            _currentTeam = Team.Enemy;
+            NextTurn();
         }
         else 
         {
@@ -104,10 +131,9 @@ public class TurnSystem : MonoBehaviour
             {
                 TickCooldowns(player); 
                 TickStatusEffects(player); 
-                player.ApplyTurnDamageEffects(); // NUEVA LLAMADA: Aplica DoT al equipo jugador que espera
+                player.ApplyTurnDamageEffects();
             }
             
-            SwitchTeam();
             NextTurn();
         }
     }
@@ -136,17 +162,16 @@ public class TurnSystem : MonoBehaviour
 
         _current = actor;
         
+        actor.BeginTurn();
+        OnTurnStarted?.Invoke(_currentTeam, actor);
+
         if (actor.ActionPoints > 0)
         {
-            actor.BeginTurn(); 
-            OnTurnStarted?.Invoke(_currentTeam, actor);
             MessagesSystem.Instance.ShowMessage($"Turno de {actor.CharacterName} Aliado (AP: {actor.ActionPoints})", Color.green);
         }
         else
         {
-            OnTurnStarted?.Invoke(_currentTeam, actor); 
-            MessagesSystem.Instance.ShowMessage($"Seleccionado {actor.CharacterName}, pero no le quedan Puntos de Acción.", Color.cyan);
-            
+            MessagesSystem.Instance.ShowMessage($"{actor.CharacterName} no puede actuar este turno.", Color.cyan);
             actor.ForceMovementPhaseActivation(); 
         }
         
@@ -170,14 +195,19 @@ public class TurnSystem : MonoBehaviour
             return;
         }
         
+        CleanDeadFromList(enemyTeam);
+        Debug.Log($"[TURN_SYSTEM] Getting next enemy. Enemy count: {enemyTeam.Count}, Enemy index: {_enemyIndex}");
+        
         _current = GetNextActor(_currentTeam);
         if (_current == null)
         {
+            Debug.Log("[TURN_SYSTEM] No more enemies. Switching back to Player team.");
             SwitchTeam();
             NextTurn(); 
             return;
         }
 
+        Debug.Log($"[TURN_SYSTEM] Enemy turn: {_current.CharacterName}");
         _current.BeginTurn();
         OnTurnStarted?.Invoke(_currentTeam, _current);
         MessagesSystem.Instance.ShowMessage($"Turno del {_current.CharacterName} Enemigo.", Color.red);
@@ -213,7 +243,11 @@ public class TurnSystem : MonoBehaviour
 
         if (team == Team.Enemy) 
         {
-            if (_enemyIndex >= list.Count) _enemyIndex = 0;
+            if (_enemyIndex >= list.Count)
+            {
+                _enemyIndex = 0;
+                return null;
+            }
             return list[_enemyIndex++];
         }
         
