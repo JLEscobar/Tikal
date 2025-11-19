@@ -1,6 +1,7 @@
 ﻿// Gestiona los personajes y actualiza la UI principal y de los slots.
 // Muestra popups al seleccionar un personaje por número y permite confirmar el intercambio.
 // Realiza el swap y activa solo las habilidades del personaje principal.
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -198,13 +199,16 @@ public class GestorPersonajesUI : MonoBehaviour
 
     public void ConfirmarSwapDesdePopup(int slotIndex)
     {
+        Debug.Log($"[GESTOR_PERSONAJES] ConfirmarSwapDesdePopup llamado con slotIndex: {slotIndex}");
+        
         if (slotIndex < 0 || slotIndex >= personajes.Count)
         {
-            Debug.LogWarning("Índice inválido al confirmar swap.");
+            Debug.LogWarning($"[GESTOR_PERSONAJES] Índice inválido al confirmar swap: {slotIndex}");
             pendingSwapIndex = -1;
             return;
         }
 
+        Debug.Log($"[GESTOR_PERSONAJES] Llamando a IntercambiarPrincipalCon con slotIndex: {slotIndex}, indicePrincipal: {indicePrincipal}");
         IntercambiarPrincipalCon(slotIndex);
         pendingSwapIndex = -1;
     }
@@ -216,29 +220,62 @@ public class GestorPersonajesUI : MonoBehaviour
     // Hace swap entre el personaje que está en la posición 'indicePrincipal' y el personaje en 'slotIndex'
     public void IntercambiarPrincipalCon(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= personajes.Count) return;
-        if (indicePrincipal < 0 || indicePrincipal >= personajes.Count) return;
-        if (slotIndex == indicePrincipal) return;
+        Debug.Log($"[GESTOR_PERSONAJES] IntercambiarPrincipalCon llamado: slotIndex={slotIndex}, indicePrincipal={indicePrincipal}");
+        
+        if (slotIndex < 0 || slotIndex >= personajes.Count)
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] slotIndex fuera de rango: {slotIndex}");
+            return;
+        }
+        if (indicePrincipal < 0 || indicePrincipal >= personajes.Count)
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] indicePrincipal fuera de rango: {indicePrincipal}");
+            return;
+        }
+        if (slotIndex == indicePrincipal)
+        {
+            Debug.Log($"[GESTOR_PERSONAJES] slotIndex == indicePrincipal ({slotIndex}), no se hace swap");
+            return;
+        }
 
+        Debug.Log($"[GESTOR_PERSONAJES] Haciendo swap: {personajes[indicePrincipal].nombre} <-> {personajes[slotIndex].nombre}");
+        
         // swap de PersonajeData en la lista
         PersonajeData tmp = personajes[indicePrincipal];
         personajes[indicePrincipal] = personajes[slotIndex];
         personajes[slotIndex] = tmp;
 
-        // Actualizar UI después del swap
+        Debug.Log($"[GESTOR_PERSONAJES] Swap completado. Personaje principal ahora: {personajes[indicePrincipal].nombre}");
+
+        // Actualizar UI después del swap (esto activa las habilidades del personaje principal)
         ActualizarTodaLaUI();
         
-        // Sincronizar con TurnSystem: seleccionar el personaje que ahora está en la posición principal
+        Debug.Log($"[GESTOR_PERSONAJES] UI actualizada. Llamando a SincronizarConTurnSystem...");
+        
+        // Sincronizar con TurnSystem DESPUÉS de actualizar la UI
+        // Esto asegura que el movimiento se active correctamente después de que las habilidades se activen
         SincronizarConTurnSystem();
     }
     
     // Sincroniza la selección del personaje principal con el TurnSystem
     private void SincronizarConTurnSystem()
     {
-        if (indicePrincipal < 0 || indicePrincipal >= personajes.Count) return;
+        Debug.Log($"[GESTOR_PERSONAJES] SincronizarConTurnSystem llamado. indicePrincipal: {indicePrincipal}");
+        
+        if (indicePrincipal < 0 || indicePrincipal >= personajes.Count)
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] indicePrincipal fuera de rango: {indicePrincipal}");
+            return;
+        }
         
         var personajePrincipal = personajes[indicePrincipal];
-        if (personajePrincipal == null) return;
+        if (personajePrincipal == null)
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] personajePrincipal es null en índice {indicePrincipal}");
+            return;
+        }
+        
+        Debug.Log($"[GESTOR_PERSONAJES] Personaje principal: {personajePrincipal.nombre}");
         
         // Buscar el TurnSystem
         var turnSystem = FindFirstObjectByType<TurnSystem>();
@@ -276,14 +313,79 @@ public class GestorPersonajesUI : MonoBehaviour
         
         if (actorToSelect != null)
         {
-            // Seleccionar el personaje en el TurnSystem
-            if (turnSystem.SetCurrentActor(actorToSelect))
+            // Verificar si el personaje ya está seleccionado
+            bool yaEstaSeleccionado = (turnSystem.CurrentActor == actorToSelect);
+            
+            Debug.Log($"[GESTOR_PERSONAJES] Intentando sincronizar: {actorToSelect.CharacterName}. Ya seleccionado: {yaEstaSeleccionado}");
+            
+            // SIEMPRE forzar la selección del personaje, incluso si ya está seleccionado
+            // Esto asegura que el movimiento se reactive y la cámara no cambie
+            if (yaEstaSeleccionado)
             {
-                Debug.Log($"[GESTOR_PERSONAJES] ✓ Sincronizado con TurnSystem: {actorToSelect.CharacterName} seleccionado.");
+                Debug.Log($"[GESTOR_PERSONAJES] Personaje {actorToSelect.CharacterName} ya está seleccionado. Forzando reactivación del movimiento...");
+                
+                // Asegurar que el TurnSystem tenga el personaje correcto seleccionado
+                // (por si acaso hay alguna discrepancia)
+                if (turnSystem.CurrentActor != actorToSelect)
+                {
+                    Debug.LogWarning($"[GESTOR_PERSONAJES] ⚠ Discrepancia detectada! TurnSystem.CurrentActor != actorToSelect. Forzando selección...");
+                    turnSystem.SetCurrentActor(actorToSelect);
+                }
+                
+                // Asegurar que el TurnSystem esté en el equipo del jugador
+                if (turnSystem.CurrentTeam != Team.Player)
+                {
+                    Debug.LogWarning($"[GESTOR_PERSONAJES] ⚠ TurnSystem.CurrentTeam es {turnSystem.CurrentTeam}, forzando a Team.Player...");
+                    // No podemos cambiar directamente el CurrentTeam, pero podemos asegurarnos de que el actor esté seleccionado
+                }
+                
+                var tacticalMovement = actorToSelect.GetComponent<TacticalMovementController>();
+                if (tacticalMovement != null)
+                {
+                    // Terminar el movimiento actual primero para limpiar el estado
+                    tacticalMovement.SetMovementPhase(false);
+                    
+                    // Esperar un frame para que se limpie completamente, luego reactivar
+                    StartCoroutine(ReactivarMovimientoDespuesDeFrame(actorToSelect, tacticalMovement));
+                }
+                else
+                {
+                    // Si no hay TacticalMovementController, al menos llamar a BeginTurn
+                    actorToSelect.BeginTurn();
+                    Debug.Log($"[GESTOR_PERSONAJES] ✓ BeginTurn llamado para {actorToSelect.CharacterName} (sin TacticalMovementController).");
+                }
             }
             else
             {
-                Debug.LogWarning($"[GESTOR_PERSONAJES] ✗ No se pudo seleccionar {actorToSelect.CharacterName} en TurnSystem.");
+                // Si no está seleccionado, seleccionarlo normalmente
+                // PERO primero asegurarse de que el TurnSystem esté en el equipo del jugador
+                if (turnSystem.CurrentTeam != Team.Player)
+                {
+                    Debug.LogWarning($"[GESTOR_PERSONAJES] ⚠ TurnSystem.CurrentTeam es {turnSystem.CurrentTeam}, no Team.Player. No se puede seleccionar.");
+                    return;
+                }
+                
+                // Forzar la selección del personaje
+                bool seleccionado = turnSystem.SetCurrentActor(actorToSelect);
+                
+                if (seleccionado)
+                {
+                    Debug.Log($"[GESTOR_PERSONAJES] ✓ Sincronizado con TurnSystem: {actorToSelect.CharacterName} seleccionado.");
+                    
+                    // Verificar que la selección fue exitosa
+                    if (turnSystem.CurrentActor == actorToSelect)
+                    {
+                        Debug.Log($"[GESTOR_PERSONAJES] ✓ Verificación: TurnSystem.CurrentActor es {actorToSelect.CharacterName}");
+                    }
+                    else
+                    {
+                        Debug.LogError($"[GESTOR_PERSONAJES] ✗ ERROR: TurnSystem.CurrentActor NO es {actorToSelect.CharacterName} después de SetCurrentActor!");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[GESTOR_PERSONAJES] ✗ No se pudo seleccionar {actorToSelect.CharacterName} en TurnSystem.");
+                }
             }
         }
         else
@@ -343,5 +445,53 @@ public class GestorPersonajesUI : MonoBehaviour
         for (int i = 0; i < personajes.Count; i++)
             if (personajes[i] != null && personajes[i].habilidadesGO != null)
                 personajes[i].habilidadesGO.SetActive(i == indicePrincipal);
+    }
+    
+    // Coroutine para reactivar el movimiento después de un frame
+    private IEnumerator ReactivarMovimientoDespuesDeFrame(CharacterActor actor, TacticalMovementController movement)
+    {
+        yield return null; // Esperar un frame
+        yield return null; // Esperar otro frame para asegurar que todo se limpió
+        
+        // Verificar que el TurnSystem todavía tenga este personaje seleccionado
+        var turnSystem = FindFirstObjectByType<TurnSystem>();
+        if (turnSystem != null && turnSystem.CurrentActor != actor)
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] ⚠ El TurnSystem cambió de personaje! Esperado: {actor.CharacterName}, Actual: {(turnSystem.CurrentActor == null ? "null" : turnSystem.CurrentActor.CharacterName)}. Forzando selección...");
+            turnSystem.SetCurrentActor(actor);
+            yield return null; // Esperar un frame después de forzar la selección
+        }
+        
+        // Verificar que el movimiento esté desactivado antes de reactivarlo
+        if (movement.IsMovementPhaseActive)
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] ⚠ El movimiento de {actor.CharacterName} todavía está activo después de desactivarlo. Forzando desactivación...");
+            movement.SetMovementPhase(false);
+            yield return null; // Esperar otro frame
+        }
+        
+        // Reactivar el movimiento
+        actor.BeginTurn();
+        
+        // Verificar que se activó correctamente
+        yield return null; // Esperar un frame más para que se complete la activación
+        
+        // Verificar nuevamente que el TurnSystem todavía tenga este personaje seleccionado
+        if (turnSystem != null && turnSystem.CurrentActor != actor)
+        {
+            Debug.LogError($"[GESTOR_PERSONAJES] ✗ ERROR CRÍTICO: El TurnSystem cambió de personaje después de reactivar el movimiento! Esperado: {actor.CharacterName}, Actual: {(turnSystem.CurrentActor == null ? "null" : turnSystem.CurrentActor.CharacterName)}");
+            // Intentar forzar la selección nuevamente
+            turnSystem.SetCurrentActor(actor);
+            actor.BeginTurn();
+        }
+        
+        if (movement.IsMovementPhaseActive)
+        {
+            Debug.Log($"[GESTOR_PERSONAJES] ✓ Movimiento reactivado correctamente para {actor.CharacterName} después del swap.");
+        }
+        else
+        {
+            Debug.LogError($"[GESTOR_PERSONAJES] ✗ ERROR: El movimiento de {actor.CharacterName} NO se activó después del swap!");
+        }
     }
 }
