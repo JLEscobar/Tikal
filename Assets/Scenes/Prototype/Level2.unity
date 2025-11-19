@@ -35995,6 +35995,7 @@ MonoBehaviour:
   useMovementRange: 1
   movementReferencePoint: {fileID: 0}
   maxMovementRange: 5
+  turnStartState: 2
   visionRange: 10
   visionAngle: 180
   attackRange: 8
@@ -86893,6 +86894,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Roca_PJ
       objectReference: {fileID: 0}
+    - target: {fileID: 3423484986480617566, guid: ce58f0b39d8acc54ea2bcd3beff99bc0, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6963936135167067502, guid: ce58f0b39d8acc54ea2bcd3beff99bc0, type: 3}
       propertyPath: m_Height
       value: 18
@@ -87048,6 +87053,10 @@ PrefabInstance:
     - target: {fileID: 8143965077149383751, guid: 82f8e1723c5977d4b96eca446fc24ed2, type: 3}
       propertyPath: m_Name
       value: Vegetacion_PJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143965077149383751, guid: 82f8e1723c5977d4b96eca446fc24ed2, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8611236289694518198, guid: 82f8e1723c5977d4b96eca446fc24ed2, type: 3}
       propertyPath: m_IsActive
@@ -87836,6 +87845,10 @@ PrefabInstance:
     - target: {fileID: 6348485550788197930, guid: d2c936bb63906604494a4ccae5cdf75a, type: 3}
       propertyPath: m_Name
       value: Distorsion_PJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6348485550788197930, guid: d2c936bb63906604494a4ccae5cdf75a, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7481585053824410814, guid: d2c936bb63906604494a4ccae5cdf75a, type: 3}
       propertyPath: m_AnchorMax.x
