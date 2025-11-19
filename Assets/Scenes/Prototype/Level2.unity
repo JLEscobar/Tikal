@@ -2033,6 +2033,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 1895369494}
   imagenRelleno: {fileID: 1093013225}
   textoVida: {fileID: 302094190}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -2560,7 +2561,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &76974612
 MonoBehaviour:
@@ -2575,7 +2576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.35, g: 0.97, b: 0.86, a: 1}
+  m_Color: {r: 1, g: 0.45, b: 0.27, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5102,8 +5103,9 @@ MonoBehaviour:
   imagenFondo: {fileID: 480099597}
   imagenRelleno: {fileID: 1474467470}
   textoVida: {fileID: 188769976}
-  vidaActual: 300
-  vidaMaxima: 300
+  health: {fileID: 3062359154454264867}
+  vidaActual: 0
+  vidaMaxima: 100
   umbralVidaBaja: 0.35
   colorFondoNormal: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
   colorFondoBajo: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
@@ -6080,7 +6082,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 300 / 300
+  m_text: 0 / 300
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -6089,8 +6091,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4289907967
+  m_fontColor: {r: 1, g: 0.8, b: 0.7, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6375,6 +6377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 80
+  _currentHealth: 0
 --- !u!114 &177303852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6881,7 +6884,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 300 / 300
+  m_text: 0 / 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -6890,8 +6893,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4289907967
+  m_fontColor: {r: 1, g: 0.8, b: 0.7, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -15736,7 +15739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
+  m_Color: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -20181,7 +20184,16 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 647702748}
+      addedObject: {fileID: 647702750}
+    - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 647702751}
+    - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 647702753}
+    - targetCorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 647702752}
   m_SourcePrefab: {fileID: 100100000, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
 --- !u!224 &647702746 stripped
 RectTransform:
@@ -20193,7 +20205,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7572297689063982942, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
   m_PrefabInstance: {fileID: 647702745}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &647702748
+--- !u!114 &647702750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20202,10 +20214,92 @@ MonoBehaviour:
   m_GameObject: {fileID: 647702747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fb2c9245914ec0498f1a6fabbadf7cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CambiarEscenaAlClick
-  nombreEscena: UI Nivel 1 Turno enemigo
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 780077677}
+        m_TargetAssemblyTypeName: PlayerTurnController, Assembly-CSharp
+        m_MethodName: TurnButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &647702751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647702747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d56db9c0fc3c9949918d1de3d45d227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DesactivarElementoAlClick
+  objetoDesactivar: {fileID: 1837532956}
+--- !u!114 &647702752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647702747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88489dd424b07114eb735f3be51da0af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActivarElementoAlClick
+  objetoActivar: {fileID: 787168397}
+--- !u!114 &647702753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647702747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d56db9c0fc3c9949918d1de3d45d227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DesactivarElementoAlClick
+  objetoDesactivar: {fileID: 644148880}
 --- !u!1 &647795435
 GameObject:
   m_ObjectHideFlags: 0
@@ -22200,6 +22294,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 278135810}
   imagenRelleno: {fileID: 1158304988}
   textoVida: {fileID: 1965972541}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -23302,6 +23397,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 1710090075}
   imagenRelleno: {fileID: 762688051}
   textoVida: {fileID: 272657617}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -29521,8 +29617,9 @@ MonoBehaviour:
   imagenFondo: {fileID: 2037607561}
   imagenRelleno: {fileID: 1364105323}
   textoVida: {fileID: 1691753615}
-  vidaActual: 300
-  vidaMaxima: 300
+  health: {fileID: 3601801749459530772}
+  vidaActual: 0
+  vidaMaxima: 80
   umbralVidaBaja: 0.35
   colorFondoNormal: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
   colorFondoBajo: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
@@ -35825,6 +35922,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
+  _currentHealth: 0
 --- !u!114 &801391802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35883,7 +35981,7 @@ MonoBehaviour:
   maxMovementRange: 5
   visionRange: 10
   visionAngle: 180
-  attackRange: 5
+  attackRange: 8
   retreatHealthThreshold: 30
   patrolPoints:
   - {fileID: 1255521004}
@@ -40098,6 +40196,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 1668801145}
   imagenRelleno: {fileID: 1904739239}
   textoVida: {fileID: 632470772}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -43987,6 +44086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 250
+  _currentHealth: 0
 --- !u!95 &1051001851
 Animator:
   serializedVersion: 7
@@ -45907,6 +46007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 120
+  _currentHealth: 0
 --- !u!95 &1115241201
 Animator:
   serializedVersion: 7
@@ -46826,9 +46927,10 @@ MonoBehaviour:
   imagenFondo: {fileID: 1225946867}
   imagenRelleno: {fileID: 76974612}
   textoVida: {fileID: 173669534}
-  vidaActual: 300
+  health: {fileID: 447199977}
+  vidaActual: 0
   vidaMaxima: 300
-  umbralVidaBaja: 0.35
+  umbralVidaBaja: 0.24
   colorFondoNormal: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
   colorFondoBajo: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
   colorRellenoNormal: {r: 0.35, g: 0.97, b: 0.86, a: 1}
@@ -48937,7 +49039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 300 / 300
+  m_text: 0 / 150
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -48946,8 +49048,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4289907967
+  m_fontColor: {r: 1, g: 0.8, b: 0.7, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -49619,7 +49721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
+  m_Color: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -57588,7 +57690,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1364105323
 MonoBehaviour:
@@ -57603,7 +57705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.35, g: 0.97, b: 0.86, a: 1}
+  m_Color: {r: 1, g: 0.45, b: 0.27, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -58113,7 +58215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
+  m_Color: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -59131,6 +59233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 300
+  _currentHealth: 0
 --- !u!114 &1416151747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60991,7 +61094,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1474467470
 MonoBehaviour:
@@ -61006,7 +61109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.35, g: 0.97, b: 0.86, a: 1}
+  m_Color: {r: 1, g: 0.45, b: 0.27, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -66925,7 +67028,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 300 / 300
+  m_text: 0 / 80
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
   m_sharedMaterial: {fileID: -4650024175414937303, guid: 362460da2fdbbab43bd0f42291a9be69, type: 2}
@@ -66934,8 +67037,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4289907967
+  m_fontColor: {r: 1, g: 0.8, b: 0.7, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -67236,6 +67339,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 561844138}
   imagenRelleno: {fileID: 1132777812}
   textoVida: {fileID: 427107627}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -68408,6 +68512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  _currentHealth: 0
 --- !u!114 &1760328962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68660,8 +68765,9 @@ MonoBehaviour:
   imagenFondo: {fileID: 1388422851}
   imagenRelleno: {fileID: 1902714407}
   textoVida: {fileID: 1216357050}
-  vidaActual: 300
-  vidaMaxima: 300
+  health: {fileID: 385443860908826191}
+  vidaActual: 0
+  vidaMaxima: 150
   umbralVidaBaja: 0.35
   colorFondoNormal: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
   colorFondoBajo: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
@@ -69672,6 +69778,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 562129785}
   imagenRelleno: {fileID: 876862034}
   textoVida: {fileID: 1782669965}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -70340,6 +70447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 90
+  _currentHealth: 0
 --- !u!95 &1806315193
 Animator:
   serializedVersion: 7
@@ -73014,6 +73122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 150
+  _currentHealth: 0
 --- !u!114 &1885161630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73388,7 +73497,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1902714407
 MonoBehaviour:
@@ -73403,7 +73512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.35, g: 0.97, b: 0.86, a: 1}
+  m_Color: {r: 1, g: 0.45, b: 0.27, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -74842,6 +74951,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 2111813801}
   imagenRelleno: {fileID: 99406304}
   textoVida: {fileID: 1875143191}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -82213,6 +82323,7 @@ MonoBehaviour:
   imagenFondo: {fileID: 503933505}
   imagenRelleno: {fileID: 1828935458}
   textoVida: {fileID: 1731085830}
+  health: {fileID: 0}
   vidaActual: 300
   vidaMaxima: 300
   umbralVidaBaja: 0.35
@@ -83032,7 +83143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34901962, g: 0.9686275, b: 0.8588236, a: 1}
+  m_Color: {r: 1, g: 0.45098042, b: 0.27058825, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -86783,6 +86894,17 @@ MonoBehaviour:
   health: 150
   attackPower: 25
   characterName: Yaotl
+--- !u!114 &385443860908826191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5134893275299086140, guid: 82f8e1723c5977d4b96eca446fc24ed2, type: 3}
+  m_PrefabInstance: {fileID: 385443860908826188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385443860908826189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &499786672180696159
 GameObject:
   m_ObjectHideFlags: 0
@@ -87504,6 +87626,17 @@ MonoBehaviour:
   health: 100
   attackPower: 50
   characterName: Ollin
+--- !u!114 &3062359154454264867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1378596631287791819, guid: d2c936bb63906604494a4ccae5cdf75a, type: 3}
+  m_PrefabInstance: {fileID: 3062359154454264864}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3062359154454264865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &3195020968181348838
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87671,6 +87804,17 @@ MonoBehaviour:
   health: 80
   attackPower: 15
   characterName: Patlee
+--- !u!114 &3601801749459530772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7887831484812790798, guid: e9d3de9dc35901d419e062dd71a29bae, type: 3}
+  m_PrefabInstance: {fileID: 3601801749459530769}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3601801749459530770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3877432298912325720
 RectTransform:
   m_ObjectHideFlags: 0
