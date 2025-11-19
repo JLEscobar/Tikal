@@ -1,4 +1,3 @@
-/*
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -151,21 +150,21 @@ public class TacticalMovementController : MonoBehaviour
         
         if (aroDeLuzPrefab != null)
         {
-            // ... (Lógica de instanciación del aro de luz) ...
-            Vector3 spawnPosition = startPositionOfTurn;
+            Vector3 spawnPosition = new Vector3(
+            startPositionOfTurn.x,
+            startPositionOfTurn.y + (_controller.height / 2f),
+            startPositionOfTurn.z
+        );
 
-            aroDeLuzInstance = Instantiate(aroDeLuzPrefab, spawnPosition, Quaternion.identity);
+        aroDeLuzInstance = Instantiate(aroDeLuzPrefab, spawnPosition, Quaternion.identity);
 
-            // Keep the ring slightly above the ground
-            aroDeLuzInstance.transform.position = new Vector3(
-                aroDeLuzInstance.transform.position.x,
-                0.01f,
-                aroDeLuzInstance.transform.position.z
-            );
+        // ya NO forzamos Y = 0.01
+        // la posicion se mantiene a la altura correcta del personaje
 
-            float visualRadius = movementRange - _controller.radius;
-            float diameter = visualRadius * 2f;
-            aroDeLuzInstance.transform.localScale = new Vector3(diameter, diameter, diameter);
+        float visualRadius = movementRange - _controller.radius;
+        float diameter = visualRadius * 2f;
+        aroDeLuzInstance.transform.localScale = new Vector3(diameter, diameter, diameter);
+
         }
     }
 
@@ -296,4 +295,3 @@ public class TacticalMovementController : MonoBehaviour
     public float GetMovementRange() { return movementRange; }
     public string GetCharacterName() { return characterName; }
 }
-*/
