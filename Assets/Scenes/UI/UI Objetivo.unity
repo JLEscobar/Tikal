@@ -37940,7 +37940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb2c9245914ec0498f1a6fabbadf7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CambiarEscenaAlClick
-  nombreEscena: UI Nivel 1
+  nombreEscena: Level2
 --- !u!1 &1956357254
 GameObject:
   m_ObjectHideFlags: 0
