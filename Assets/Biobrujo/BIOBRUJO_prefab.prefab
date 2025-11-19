@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &380814559087906718
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 56.085045
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.4364862
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.0718248
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_Name
+      value: BIOBRUJO_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 54ac67cdaccdd5b419386335a5f507b2, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2800365054012105264}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5045423834926157310}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1833631904535373285}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7563054233890525098}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1164374459077338870}
+  m_SourcePrefab: {fileID: 100100000, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+--- !u!1 &687226666144395983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 11753349ab216d143b22f83ffe68a815, type: 3}
+  m_PrefabInstance: {fileID: 380814559087906718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &2800365054012105264
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687226666144395983}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5045423834926157310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687226666144395983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 7040914a9d896c44b90657bb521e0dfc, type: 2}
+  maxHealth: 80
+  health: 80
+  attackPower: 15
+  characterName: Patlee
+--- !u!114 &-1833631904535373285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687226666144395983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 80
+--- !u!114 &-7563054233890525098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687226666144395983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156df8e167c203340bd94fc19da5d240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 7040914a9d896c44b90657bb521e0dfc, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 5313456068782518071, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
+  specialAbilityVFXPrefab: {fileID: 5313456068782518071, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
+  baseAPPerTurn: 1
+  maxAccumulatedAP: 3
+  tacticalMovement: {fileID: 0}
+  currentActionPoints: 1
+  activeEffects: []
+  level: 1
+  currentXP: 0
+--- !u!114 &1164374459077338870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687226666144395983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6918d97beac14a4a99d63eaa09d2cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthComponent: {fileID: 0}
+  characterActor: {fileID: 0}
+  worldCanvas: {fileID: 0}
+  healthSlider: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  speedText: {fileID: 0}
+  rangeText: {fileID: 0}
+  offset: {x: 0, y: 2, z: 0}

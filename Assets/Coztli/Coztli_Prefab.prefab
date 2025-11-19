@@ -1,0 +1,212 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4573213402496323718
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2495204
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2495204
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2495204
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 71.03
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.139
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_Name
+      value: Coztli_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e86f9fc5b1caac9409e5d0798f08b0a6, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939124668333547118}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4655934693254663205}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2355122160277911766}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5147625525109222029}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3509141268038430775}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5145444688299705711}
+  m_SourcePrefab: {fileID: 100100000, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+--- !u!1 &3726227924061547991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 680fb94d78dc936419141045e1586f6e, type: 3}
+  m_PrefabInstance: {fileID: 4573213402496323718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &1939124668333547118
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726227924061547991}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4655934693254663205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726227924061547991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 250
+--- !u!114 &2355122160277911766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726227924061547991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156df8e167c203340bd94fc19da5d240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: dee73d7d4c7ec4e42ac8f849d9afa119, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 0}
+  specialAbilityVFXPrefab: {fileID: 0}
+  baseAPPerTurn: 1
+  maxAccumulatedAP: 3
+  tacticalMovement: {fileID: 0}
+  currentActionPoints: 0
+  activeEffects: []
+  level: 1
+  currentXP: 0
+--- !u!114 &-5147625525109222029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726227924061547991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48d014d85703a04fb0bf53c0c00bc36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rotationSpeed: 10
+--- !u!114 &3509141268038430775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726227924061547991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6918d97beac14a4a99d63eaa09d2cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthComponent: {fileID: 0}
+  characterActor: {fileID: 0}
+  worldCanvas: {fileID: 0}
+  healthSlider: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  speedText: {fileID: 0}
+  rangeText: {fileID: 0}
+  offset: {x: 0, y: 2, z: 0}
+--- !u!114 &5145444688299705711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726227924061547991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
+  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: dee73d7d4c7ec4e42ac8f849d9afa119, type: 2}
+  maxHealth: 250
+  health: 250
+  attackPower: 20
+  characterName: Guerrero Jaguar

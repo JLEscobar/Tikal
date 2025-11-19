@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4241315632080540972
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 61.666687
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0927563
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.026018
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_Name
+      value: Vegetacion_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 34f59f60ae0115b41af728e6b007ecb0, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3984606692080795637}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 179444589523052703}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 25514054670314246}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6447960692565473356}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8147038748685069749}
+  m_SourcePrefab: {fileID: 100100000, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+--- !u!1 &3899351782772828285 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 03ae8e83cdaf57746bcf69bc9a1c80a4, type: 3}
+  m_PrefabInstance: {fileID: 4241315632080540972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &3984606692080795637
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899351782772828285}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &179444589523052703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899351782772828285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 3d875927bfd4e56449d493027a967fce, type: 2}
+  maxHealth: 150
+  health: 150
+  attackPower: 25
+  characterName: Yaotl
+--- !u!114 &25514054670314246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899351782772828285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 150
+--- !u!114 &-6447960692565473356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899351782772828285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156df8e167c203340bd94fc19da5d240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 3d875927bfd4e56449d493027a967fce, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
+  specialAbilityVFXPrefab: {fileID: 5545173171955001552, guid: 7ac879c2caac1ca41b6c438e77d8b25d, type: 3}
+  baseAPPerTurn: 1
+  maxAccumulatedAP: 3
+  tacticalMovement: {fileID: 0}
+  currentActionPoints: 1
+  activeEffects: []
+  level: 1
+  currentXP: 0
+--- !u!114 &-8147038748685069749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899351782772828285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6918d97beac14a4a99d63eaa09d2cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthComponent: {fileID: 0}
+  characterActor: {fileID: 0}
+  worldCanvas: {fileID: 0}
+  healthSlider: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  speedText: {fileID: 0}
+  rangeText: {fileID: 0}
+  offset: {x: 0, y: 2, z: 0}

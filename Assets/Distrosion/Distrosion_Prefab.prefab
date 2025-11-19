@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2007339324262260039
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 68.93014
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.1853971
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.4460354
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_Name
+      value: Distrosion_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ef064458ff271444d9bcb0ea078f67f6, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4976162337046792041}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1441990087052115136}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2584659336638390537}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2305559410856526174}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8239035513299098779}
+  m_SourcePrefab: {fileID: 100100000, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+--- !u!1 &1664899932955222038 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 34d256bac5f868a479e75ce30ef945bf, type: 3}
+  m_PrefabInstance: {fileID: 2007339324262260039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &4976162337046792041
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664899932955222038}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1441990087052115136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664899932955222038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
+  maxHealth: 100
+  health: 100
+  attackPower: 50
+  characterName: Ollin
+--- !u!114 &-2584659336638390537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664899932955222038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+--- !u!114 &-2305559410856526174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664899932955222038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156df8e167c203340bd94fc19da5d240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
+  defaultAbilityVFXPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
+  specialAbilityVFXPrefab: {fileID: 2060418090655630911, guid: 4fb7673fa1cb7e34ea16f350b1e1fba9, type: 3}
+  baseAPPerTurn: 1
+  maxAccumulatedAP: 3
+  tacticalMovement: {fileID: 0}
+  currentActionPoints: 1
+  activeEffects: []
+  level: 1
+  currentXP: 0
+--- !u!114 &-8239035513299098779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664899932955222038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6918d97beac14a4a99d63eaa09d2cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthComponent: {fileID: 0}
+  characterActor: {fileID: 0}
+  worldCanvas: {fileID: 0}
+  healthSlider: {fileID: 0}
+  nameText: {fileID: 0}
+  attackText: {fileID: 0}
+  speedText: {fileID: 0}
+  rangeText: {fileID: 0}
+  offset: {x: 0, y: 2, z: 0}
