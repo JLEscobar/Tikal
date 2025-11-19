@@ -52,8 +52,10 @@ public class EnemyIdleState : EnemyState
 
         if (enemy.IsDead) return;
 
-        // PRIORIDAD 1: Verificar si hay un jugador en rango ANTES de estar idle
+        // PRIORIDAD 1: SIEMPRE buscar targets en cada turno (especialmente si no hay target actual)
+        // Esto asegura que si un target muere, el enemigo encuentre nuevos targets
         enemy.UpdateTarget();
+        
         if (enemy.Target != null)
         {
             float distanceToTarget = Vector3.Distance(enemy.transform.position, enemy.Target.position);
@@ -64,6 +66,11 @@ public class EnemyIdleState : EnemyState
             {
                 Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - ⚠️ Jugador en rango de ataque ({distanceToTarget:F2} <= {enemy.AttackRange}), cambiando a ATTACK");
                 stateMachine.ChangeState(enemy.attackState);
+                // Ejecutar UpdateState inmediatamente para que ataque en este turno
+                if (stateMachine.currentState == enemy.attackState)
+                {
+                    stateMachine.currentState.UpdateState();
+                }
                 return;
             }
             // Si está en rango de visión (cono de visión), perseguir
