@@ -11,6 +11,7 @@ public class TurnSystem : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private bool autoStartOnPlay = true;
+    [SerializeField] private float enemyTurnDelay = 1f; // Delay entre turnos de enemigos (segundos)
 
     public event Action<Team, CharacterActor> OnTurnStarted;
     public event Action<Team, CharacterActor> OnTurnEnded;
@@ -21,6 +22,7 @@ public class TurnSystem : MonoBehaviour
     private Team _currentTeam;
     private CharacterActor _current;
     private bool _started;
+    private bool _isFirstEnemyTurn = true; // Para no aplicar delay en el primer turno de enemigo
 
     void Start()
     {
@@ -95,6 +97,7 @@ public class TurnSystem : MonoBehaviour
                 
                 _enemyIndex = 0;
                 _currentTeam = Team.Enemy;
+                _isFirstEnemyTurn = true; // Marcar que es el primer turno de enemigo en esta ronda
                 NextTurn();
                 return;
             }
@@ -122,6 +125,7 @@ public class TurnSystem : MonoBehaviour
             Debug.Log("[TURN_SYSTEM] No more players with actions. Switching to Enemy team.");
             _enemyIndex = 0;
             _currentTeam = Team.Enemy;
+            _isFirstEnemyTurn = true; // Marcar que es el primer turno de enemigo en esta ronda
             NextTurn();
         }
         else 
@@ -181,10 +185,40 @@ public class TurnSystem : MonoBehaviour
     private void StartPlayerSelectionPhase()
     {
         _currentTeam = Team.Player;
-        _current = null; 
-        OnTurnStarted?.Invoke(_currentTeam, null); 
-        MessagesSystem.Instance.ShowMessage("Fase de Selección del Jugador: Elige un personaje (1, 2, 3 o 4)", Color.yellow);
-        Debug.Log("[vDoT_FINAL] Player Selection Phase Started.");
+        
+        // Limpiar jugadores muertos antes de buscar el primero
+        CleanDeadFromList(playerTeam);
+        
+        // Obtener el primer jugador válido de la lista
+        CharacterActor firstPlayer = playerTeam.FirstOrDefault(p => p != null && !p.Health.IsDead);
+        
+        if (firstPlayer != null)
+        {
+            // Activar automáticamente el turno del primer jugador
+            _current = firstPlayer;
+            firstPlayer.BeginTurn();
+            OnTurnStarted?.Invoke(_currentTeam, firstPlayer);
+            
+            if (firstPlayer.ActionPoints > 0)
+            {
+                MessagesSystem.Instance.ShowMessage($"Turno de {firstPlayer.CharacterName} Aliado (AP: {firstPlayer.ActionPoints})", Color.green);
+            }
+            else
+            {
+                MessagesSystem.Instance.ShowMessage($"{firstPlayer.CharacterName} no puede actuar este turno.", Color.cyan);
+                firstPlayer.ForceMovementPhaseActivation();
+            }
+            
+            Debug.Log($"[vDoT_FINAL] Player Selection Phase Started. Automatically activated: {firstPlayer.CharacterName}");
+        }
+        else
+        {
+            // Si no hay jugadores válidos, mantener el comportamiento anterior
+            _current = null; 
+            OnTurnStarted?.Invoke(_currentTeam, null); 
+            MessagesSystem.Instance.ShowMessage("Fase de Selección del Jugador: Elige un personaje (1, 2, 3 o 4)", Color.yellow);
+            Debug.Log("[vDoT_FINAL] Player Selection Phase Started. No valid players found.");
+        }
     }
 
     private void NextTurn()
@@ -195,6 +229,27 @@ public class TurnSystem : MonoBehaviour
             return;
         }
         
+        // Si es turno de enemigo y no es el primer turno, aplicar delay
+        if (!_isFirstEnemyTurn)
+        {
+            StartCoroutine(NextEnemyTurnWithDelay());
+            return;
+        }
+        
+        // Primer turno de enemigo o después del delay: iniciar inmediatamente
+        _isFirstEnemyTurn = false;
+        StartEnemyTurn();
+    }
+    
+    private System.Collections.IEnumerator NextEnemyTurnWithDelay()
+    {
+        Debug.Log($"[TURN_SYSTEM] Esperando {enemyTurnDelay} segundos antes del siguiente turno de enemigo...");
+        yield return new WaitForSeconds(enemyTurnDelay);
+        StartEnemyTurn();
+    }
+    
+    private void StartEnemyTurn()
+    {
         CleanDeadFromList(enemyTeam);
         Debug.Log($"[TURN_SYSTEM] Getting next enemy. Enemy count: {enemyTeam.Count}, Enemy index: {_enemyIndex}");
         
@@ -211,7 +266,6 @@ public class TurnSystem : MonoBehaviour
         _current.BeginTurn();
         OnTurnStarted?.Invoke(_currentTeam, _current);
         MessagesSystem.Instance.ShowMessage($"Turno del {_current.CharacterName} Enemigo.", Color.red);
-        
     }
 
     private bool CheckBattleEnd()
