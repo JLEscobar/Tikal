@@ -15680,7 +15680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -19217,7 +19217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.VectorGraphics::Unity.VectorGraphics.SVGImage
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.45882353, b: 0.2901961, a: 1}
+  m_Color: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -29875,6 +29875,8 @@ MonoBehaviour:
   endTurnButton: {fileID: 1341564755}
   mainCamera: {fileID: 330585545}
   virtualCamera: {fileID: 1596107117}
+  cameraHeightOffset: 1.5
+  cameraTargetChildName: CameraTarget
 --- !u!114 &780077676
 MonoBehaviour:
   m_ObjectHideFlags: 0
