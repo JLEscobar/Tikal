@@ -176,19 +176,26 @@ public class PlayerTurnController : MonoBehaviour
             // La habilidad falló (por rango o cooldown)
             string reason = GetAbilityFailureReason(ability, _current, targetToUse);
             Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
-            
-            // Silenciar el error de rango del ATAQUE BÁSICO para no interferir
+
+            // Silenciar el error de rango del ATAQUE BÁSICO
             if (reason.Contains("OUT OF RANGE") && index == defaultAbilityIndex)
             {
-                 // Silencioso. Permite que el jugador presione E después.
+                // Silencioso, no mostrar nada
+                return;
             }
-            else
+
+            // 🔥 PROTECCIÓN CONTRA NULL (NO MÁS ERRORES)
+            if (MessagesSystem.Instance != null)
             {
                 MessagesSystem.Instance.ShowMessage($"No se pudo usar {ability.DisplayName}.", Color.red);
             }
+            else
+            {
+                // Si el sistema está desactivado, solo loggea
+                Debug.LogWarning("[MessageSystem] Instance es NULL. No se pudo mostrar el mensaje.");
+            }
         }
     }
-    
     // NUEVO MÉTODO: Encuentra el enemigo más cercano dentro del rango de la habilidad.
     private CharacterActor FindClosestValidTarget(CharacterActor user)
     {
