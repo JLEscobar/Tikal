@@ -27,8 +27,20 @@ public class PlayerTurnController : MonoBehaviour
         if (turnSystem == null) turnSystem = FindFirstObjectByType<TurnSystem>();
         if (cam == null) cam = Camera.main;
         
-        turnSystem.OnTurnStarted += HandleTurnStart;
-        turnSystem.OnTurnEnded += HandleTurnEnd;
+        if (turnSystem != null)
+        {
+            turnSystem.OnTurnStarted += HandleTurnStart;
+            turnSystem.OnTurnEnded += HandleTurnEnd;
+            
+            // Sincronizar el estado actual si el turnSystem ya tiene un actor seleccionado
+            if (turnSystem.CurrentTeam == Team.Player && turnSystem.CurrentActor != null)
+            {
+                _current = turnSystem.CurrentActor;
+                _playerActors = turnSystem.PlayerTeamActors;
+                Debug.Log($"[PLAYER_TURN_CONTROLLER] OnEnable: Synced with existing selection: {_current.CharacterName}");
+
+            }
+        }
     }
 
     void OnDisable()
@@ -59,6 +71,13 @@ public class PlayerTurnController : MonoBehaviour
         }
 
         CheckCharacterSelectionInput();
+        
+        // Verificar si hay una discrepancia entre _current y turnSystem.CurrentActor
+        if (_current != turnSystem.CurrentActor && turnSystem.CurrentActor != null)
+        {
+            Debug.LogWarning($"[PLAYER_TURN_CONTROLLER] Discrepancy detected! _current: {(_current == null ? "null" : _current.CharacterName)}, turnSystem.CurrentActor: {turnSystem.CurrentActor.CharacterName}. Syncing...");
+            _current = turnSystem.CurrentActor;
+        }
         
         if (_current == null) return; 
 
@@ -285,30 +304,69 @@ public class PlayerTurnController : MonoBehaviour
 
     private void CheckCharacterSelectionInput()
     {
-        int actorIndex = -1;
+        if (_playerActors == null || _playerActors.Count == 0) return;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) actorIndex = 0;
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) actorIndex = 1;
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) actorIndex = 2;
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) actorIndex = 3;
+        CharacterActor actorToSelect = null;
+
+        // Buscar por nombre del personaje en lugar de índice
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            // Tecla 1 = Cualli
+            actorToSelect = _playerActors.FirstOrDefault(a => 
+                a != null && 
+                a.CharacterName.Equals("Cualli", System.StringComparison.OrdinalIgnoreCase));
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            // Tecla 2 = Ollin
+            actorToSelect = _playerActors.FirstOrDefault(a => 
+                a != null && 
+                a.CharacterName.Equals("Ollin", System.StringComparison.OrdinalIgnoreCase));
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            // Tecla 3 = Yaotl
+            actorToSelect = _playerActors.FirstOrDefault(a => 
+                a != null && 
+                a.CharacterName.Equals("Yaotl", System.StringComparison.OrdinalIgnoreCase));
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            // Tecla 4 = Patlee o Patlaa
+            actorToSelect = _playerActors.FirstOrDefault(a => 
+                a != null && 
+                (a.CharacterName.Equals("Patlee", System.StringComparison.OrdinalIgnoreCase) ||
+                 a.CharacterName.Equals("Patlaa", System.StringComparison.OrdinalIgnoreCase)));
+        }
         
-        if (actorIndex != -1) SelectPlayerActor(actorIndex);
+        if (actorToSelect != null)
+        {
+            SelectPlayerActor(actorToSelect);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || 
+                 Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            MessagesSystem.Instance.ShowMessage("Personaje no encontrado.", Color.red);
+        }
     }
 
-    private void SelectPlayerActor(int index)
+    private void SelectPlayerActor(CharacterActor actor)
     {
-        if (_playerActors == null || index < 0 || index >= _playerActors.Count)
+        if (actor == null)
         {
-            MessagesSystem.Instance.ShowMessage("Número de personaje inválido o no existe.", Color.red);
+            MessagesSystem.Instance.ShowMessage("Personaje inválido.", Color.red);
             return;
         }
-
-        var selectedActor = _playerActors[index];
         
-        if (turnSystem.SetCurrentActor(selectedActor))
+        if (turnSystem.SetCurrentActor(actor))
         {
-            _current = selectedActor;
+            _current = actor;
             _currentTarget = null;
+            Debug.Log($"[PLAYER_TURN_CONTROLLER] Selected actor via input: {actor.CharacterName}");
+        }
+        else
+        {
+            Debug.LogWarning($"[PLAYER_TURN_CONTROLLER] Failed to select actor: {actor.CharacterName}");
         }
     }
 
@@ -343,7 +401,17 @@ public class PlayerTurnController : MonoBehaviour
             _cachedOpponents = turnSystem.GetOpponentsOf(Team.Player).Where(o => !o.Health.IsDead).ToList();
             _cursor = -1;
             _currentTarget = null;
-            Debug.Log($"[vAP_FIX_FINAL] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}");
+            Debug.Log($"[PLAYER_TURN_CONTROLLER] HandleTurnStart: Active actor set to {(_current == null ? "None" : _current.CharacterName)}. Actor from event: {(actor == null ? "null" : actor.CharacterName)}");
+            
+            // Verificar que la sincronización fue exitosa
+            if (actor != null && turnSystem.CurrentActor == actor)
+            {
+                Debug.Log($"[PLAYER_TURN_CONTROLLER] ✓ Successfully synchronized. _current and turnSystem.CurrentActor both point to {actor.CharacterName}");
+            }
+            else if (actor != null)
+            {
+                Debug.LogWarning($"[PLAYER_TURN_CONTROLLER] ⚠ Warning: Actor mismatch! Event actor: {actor.CharacterName}, turnSystem.CurrentActor: {(turnSystem.CurrentActor == null ? "null" : turnSystem.CurrentActor.CharacterName)}");
+            }
         }
     }
 
@@ -357,4 +425,5 @@ public class PlayerTurnController : MonoBehaviour
             _cursor = -1;
         }
     }
+}
 }

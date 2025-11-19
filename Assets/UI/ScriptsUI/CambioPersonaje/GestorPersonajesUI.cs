@@ -2,6 +2,7 @@
 // Muestra popups al seleccionar un personaje por número y permite confirmar el intercambio.
 // Realiza el swap y activa solo las habilidades del personaje principal.
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -226,6 +227,69 @@ public class GestorPersonajesUI : MonoBehaviour
 
         // Actualizar UI después del swap
         ActualizarTodaLaUI();
+        
+        // Sincronizar con TurnSystem: seleccionar el personaje que ahora está en la posición principal
+        SincronizarConTurnSystem();
+    }
+    
+    // Sincroniza la selección del personaje principal con el TurnSystem
+    private void SincronizarConTurnSystem()
+    {
+        if (indicePrincipal < 0 || indicePrincipal >= personajes.Count) return;
+        
+        var personajePrincipal = personajes[indicePrincipal];
+        if (personajePrincipal == null) return;
+        
+        // Buscar el TurnSystem
+        var turnSystem = FindFirstObjectByType<TurnSystem>();
+        if (turnSystem == null)
+        {
+            Debug.LogWarning("[GESTOR_PERSONAJES] TurnSystem no encontrado. No se puede sincronizar la selección.");
+            return;
+        }
+        
+        // Buscar el CharacterActor correspondiente al personaje principal por nombre
+        var playerActors = turnSystem.PlayerTeamActors;
+        if (playerActors == null || playerActors.Count == 0)
+        {
+            Debug.LogWarning("[GESTOR_PERSONAJES] No hay actores del equipo del jugador disponibles.");
+            return;
+        }
+        
+        // Buscar el actor por nombre (soporta variaciones como Patlee/Patlaa)
+        CharacterActor actorToSelect = null;
+        string nombreBuscado = personajePrincipal.nombre;
+        
+        actorToSelect = playerActors.FirstOrDefault(a => 
+            a != null && 
+            a.CharacterName.Equals(nombreBuscado, System.StringComparison.OrdinalIgnoreCase));
+        
+        // Si no se encuentra con el nombre exacto, intentar variaciones para Patlee
+        if (actorToSelect == null && (nombreBuscado.Contains("Patl", System.StringComparison.OrdinalIgnoreCase) || 
+                                      nombreBuscado.Contains("Patlee", System.StringComparison.OrdinalIgnoreCase)))
+        {
+            actorToSelect = playerActors.FirstOrDefault(a => 
+                a != null && 
+                (a.CharacterName.Equals("Patlee", System.StringComparison.OrdinalIgnoreCase) ||
+                 a.CharacterName.Equals("Patlaa", System.StringComparison.OrdinalIgnoreCase)));
+        }
+        
+        if (actorToSelect != null)
+        {
+            // Seleccionar el personaje en el TurnSystem
+            if (turnSystem.SetCurrentActor(actorToSelect))
+            {
+                Debug.Log($"[GESTOR_PERSONAJES] ✓ Sincronizado con TurnSystem: {actorToSelect.CharacterName} seleccionado.");
+            }
+            else
+            {
+                Debug.LogWarning($"[GESTOR_PERSONAJES] ✗ No se pudo seleccionar {actorToSelect.CharacterName} en TurnSystem.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[GESTOR_PERSONAJES] ✗ No se encontró CharacterActor para el personaje: {nombreBuscado}");
+        }
     }
 
     // ----------------------------------------------------------------------

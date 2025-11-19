@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,8 +52,78 @@ public class TurnSystem : MonoBehaviour
             }
         }
         
+        // Preparar la fase de selección del jugador
+        _currentTeam = Team.Player;
+        _playersActivatedThisPhase.Clear();
+        
+        // Usar coroutine para asegurar que todos los sistemas estén inicializados
+        StartCoroutine(InitializePlayerSelection());
+    }
+    
+    private IEnumerator InitializePlayerSelection()
+    {
+        // Esperar varios frames para asegurar que todos los OnEnable/Start se hayan ejecutado
+        yield return null;
+        yield return null;
+        yield return null; // Esperar un frame adicional para asegurar que PlayerTurnController esté completamente inicializado
+        
+        // Verificar que PlayerTurnController esté suscrito
+        var playerController = FindFirstObjectByType<PlayerTurnController>();
+        if (playerController == null)
+        {
+            Debug.LogWarning("[TURN_SYSTEM] PlayerTurnController not found! Waiting another frame...");
+            yield return null;
+        }
+        
+        // Intentar selección automática primero
+        if (autoSelectInitialPlayer)
+        {
+            var candidate = GetInitialPlayerActor();
+            if (candidate != null)
+            {
+                Debug.Log($"[TURN_SYSTEM] Attempting to auto-select: {candidate.CharacterName}");
+                
+                // Verificar condiciones antes de seleccionar
+                if (_currentTeam != Team.Player)
+                {
+                    Debug.LogWarning($"[TURN_SYSTEM] _currentTeam is {_currentTeam}, not Team.Player. Setting to Player...");
+                    _currentTeam = Team.Player;
+                }
+                
+                if (SetCurrentActor(candidate))
+                {
+                    _initialSelectionDone = true;
+                    Debug.Log($"[TURN_SYSTEM] ✓ Auto-selected initial player: {candidate.CharacterName}. Current actor is now: {(_current != null ? _current.CharacterName : "null")}");
+                    
+                    // Esperar un frame más para asegurar que el evento se procese
+                    yield return null;
+                    
+                    // Verificar que el actor sigue siendo el correcto
+                    if (_current == candidate)
+                    {
+                        Debug.Log($"[TURN_SYSTEM] ✓ Verification: Current actor is still {_current.CharacterName}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[TURN_SYSTEM] ⚠ Warning: Current actor changed! Expected {candidate.CharacterName}, got {(_current == null ? "null" : _current.CharacterName)}");
+                    }
+                    
+                    yield break; // Salir temprano si la selección automática fue exitosa
+                }
+                else
+                {
+                    Debug.LogWarning($"[TURN_SYSTEM] ✗ Failed to auto-select {candidate.CharacterName}. SetCurrentActor returned false.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[TURN_SYSTEM] ✗ No candidate found for auto-selection.");
+            }
+        }
+        
+        // Si no hay selección automática o falló, iniciar fase de selección normal
+        Debug.Log("[TURN_SYSTEM] Starting normal player selection phase (no auto-selection).");
         StartPlayerSelectionPhase(true);
-        TryAutoSelectInitialPlayer();
     }
 
     public void Pause() => PauseService.SetPaused(true);
@@ -151,12 +222,25 @@ public class TurnSystem : MonoBehaviour
     {
         if (actor == null)
         {
-            Debug.LogWarning("SetCurrentActor llamado con actor nulo. Ignorando.");
+            Debug.LogWarning("[TURN_SYSTEM] SetCurrentActor llamado con actor nulo. Ignorando.");
             return false;
         }
         
-        if (_currentTeam != Team.Player || actor.Team != Team.Player || actor.Health.IsDead)
+        if (_currentTeam != Team.Player)
         {
+            Debug.LogWarning($"[TURN_SYSTEM] SetCurrentActor: _currentTeam ({_currentTeam}) != Team.Player. Cannot select {actor.CharacterName}.");
+            return false;
+        }
+        
+        if (actor.Team != Team.Player)
+        {
+            Debug.LogWarning($"[TURN_SYSTEM] SetCurrentActor: {actor.CharacterName}.Team ({actor.Team}) != Team.Player. Cannot select.");
+            return false;
+        }
+        
+        if (actor.Health.IsDead)
+        {
+            Debug.LogWarning($"[TURN_SYSTEM] SetCurrentActor: {actor.CharacterName} is dead. Cannot select.");
             return false;
         }
 
