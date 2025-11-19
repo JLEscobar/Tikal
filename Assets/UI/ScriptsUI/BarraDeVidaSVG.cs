@@ -12,6 +12,7 @@ public class BarraDeVidaSVG : MonoBehaviour
     public SVGImage imagenFondo;        // SVG del fondo
     public SVGImage imagenRelleno;      // SVG del relleno (la barra)
     public TextMeshProUGUI textoVida;   // Texto que muestra los valores
+    public Health health;
 
     [Header("Configuración de vida")]
     [Range(0, 300)] public float vidaActual = 300;
@@ -49,6 +50,8 @@ public class BarraDeVidaSVG : MonoBehaviour
     void Update()
     {
         ActualizarBarra();
+        vidaActual = health._currentHealth;
+        vidaMaxima = health.maxHealth;
     }
 
     void ActualizarBarra()

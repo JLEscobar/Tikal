@@ -307,4 +307,7 @@ public class PlayerTurnController : MonoBehaviour
             _cursor = -1;
         }
     }
-}
+
+    public void TurnButton() => turnSystem.EndTurn(true);
+
+} 
