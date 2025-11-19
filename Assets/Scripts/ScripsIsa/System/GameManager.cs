@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Camera mainCamera;
     [SerializeField] private CinemachineCamera virtualCamera; // Added Cinemachine virtual camera reference
+    [SerializeField] private float cameraHeightOffset = 1.5f; // Altura adicional para el target de la cámara
+    [SerializeField] private string cameraTargetChildName = "CameraTarget"; // Nombre del hijo a buscar como target
 
     void Awake()
     {
@@ -151,14 +153,48 @@ public class GameManager : MonoBehaviour
         // Update camera for both player and enemy teams
         if (virtualCamera != null && actor != null)
         {
-            UpdateCameraTarget(actor.transform);
+            Transform cameraTarget = GetCameraTarget(actor.transform);
+            UpdateCameraTarget(cameraTarget);
             Debug.Log($"[CAMERA] Following {team} character: {actor.CharacterName}");
         }
     }
 
+    private Transform GetCameraTarget(Transform characterTransform)
+    {
+        if (characterTransform == null) return null;
+
+        // Primero intentar buscar un hijo específico para la cámara
+        Transform cameraTargetChild = characterTransform.Find(cameraTargetChildName);
+        if (cameraTargetChild != null)
+        {
+            return cameraTargetChild;
+        }
+
+        // Si no existe, buscar por nombre común alternativo
+        foreach (Transform child in characterTransform)
+        {
+            if (child.name.Contains("Camera") || child.name.Contains("Head") || child.name.Contains("LookAt"))
+            {
+                return child;
+            }
+        }
+
+        // Si no hay hijo específico, crear o usar un Transform con offset
+        // Buscar si ya existe un objeto temporal para este personaje
+        GameObject offsetObject = GameObject.Find($"CameraTarget_{characterTransform.name}");
+        if (offsetObject == null)
+        {
+            offsetObject = new GameObject($"CameraTarget_{characterTransform.name}");
+            offsetObject.transform.SetParent(characterTransform);
+            offsetObject.transform.localPosition = new Vector3(0, cameraHeightOffset, 0);
+        }
+        
+        return offsetObject.transform;
+    }
+
     private void UpdateCameraTarget(Transform target)
     {
-        if (virtualCamera == null) return;
+        if (virtualCamera == null || target == null) return;
         
         virtualCamera.Follow = target;
         virtualCamera.LookAt = target;
