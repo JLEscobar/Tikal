@@ -73,32 +73,27 @@ public abstract class AbilityBase : ScriptableObject, IAbility
         // 1. Prioridad: Intentamos usar la referencia asignada en este ScriptableObject
         if (this.abilityParticles != null)
         {
+            Debug.Log($"[VFX DEBUG] {DisplayName}: Usando VFX del ScriptableObject: {this.abilityParticles.name} (GUID: {this.abilityParticles.GetInstanceID()})");
             return this.abilityParticles;
         }
         
-        // 2. Si el SO está corrupto, usamos la inyección del CharacterActor.
+        // 2. Inyección dinámica desde el CharacterActor (override por ranura)
         if (user != null)
         {
-            // Determinamos si es una Habilidad Especial (Index 1 o Superior)
-            // (LineAttack, DebuffAttack, Support, o cualquier otra habilidad compleja)
-            if (this is LineAttackAbility || this is DebuffAttackAbility || this is SupportAbility) 
+            var injectedVFX = user.GetAbilityVFXOverride(this);
+            if (injectedVFX != null)
             {
-                if (user.specialAbilityVFXPrefab != null)
-                {
-                    Debug.LogWarning($"[VFX INJECTION] Usando respaldo especial ({user.specialAbilityVFXPrefab.name}).");
-                    return user.specialAbilityVFXPrefab;
-                }
+                Debug.Log($"[VFX DEBUG] {DisplayName}: Usando override de {user.CharacterName}: {injectedVFX.name} (GUID: {injectedVFX.GetInstanceID()})");
+                return injectedVFX;
             }
-            
-            // 3. Fallback al Ataque Básico (Index 0 o si no se encontró VFX especial)
-            if (user.defaultAbilityVFXPrefab != null)
+            else
             {
-                Debug.LogWarning($"[VFX INJECTION] Usando respaldo básico ({user.defaultAbilityVFXPrefab.name}).");
-                return user.defaultAbilityVFXPrefab;
+                Debug.LogWarning($"[VFX DEBUG] {DisplayName}: No se encontró override en {user.CharacterName} para esta habilidad.");
             }
         }
         
-        // 4. Fallo total.
+        // 3. Fallo total.
+        Debug.LogError($"[VFX DEBUG] {DisplayName}: NO HAY VFX ASIGNADO. Ni en SO ni en override.");
         return null;
     }
 
@@ -113,23 +108,25 @@ public abstract class AbilityBase : ScriptableObject, IAbility
             // Spawnea con el offset dado (1.0f por defecto para visibilidad)
             Vector3 spawnPosition = new Vector3(targetPosition.x, targetPosition.y + yOffset, targetPosition.z); 
             
+            Debug.Log($"[VFX DEBUG] Instanciando prefab: {particlesPrefab.name} en posición {spawnPosition}");
             GameObject particlesGO = Instantiate(particlesPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log($"[VFX DEBUG] Instancia creada: {particlesGO.name} (GUID: {particlesGO.GetInstanceID()})");
 
-            // Búsqueda robusta y forzada de la reproducción
-            ParticleSystem ps = particlesGO.GetComponent<ParticleSystem>();
-            if (ps == null) 
-            { 
-                ps = particlesGO.GetComponentInChildren<ParticleSystem>(true); 
-            }
-
-            if (ps != null)
-            { 
-                ps.Play(); 
-                Debug.Log($"[VFX DEBUG] Instanciado y reproducido {particlesPrefab.name} en Y={spawnPosition.y}.");
+            // Búsqueda robusta y forzada de la reproducción - REPRODUCIR TODOS LOS PARTICLE SYSTEMS
+            ParticleSystem[] allParticleSystems = particlesGO.GetComponentsInChildren<ParticleSystem>(true);
+            Debug.Log($"[VFX DEBUG] Encontrados {allParticleSystems.Length} ParticleSystem(s) en el prefab instanciado.");
+            
+            if (allParticleSystems.Length > 0)
+            {
+                foreach (var ps in allParticleSystems)
+                {
+                    ps.Play();
+                    Debug.Log($"[VFX DEBUG] ParticleSystem '{ps.name}' reproducido. Main module startColor: {ps.main.startColor.color}, Start Lifetime: {ps.main.startLifetime.constant}");
+                }
             }
             else
             {
-                Debug.LogError($"[VFX DEBUG] No se encontró ParticleSystem en el Prefab {particlesPrefab.name}.");
+                Debug.LogError($"[VFX DEBUG] No se encontró ningún ParticleSystem en el Prefab {particlesPrefab.name}.");
             }
             
             Object.Destroy(particlesGO, 3f);

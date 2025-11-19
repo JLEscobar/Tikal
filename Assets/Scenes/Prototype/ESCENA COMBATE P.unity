@@ -1603,6 +1603,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 7040914a9d896c44b90657bb521e0dfc, type: 2}
   defaultAbilityVFXPrefab: {fileID: 5313456068782518071, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
   specialAbilityVFXPrefab: {fileID: 5313456068782518071, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 177303852}
@@ -1754,7 +1755,7 @@ Transform:
   m_GameObject: {fileID: 177303848}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 66, y: -0.38, z: -9.04}
+  m_LocalPosition: {x: 66.66, y: -0.38, z: 0.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3163,7 +3164,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2098553, y: 5.5846585e-15, z: -1.1986615e-15, w: 0.9777325}
-  m_LocalPosition: {x: 61.05, y: 1.25, z: -5.84}
+  m_LocalPosition: {x: 66.24, y: 1.25, z: -4.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12295,6 +12296,8 @@ MonoBehaviour:
   - {fileID: 1115241199}
   - {fileID: 1051001849}
   autoStartOnPlay: 1
+  autoSelectInitialPlayer: 1
+  initialPlayerIndex: 0
 --- !u!1 &780121262
 GameObject:
   m_ObjectHideFlags: 0
@@ -17438,6 +17441,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: fb2f40da80dca6a4896d7b793cd6be70, type: 2}
   defaultAbilityVFXPrefab: {fileID: 0}
   specialAbilityVFXPrefab: {fileID: 0}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 0}
@@ -20252,6 +20256,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: dee73d7d4c7ec4e42ac8f849d9afa119, type: 2}
   defaultAbilityVFXPrefab: {fileID: 0}
   specialAbilityVFXPrefab: {fileID: 0}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1051001856}
@@ -20384,7 +20389,7 @@ Transform:
   m_GameObject: {fileID: 1051001846}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.252586, y: 0.17000039, z: -209.64899}
+  m_LocalPosition: {x: 26.84, y: -0.8, z: -206.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20782,6 +20787,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: e31095d3633d0cc4294981b8508cba6c, type: 2}
   defaultAbilityVFXPrefab: {fileID: 0}
   specialAbilityVFXPrefab: {fileID: 0}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1115241206}
@@ -20914,7 +20920,7 @@ Transform:
   m_GameObject: {fileID: 1115241196}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.92, y: -0.91, z: -207.37}
+  m_LocalPosition: {x: 29.15741, y: -0.41, z: -202.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28652,7 +28658,7 @@ Transform:
   m_GameObject: {fileID: 1416151736}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 61.05, y: -1, z: -0.84}
+  m_LocalPosition: {x: 66.24, y: -1, z: 0.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28692,8 +28698,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 7ce1bba87aef6b64ebdd893f0fecaf70, type: 2}
-  defaultAbilityVFXPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
-  specialAbilityVFXPrefab: {fileID: 9177886612219991525, guid: f90fc7acf1ef2fa4c85896a9afc17028, type: 3}
+  defaultAbilityVFXPrefab: {fileID: 6882116249847192011, guid: c4b2ddd78a478394da66879a43e7af99, type: 3}
+  specialAbilityVFXPrefab: {fileID: 100000, guid: 32c740ca47073a54ebef2634b8b8371f, type: 3}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1416151744}
@@ -30579,7 +30586,7 @@ Transform:
   m_GameObject: {fileID: 1596107112}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2098553, y: 5.5563028e-15, z: -1.0665502e-15, w: 0.9777325}
-  m_LocalPosition: {x: 61.05, y: 1.25, z: -5.84}
+  m_LocalPosition: {x: 66.24, y: 1.25, z: -4.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31533,7 +31540,7 @@ Transform:
   m_GameObject: {fileID: 1760328953}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 69, y: -0.22, z: -2.0999994}
+  m_LocalPosition: {x: 64.15, y: -0.9, z: -1.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31556,6 +31563,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
   defaultAbilityVFXPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
   specialAbilityVFXPrefab: {fileID: 2060418090655630911, guid: 4fb7673fa1cb7e34ea16f350b1e1fba9, type: 3}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1760328954}
@@ -32263,6 +32271,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 2e48769f30785884ea389943a9b86772, type: 2}
   defaultAbilityVFXPrefab: {fileID: 0}
   specialAbilityVFXPrefab: {fileID: 0}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1806315199}
@@ -32395,7 +32404,7 @@ Transform:
   m_GameObject: {fileID: 1806315189}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.55259, y: 0.32, z: -202.70898}
+  m_LocalPosition: {x: 34.79, y: 0.82, z: -199.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -33294,6 +33303,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 3d875927bfd4e56449d493027a967fce, type: 2}
   defaultAbilityVFXPrefab: {fileID: 856368647163548680, guid: 724d151229932ba47931fcc83c083470, type: 3}
   specialAbilityVFXPrefab: {fileID: 5545173171955001552, guid: 7ac879c2caac1ca41b6c438e77d8b25d, type: 3}
+  abilitySlotVFXOverrides: []
   baseAPPerTurn: 1
   maxAccumulatedAP: 3
   tacticalMovement: {fileID: 1885161630}
@@ -33445,7 +33455,7 @@ Transform:
   m_GameObject: {fileID: 1885161626}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70.09, y: 0.01, z: -5.77}
+  m_LocalPosition: {x: 70.09, y: 0.01, z: -3.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

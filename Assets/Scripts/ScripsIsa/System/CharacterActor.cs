@@ -16,6 +16,9 @@ public class CharacterActor : MonoBehaviour, ITargetable
     [Tooltip("Prefab de VFX de Habilidad 1/Especial (se usa si el SO está corrupto).")]
     public GameObject specialAbilityVFXPrefab; 
 
+    [Tooltip("Overrides por ranura. Índice 0 = habilidad básica, 1 = especial, etc.")]
+    [SerializeField] private GameObject[] abilitySlotVFXOverrides;
+
     [Header("GDD Combat Rules")]
     [SerializeField] private int baseAPPerTurn = 1;
     [SerializeField] private int maxAccumulatedAP = 3;
@@ -239,6 +242,64 @@ public class CharacterActor : MonoBehaviour, ITargetable
         if (stats == null || stats.abilities == null) return null;
         if (index < 0 || index >= stats.abilities.Length) return null;
         return stats.abilities[index];
+    }
+
+    public int GetAbilityIndex(AbilityBase ability)
+    {
+        if (ability == null || stats == null || stats.abilities == null) return -1;
+        for (int i = 0; i < stats.abilities.Length; i++)
+        {
+            if (stats.abilities[i] == ability)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public GameObject GetAbilityVFXOverride(AbilityBase ability)
+    {
+        int abilityIndex = GetAbilityIndex(ability);
+        if (abilityIndex == -1)
+        {
+            Debug.LogWarning($"[VFX OVERRIDE] {CharacterName}: No se pudo encontrar el índice de la habilidad {ability?.DisplayName}");
+            return null;
+        }
+
+        Debug.Log($"[VFX OVERRIDE] {CharacterName}: Buscando override para habilidad índice {abilityIndex} ({ability?.DisplayName})");
+
+        if (abilitySlotVFXOverrides != null && abilityIndex < abilitySlotVFXOverrides.Length)
+        {
+            var specificOverride = abilitySlotVFXOverrides[abilityIndex];
+            if (specificOverride != null)
+            {
+                Debug.Log($"[VFX OVERRIDE] {CharacterName}: Encontrado override específico en ranura {abilityIndex}: {specificOverride.name}");
+                return specificOverride;
+            }
+            else
+            {
+                Debug.Log($"[VFX OVERRIDE] {CharacterName}: Ranura {abilityIndex} está vacía, buscando respaldo genérico...");
+            }
+        }
+        else
+        {
+            Debug.Log($"[VFX OVERRIDE] {CharacterName}: Array de overrides no existe o índice {abilityIndex} fuera de rango. Buscando respaldo genérico...");
+        }
+
+        if (abilityIndex == 0 && defaultAbilityVFXPrefab != null)
+        {
+            Debug.Log($"[VFX OVERRIDE] {CharacterName}: Usando respaldo básico: {defaultAbilityVFXPrefab.name}");
+            return defaultAbilityVFXPrefab;
+        }
+
+        if (abilityIndex > 0 && specialAbilityVFXPrefab != null)
+        {
+            Debug.Log($"[VFX OVERRIDE] {CharacterName}: Usando respaldo especial: {specialAbilityVFXPrefab.name}");
+            return specialAbilityVFXPrefab;
+        }
+
+        Debug.LogWarning($"[VFX OVERRIDE] {CharacterName}: No se encontró ningún override para habilidad índice {abilityIndex}");
+        return null;
     }
     
     public bool TryUseAbility(int abilityIndex, ITargetable target)

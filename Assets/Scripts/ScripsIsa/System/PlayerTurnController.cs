@@ -123,43 +123,21 @@ public class PlayerTurnController : MonoBehaviour
 
         var ability = _current.GetAbilityByIndex(index);
         if (ability == null) return;
-        
-        ITargetable targetToUse = _currentTarget;
-        
-        // ***** INICIO DE LA CORRECCIÓN CLAVE *****
-        // 1. Si la habilidad es AoE (Cualli), el target es el propio usuario.
-        if (ability is AreaAttackAbility)
-        {
-            targetToUse = _current;
-        }
-        // 2. Si la habilidad NO es AoE (Ollin/Yaotl) y no tenemos target (E presionada sin clic):
-        else if (targetToUse == null)
-        {
-             // Si el jugador presionó E (Habilidad Especial) o Q, buscamos el enemigo más cercano
-             if (index == specialAbilityIndex || index == defaultAbilityIndex)
-             {
-                 targetToUse = FindClosestValidTarget(_current);
-                 
-                 // Si aun así no encontramos target, fallamos
-                 if (targetToUse == null)
-                 {
-                    string reason = "No se encontraron enemigos dentro del rango.";
-                    Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
-                    MessagesSystem.Instance.ShowMessage($"No hay enemigos en rango para {ability.DisplayName}.", Color.red);
-                    return;
-                 }
-             }
-             else 
-             {
-                 // Si no es especial ni básico, fallamos pidiendo target
-                 string reason = $"Must select a target for '{ability.DisplayName}'";
-                 Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
-                 MessagesSystem.Instance.ShowMessage($"Selecciona un objetivo para usar {ability.DisplayName}.", Color.yellow);
-                 return;
-             }
-        }
-        // ***** FIN DE LA CORRECCIÓN CLAVE *****
 
+        ITargetable targetToUse = ResolveTargetForAbility(ability, _currentTarget);
+        if (targetToUse == null)
+        {
+            bool needsFriendly = AbilityNeedsFriendlyTarget(ability);
+            string reason = needsFriendly 
+                ? "No hay aliados disponibles para recibir la habilidad."
+                : "No hay enemigos en rango para la habilidad.";
+
+            Debug.Log($"[PLAYER_INPUT] Target inválido para {ability.DisplayName}. {reason}");
+            MessagesSystem.Instance.ShowMessage(reason, needsFriendly ? Color.cyan : Color.red);
+            return;
+        }
+
+        _currentTarget = targetToUse;
 
         if (_current.TryUseAbility(index, targetToUse))
         {
@@ -190,14 +168,13 @@ public class PlayerTurnController : MonoBehaviour
     }
     
     // NUEVO MÉTODO: Encuentra el enemigo más cercano dentro del rango de la habilidad.
-    private CharacterActor FindClosestValidTarget(CharacterActor user)
+    private CharacterActor FindClosestValidTarget(CharacterActor user, AbilityBase referenceAbility)
     {
-        var ability = user.GetAbilityByIndex(specialAbilityIndex); // Usamos el rango especial como máximo
-        if (ability == null) return null;
+        if (user == null || referenceAbility == null || turnSystem == null) return null;
 
         CharacterActor closestTarget = null;
         float closestDistance = float.MaxValue;
-        float maxRange = ability.Range + 0.1f;
+        float maxRange = referenceAbility.Range + 0.1f;
 
         var opponents = turnSystem.GetOpponentsOf(user.Team)
             .Where(o => !o.Health.IsDead)
@@ -215,6 +192,79 @@ public class PlayerTurnController : MonoBehaviour
         }
 
         return closestTarget;
+    }
+
+    private CharacterActor FindBestAllyTarget(CharacterActor user)
+    {
+        if (user == null || turnSystem == null || turnSystem.PlayerTeamActors == null) return null;
+
+        var allies = turnSystem.PlayerTeamActors
+            .Where(a => a != null && !a.Health.IsDead && a.Team == user.Team)
+            .Cast<CharacterActor>()
+            .ToList();
+
+        if (allies.Count == 0) return null;
+
+        var injured = allies
+            .Where(a => a.Health.CurrentHealth < a.Health.MaxHealth)
+            .OrderBy(a => (float)a.Health.CurrentHealth / a.Health.MaxHealth)
+            .ToList();
+
+        if (injured.Count > 0) return injured.First();
+
+        return allies.Contains(user) ? user : allies.First();
+    }
+
+    private bool AbilityNeedsFriendlyTarget(AbilityBase ability)
+    {
+        return ability is HealAbility || ability is SupportAbility;
+    }
+
+    private ITargetable ResolveTargetForAbility(AbilityBase ability, ITargetable desiredTarget)
+    {
+        if (_current == null || ability == null) return null;
+
+        // AoE siempre se centra en el usuario
+        if (ability is AreaAttackAbility)
+        {
+            return _current;
+        }
+
+        bool requiresFriendly = AbilityNeedsFriendlyTarget(ability);
+
+        if (desiredTarget != null && IsTargetValidForAbility(ability, _current, desiredTarget))
+        {
+            return desiredTarget;
+        }
+
+        if (requiresFriendly)
+        {
+            var ally = FindBestAllyTarget(_current);
+            return ally;
+        }
+
+        return FindClosestValidTarget(_current, ability);
+    }
+
+    private bool IsTargetValidForAbility(AbilityBase ability, CharacterActor user, ITargetable candidate)
+    {
+        if (user == null || candidate == null) return false;
+
+        if (candidate.Health != null && candidate.Health.IsDead) return false;
+
+        if (ability is AreaAttackAbility)
+        {
+            return candidate == user;
+        }
+
+        bool requiresFriendly = AbilityNeedsFriendlyTarget(ability);
+
+        if (requiresFriendly)
+        {
+            return candidate.Team == user.Team;
+        }
+
+        return candidate.Team != user.Team;
     }
     
     // ... (El resto de métodos se mantienen sin cambios) ...

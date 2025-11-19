@@ -12,6 +12,10 @@ public class TurnSystem : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool autoStartOnPlay = true;
 
+    [Header("Player Phase Options")]
+    [SerializeField] private bool autoSelectInitialPlayer = true;
+    [SerializeField][Min(0)] private int initialPlayerIndex = 0;
+
     public event Action<Team, CharacterActor> OnTurnStarted;
     public event Action<Team, CharacterActor> OnTurnEnded;
     public event Action<Team> OnBattleEnded;
@@ -21,6 +25,8 @@ public class TurnSystem : MonoBehaviour
     private Team _currentTeam;
     private CharacterActor _current;
     private bool _started;
+    private bool _initialSelectionDone;
+    private readonly HashSet<CharacterActor> _playersActivatedThisPhase = new();
 
     void Start()
     {
@@ -32,6 +38,7 @@ public class TurnSystem : MonoBehaviour
         if (_started) return;
         CleanDeadFromLists();
         _started = true;
+        _initialSelectionDone = false;
         _playerIndex = _enemyIndex = 0;
         Debug.Log($"[vDoT_FINAL] Battle started! Player count: {playerTeam.Count}, Enemy count: {enemyTeam.Count}");
         
@@ -44,7 +51,8 @@ public class TurnSystem : MonoBehaviour
             }
         }
         
-        StartPlayerSelectionPhase();
+        StartPlayerSelectionPhase(true);
+        TryAutoSelectInitialPlayer();
     }
 
     public void Pause() => PauseService.SetPaused(true);
@@ -115,7 +123,7 @@ public class TurnSystem : MonoBehaviour
             if (playersHaveActions)
             {
                 Debug.Log("[TURN_SYSTEM] More players have actions. Returning to player selection phase.");
-                StartPlayerSelectionPhase();
+                StartPlayerSelectionPhase(false);
                 return;
             }
 
@@ -151,6 +159,10 @@ public class TurnSystem : MonoBehaviour
         {
             return false;
         }
+
+        bool actorAlreadyCurrent = _current == actor;
+        bool actorAlreadyActivated = _playersActivatedThisPhase.Contains(actor);
+        bool isObservationSelection = actorAlreadyActivated;
         
         if (_current != null && _current.gameObject != null && _current != actor) 
         {
@@ -158,28 +170,41 @@ public class TurnSystem : MonoBehaviour
             OnTurnEnded?.Invoke(_currentTeam, _current);
         }
         
-        if (_current == actor) return true;
+        if (actorAlreadyCurrent) return true;
 
         _current = actor;
         
-        actor.BeginTurn();
+        if (!isObservationSelection)
+        {
+            actor.BeginTurn();
+            _playersActivatedThisPhase.Add(actor);
+        }
+
         OnTurnStarted?.Invoke(_currentTeam, actor);
 
-        if (actor.ActionPoints > 0)
+        if (!isObservationSelection && actor.ActionPoints > 0)
         {
             MessagesSystem.Instance.ShowMessage($"Turno de {actor.CharacterName} Aliado (AP: {actor.ActionPoints})", Color.green);
         }
-        else
+        else if (!isObservationSelection)
         {
             MessagesSystem.Instance.ShowMessage($"{actor.CharacterName} no puede actuar este turno.", Color.cyan);
             actor.ForceMovementPhaseActivation(); 
+        }
+        else
+        {
+            MessagesSystem.Instance.ShowMessage($"{actor.CharacterName} ya actuó. Solo visualización.", Color.grey);
         }
         
         return true;
     }
 
-    private void StartPlayerSelectionPhase()
+    private void StartPlayerSelectionPhase(bool resetActivatedPlayers)
     {
+        if (resetActivatedPlayers)
+        {
+            _playersActivatedThisPhase.Clear();
+        }
         _currentTeam = Team.Player;
         _current = null; 
         OnTurnStarted?.Invoke(_currentTeam, null); 
@@ -191,7 +216,7 @@ public class TurnSystem : MonoBehaviour
     {
         if (_currentTeam == Team.Player)
         {
-            StartPlayerSelectionPhase();
+            StartPlayerSelectionPhase(true);
             return;
         }
         
@@ -311,5 +336,50 @@ public class TurnSystem : MonoBehaviour
                 Debug.Log($"[CD TICK] {actor.CharacterName}: {ability.DisplayName} restante: {ability.currentCooldown}");
             }
         }
+    }
+
+    private void TryAutoSelectInitialPlayer()
+    {
+        if (_initialSelectionDone || !autoSelectInitialPlayer) return;
+
+        var candidate = GetInitialPlayerActor();
+        if (candidate == null) return;
+
+        if (SetCurrentActor(candidate))
+        {
+            _initialSelectionDone = true;
+        }
+    }
+
+    private CharacterActor GetInitialPlayerActor()
+    {
+        if (playerTeam == null || playerTeam.Count == 0) return null;
+
+        CleanDeadFromList(playerTeam);
+
+        // Prioridad 1: Buscar a Cualli por nombre (personaje número 1)
+        var cualli = playerTeam.FirstOrDefault(a => 
+            a != null && 
+            a.gameObject != null && 
+            !a.Health.IsDead && 
+            a.CharacterName.Equals("Cualli", System.StringComparison.OrdinalIgnoreCase));
+        
+        if (cualli != null)
+        {
+            return cualli;
+        }
+
+        // Prioridad 2: Usar el índice preferido si está configurado
+        if (initialPlayerIndex >= 0 && initialPlayerIndex < playerTeam.Count)
+        {
+            var preferred = playerTeam[initialPlayerIndex];
+            if (preferred != null && preferred.gameObject != null && !preferred.Health.IsDead)
+            {
+                return preferred;
+            }
+        }
+
+        // Prioridad 3: Primer personaje disponible
+        return playerTeam.FirstOrDefault(a => a != null && a.gameObject != null && !a.Health.IsDead);
     }
 }
