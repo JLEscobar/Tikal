@@ -92,23 +92,38 @@ public class EnemyChasingState : EnemyState
                 // Mover directamente hacia el objetivo una distancia fija
                 enemy.MoveTowardsTarget(direction, moveDistanceThisTurn);
                 
-                // IMPORTANTE: Verificar si después del movimiento está en rango de ataque
-                float newDistanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.Target.position);
-                if (newDistanceToPlayer <= enemy.AttackRange)
+                // IMPORTANTE: Verificar que el target siga siendo válido después del movimiento
+                // (podría haberse vuelto inválido durante el movimiento, por ejemplo, si se murió)
+                enemy.UpdateTarget();
+                
+                if (enemy.Target != null)
                 {
-                    Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🏃 CHASING - ⚠️ Después del movimiento, jugador en rango de ataque ({newDistanceToPlayer:F2} <= {enemy.AttackRange}), cambiando a ATTACK");
-                    stateMachine.ChangeState(enemy.attackState);
-                    // Ejecutar UpdateState inmediatamente para que ataque en este turno
-                    if (stateMachine.currentState == enemy.attackState)
+                    // Verificar si después del movimiento está en rango de ataque
+                    float newDistanceToPlayer = Vector3.Distance(enemy.transform.position, enemy.Target.position);
+                    if (newDistanceToPlayer <= enemy.AttackRange)
                     {
-                        stateMachine.currentState.UpdateState();
+                        Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🏃 CHASING - ⚠️ Después del movimiento, jugador en rango de ataque ({newDistanceToPlayer:F2} <= {enemy.AttackRange}), cambiando a ATTACK");
+                        stateMachine.ChangeState(enemy.attackState);
+                        // Ejecutar UpdateState inmediatamente para que ataque en este turno
+                        if (stateMachine.currentState == enemy.attackState)
+                        {
+                            stateMachine.currentState.UpdateState();
+                        }
+                        return;
                     }
+                    
+                    // Si no está en rango después de moverse, completar el turno
+                    enemy.CompleteTurnAction();
                     return;
                 }
-                
-                // Si no está en rango después de moverse, completar el turno
-                enemy.CompleteTurnAction();
-                return;
+                else
+                {
+                    // El target se volvió inválido durante el movimiento
+                    Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🏃 CHASING - Target se volvió inválido después del movimiento, cambiando a PATROLLING");
+                    stateMachine.ChangeState(enemy.patrollingState);
+                    enemy.CompleteTurnAction();
+                    return;
+                }
             }
             else
             {

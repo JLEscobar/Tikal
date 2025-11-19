@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum EnemyTurnStartState
+{
+    Idle,          // Estado de reposo al iniciar el turno
+    Patrolling,    // Patrullando puntos de patrulla al iniciar el turno
+    Auto           // Automático: decide basándose en si hay target (comportamiento por defecto)
+}
+
 public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
 {
     #region Damage variables
@@ -67,6 +74,10 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
 
     #region State Machine Variables
 
+    [Header("Turn Start State Configuration")]
+    [Tooltip("Estado en el que el enemigo iniciará en su PRIMER turno (si no hay target en rango). Solo se aplica al primer turno del enemigo. Todos los enemigos inician en WaitingTurn al comenzar el juego.")]
+    [SerializeField] private EnemyTurnStartState turnStartState = EnemyTurnStartState.Auto;
+
     public EnemyStateMachine stateMachine { get; set; }
 
     public EnemyIdleState idleState { get; set; }
@@ -88,6 +99,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     private bool hasCompletedTurnAction = false;
     private float turnStartTime;
     private float lastActionTime;
+    private bool isFirstTurn = true; // Bandera para rastrear si es el primer turno del enemigo
     private const float MAX_TURN_DURATION = 10f; // Máximo tiempo para completar un turno (segundos)
     private const float AUTO_COMPLETE_DELAY = 0.5f; // Tiempo después de una acción para completar automáticamente (segundos)
 
@@ -157,10 +169,46 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         turnSystem = FindFirstObjectByType<TurnSystem>();
         characterActor = GetComponent<CharacterActor>();
     }
+    
+    /// <summary>
+    /// Obtiene el estado en el que el enemigo debe iniciar su turno según la configuración
+    /// </summary>
+    private EnemyState GetTurnStartState()
+    {
+        switch (turnStartState)
+        {
+            case EnemyTurnStartState.Idle:
+                return idleState;
+            case EnemyTurnStartState.Patrolling:
+                return patrollingState;
+            case EnemyTurnStartState.Auto:
+            default:
+                // Auto: decidir basándose en si hay target y puntos de patrulla
+                if (Target != null)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, Target.position);
+                    if (distanceToTarget <= AttackRange)
+                    {
+                        return attackState;
+                    }
+                    else if (IsInVisionRange(Target))
+                    {
+                        return chasingState;
+                    }
+                }
+                // Si no hay target o está fuera de rango, usar patrolling si hay puntos, sino idle
+                if (PatrolPoints != null && PatrolPoints.Length > 0)
+                {
+                    return patrollingState;
+                }
+                return idleState;
+        }
+    }
     private void Start()
     {
-        //state machine - Iniciar en estado de espera
+        //state machine - SIEMPRE iniciar en WaitingTurn (necesario para el sistema de turnos)
         stateMachine.Initialize(waitingTurnState);
+        Debug.Log($"[ENEMY] {gameObject.name}: Estado inicial: WaitingTurn, Estado al iniciar turno: {turnStartState}");
 
         //Movement
         controller = GetComponent<CharacterController>();
@@ -763,50 +811,66 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         Transform closestValidTarget = null;
         float closestDistance = Mathf.Infinity;
+        
+        Debug.Log($"[ENEMY_TARGET] {gameObject.name}: 🔍 Buscando targets... Encontrados {players.Length} objetos con tag 'Player'");
 
-        // Calcular la distancia del target actual si existe
+        // IMPORTANTE: Verificar y limpiar el target actual si es inválido ANTES de buscar nuevos targets
+        bool currentTargetIsValid = false;
         float currentTargetDistance = Mathf.Infinity;
+        
         if (target != null)
         {
             CharacterActor currentTargetActor = target.GetComponent<CharacterActor>();
             
-            // Verificar si el target actual es válido
+            // Verificar si el target actual es válido (vivo y dentro del cono de visión)
             if (currentTargetActor != null && currentTargetActor.Health != null && !currentTargetActor.Health.IsDead)
             {
                 // Verificar si el target actual está dentro del cono de visión
                 if (IsInVisionRange(target))
                 {
                     currentTargetDistance = Vector3.Distance(transform.position, target.position);
+                    currentTargetIsValid = true;
                 }
                 else
                 {
                     // El target actual está fuera del cono de visión
-                    Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ❌ Target actual {target.name} está fuera del cono de visión");
-                    currentTargetDistance = Mathf.Infinity; // Marcar como inválido
+                    Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ❌ Target actual {target.name} está fuera del cono de visión, limpiando target");
+                    currentTargetIsValid = false;
                 }
             }
             else
             {
                 // El target actual está muerto o no tiene CharacterActor
-                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ❌ Target actual {target.name} está muerto o inválido");
-                currentTargetDistance = Mathf.Infinity; // Marcar como inválido
+                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ❌ Target actual {target.name} está muerto o inválido, limpiando target");
+                currentTargetIsValid = false;
+            }
+            
+            // Si el target actual es inválido, limpiarlo inmediatamente
+            if (!currentTargetIsValid)
+            {
+                SetTarget(null);
+                target = null; // Asegurar que se limpia
             }
         }
 
         // Buscar el jugador más cercano válido dentro del cono de visión
+        int validTargetsFound = 0;
         foreach (GameObject player in players)
         {
             // Verificar que el jugador esté vivo
             CharacterActor playerActor = player.GetComponent<CharacterActor>();
-            if (playerActor != null && playerActor.Health != null && playerActor.Health.IsDead)
+            if (playerActor == null || playerActor.Health == null || playerActor.Health.IsDead)
             {
-                continue; // Saltar jugadores muertos
+                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ⏭️ Saltando {player.name} - muerto o sin CharacterActor");
+                continue; // Saltar jugadores muertos o sin CharacterActor
             }
 
             // Verificar si el jugador está dentro del cono de visión (distancia Y ángulo)
             if (IsInVisionRange(player.transform))
             {
                 float distance = Vector3.Distance(transform.position, player.transform.position);
+                validTargetsFound++;
+                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ✅ Target válido encontrado: {player.name} a distancia {distance:F2}");
                 
                 // Buscar el jugador más cercano dentro del cono de visión
                 if (distance < closestDistance)
@@ -815,26 +879,33 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
                     closestValidTarget = player.transform;
                 }
             }
+            else
+            {
+                float distance = Vector3.Distance(transform.position, player.transform.position);
+                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ⏭️ {player.name} está fuera del cono de visión (distancia: {distance:F2}, visionRange: {visionRange})");
+            }
         }
+        
+        Debug.Log($"[ENEMY_TARGET] {gameObject.name}: 📊 Resumen: {validTargetsFound} targets válidos encontrados, más cercano: {(closestValidTarget != null ? closestValidTarget.name : "ninguno")}");
 
-        // Decidir si cambiar de target
+        // Decidir si establecer o cambiar de target
         if (closestValidTarget != null)
         {
-            // Si no tenemos target o el nuevo es más cercano, cambiar
+            // Si no tenemos target o el nuevo es diferente/más cercano, cambiar
             if (target == null)
             {
                 SetTarget(closestValidTarget);
                 Debug.Log($"[ENEMY_TARGET] {gameObject.name}: 🎯 Nuevo target establecido: {closestValidTarget.name} a distancia {closestDistance:F2}");
             }
-            else if (closestDistance < currentTargetDistance)
+            else if (target != closestValidTarget)
             {
-                // El nuevo target es más cercano que el actual
+                // El nuevo target es diferente al actual (más cercano o el actual era inválido)
                 SetTarget(closestValidTarget);
-                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: 🔄 Cambiando a target más cercano: {closestValidTarget.name} (distancia: {closestDistance:F2} < {currentTargetDistance:F2})");
+                Debug.Log($"[ENEMY_TARGET] {gameObject.name}: 🔄 Cambiando a target: {closestValidTarget.name} (distancia: {closestDistance:F2})");
             }
-            else if (target == closestValidTarget)
+            else if (target == closestValidTarget && currentTargetIsValid)
             {
-                // El target actual sigue siendo el más cercano
+                // El target actual sigue siendo válido y es el más cercano
                 Debug.Log($"[ENEMY_TARGET] {gameObject.name}: ✅ Manteniendo target actual {target.name} (distancia: {currentTargetDistance:F2}) - es el más cercano");
             }
         }
@@ -932,35 +1003,67 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             // Si estamos en waitingTurnState, decidir el estado inicial
             if (stateMachine.currentState == waitingTurnState)
             {
-                if (Target != null)
+                // SOLO en el primer turno: usar el estado configurado si no hay target en rango
+                if (isFirstTurn)
                 {
-                    float distanceToTarget = Vector3.Distance(transform.position, Target.position);
+                    // PRIORIDAD: Si hay target en rango, usar la lógica de combate (ya manejada arriba)
+                    // Si no hay target o está fuera de rango, usar el estado configurado SOLO en el primer turno
+                    if (Target == null || !IsInVisionRange(Target))
+                    {
+                        // No hay target válido, usar el estado configurado para el primer turno
+                        EnemyState selectedState = GetTurnStartState();
+                        stateMachine.ChangeState(selectedState);
+                        
+                        string stateName = selectedState.GetType().Name;
+                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🎯 PRIMER TURNO - Iniciando en estado configurado: {stateName} (TurnStartState config: {turnStartState})");
+                    }
+                    // Si hay target en rango, la lógica de arriba ya lo maneja (ATTACK o CHASING)
                     
-                    if (distanceToTarget <= AttackRange)
-                    {
-                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🗡️ Cambiando a ATTACK (distancia: {distanceToTarget:F2} <= {AttackRange})");
-                        stateMachine.ChangeState(attackState);
-                    }
-                    else if (IsInVisionRange(Target))
-                    {
-                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🏃 Cambiando a CHASING (distancia: {distanceToTarget:F2}, en cono de visión)");
-                        stateMachine.ChangeState(chasingState);
-                    }
-                    else
-                    {
-                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (target fuera de rango: {distanceToTarget:F2})");
-                        stateMachine.ChangeState(idleState);
-                    }
-                }
-                else if (PatrolPoints != null && PatrolPoints.Length > 0)
-                {
-                    Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🚶 Cambiando a PATROLLING (sin target, tiene puntos de patrulla)");
-                    stateMachine.ChangeState(patrollingState);
+                    // Marcar que ya no es el primer turno
+                    isFirstTurn = false;
                 }
                 else
                 {
-                    Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (sin target ni puntos de patrulla)");
-                    stateMachine.ChangeState(idleState);
+                    // En turnos posteriores, usar la lógica automática normal
+                    if (Target != null)
+                    {
+                        float distanceToTarget = Vector3.Distance(transform.position, Target.position);
+                        
+                        if (distanceToTarget <= AttackRange)
+                        {
+                            Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🗡️ Cambiando a ATTACK (distancia: {distanceToTarget:F2} <= {AttackRange})");
+                            stateMachine.ChangeState(attackState);
+                        }
+                        else if (IsInVisionRange(Target))
+                        {
+                            Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🏃 Cambiando a CHASING (distancia: {distanceToTarget:F2}, en cono de visión)");
+                            stateMachine.ChangeState(chasingState);
+                        }
+                        else
+                        {
+                            // Target fuera de rango, usar lógica automática
+                            if (PatrolPoints != null && PatrolPoints.Length > 0)
+                            {
+                                Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🚶 Cambiando a PATROLLING (target fuera de rango, tiene puntos de patrulla)");
+                                stateMachine.ChangeState(patrollingState);
+                            }
+                            else
+                            {
+                                Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (target fuera de rango, sin puntos de patrulla)");
+                                stateMachine.ChangeState(idleState);
+                            }
+                        }
+                    }
+                    else if (PatrolPoints != null && PatrolPoints.Length > 0)
+                    {
+                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🚶 Cambiando a PATROLLING (sin target, tiene puntos de patrulla)");
+                        stateMachine.ChangeState(patrollingState);
+                    }
+                    else
+                    {
+                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (sin target ni puntos de patrulla)");
+                        stateMachine.ChangeState(idleState);
+                    }
                 }
             }
         }

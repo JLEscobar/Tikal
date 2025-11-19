@@ -164,22 +164,31 @@ public class EnemyAttackState : EnemyState
 
         if (enemy.IsDead) return;
 
-        // Verificar que el target exista
-        if (enemy.Target == null)
-        {
-            Debug.LogWarning($"[ENEMY_STATE] {enemy.gameObject.name}: 🗡️ ATTACK - Target es null, cambiando a IDLE");
-            stateMachine.ChangeState(enemy.idleState);
-            return;
-        }
-
-        // Actualizar target para asegurar que tenemos el más cercano
+        // Actualizar target PRIMERO para asegurar que tenemos el target más cercano y válido
         enemy.UpdateTarget();
         
-        // Si después de actualizar no hay target, cambiar de estado
+        // Verificar que el target exista y sea válido después de actualizar
         if (enemy.Target == null)
         {
-            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🗡️ ATTACK - No hay target, cambiando a PATROLLING");
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🗡️ ATTACK - No hay target válido, cambiando a PATROLLING");
+            enemy.SetTarget(null); // Asegurar que el target está limpio
             stateMachine.ChangeState(enemy.patrollingState);
+            // Buscar nuevos targets inmediatamente
+            enemy.UpdateTarget();
+            enemy.CompleteTurnAction();
+            return;
+        }
+        
+        // Verificar que el target siga vivo
+        CharacterActor targetActor = enemy.Target.GetComponent<CharacterActor>();
+        if (targetActor == null || targetActor.Health == null || targetActor.Health.IsDead)
+        {
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🗡️ ATTACK - Target está muerto o inválido, cambiando a PATROLLING");
+            enemy.SetTarget(null); // Limpiar el target inválido
+            stateMachine.ChangeState(enemy.patrollingState);
+            // Buscar nuevos targets inmediatamente
+            enemy.UpdateTarget();
+            enemy.CompleteTurnAction();
             return;
         }
 
@@ -201,10 +210,10 @@ public class EnemyAttackState : EnemyState
                     if (target == null)
                     {
                         // Intentar obtener CharacterActor que implementa ITargetable
-                        CharacterActor targetActor = enemy.Target.GetComponent<CharacterActor>();
-                        if (targetActor != null)
+                        CharacterActor targetActorComponent = enemy.Target.GetComponent<CharacterActor>();
+                        if (targetActorComponent != null)
                         {
-                            target = targetActor;
+                            target = targetActorComponent;
                         }
                     }
                     
