@@ -1047,6 +1047,133 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91189102}
   m_CullTransparentMesh: 1
+--- !u!1 &103671701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 103671702}
+  - component: {fileID: 103671704}
+  - component: {fileID: 103671703}
+  m_Layer: 0
+  m_Name: LightNodo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &103671702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103671701}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00098, y: -0.00014, z: 0.00284}
+  m_LocalScale: {x: 0.83207, y: 0.83207, z: 0.83207}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1756180396}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &103671703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103671701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
+--- !u!108 &103671704
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103671701}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 2
+  m_Color: {r: 0, g: 1, b: 0.38300157, a: 1}
+  m_Intensity: 20
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!1001 &110567866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1560,6 +1687,8 @@ GameObject:
   - component: {fileID: 177303851}
   - component: {fileID: 177303850}
   - component: {fileID: 177303849}
+  - component: {fileID: 177303859}
+  - component: {fileID: 177303860}
   m_Layer: 0
   m_Name: Patlee (Biobrujo)
   m_TagString: Player
@@ -1635,13 +1764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 7040914a9d896c44b90657bb521e0dfc, type: 2}
-  maxHealth: 80
-  health: 80
-  attackPower: 15
-  characterName: Patlee
 --- !u!95 &177303853
 Animator:
   serializedVersion: 7
@@ -1762,6 +1884,48 @@ Transform:
   - {fileID: 1258409563}
   m_Father: {fileID: 2131508980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &177303859
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177303848}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &177303860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177303848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e188fb395c6ee4e888413e06aafe9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 168a1bb3681a9f6478f70ca14bb7ebd1, type: 2}
+  maxHealth: 80
+  health: 80
+  attackPower: 15
+  characterName: Patlee
 --- !u!1 &190137156
 GameObject:
   m_ObjectHideFlags: 0
@@ -2119,7 +2283,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 20bdd37edd2617f44bb555f40da85608, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2069875118}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20bdd37edd2617f44bb555f40da85608, type: 3}
 --- !u!1 &222409940
@@ -4663,8 +4830,6 @@ Transform:
   - {fileID: 1559666754}
   - {fileID: 989556693}
   - {fileID: 1175449405}
-  - {fileID: 1769937740}
-  - {fileID: 2069875118}
   - {fileID: 1957748783}
   - {fileID: 843700284}
   - {fileID: 1494363364}
@@ -4674,6 +4839,7 @@ Transform:
   - {fileID: 2040229512}
   - {fileID: 2023431597}
   - {fileID: 192277574}
+  - {fileID: 1756180396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &512646330
@@ -17613,13 +17779,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 86d823f6a3d3a414e8074825765c555d, type: 2}
-  maxHealth: 100
-  health: 100
-  attackPower: 20
-  characterName: Default Name
 --- !u!1 &803970110
 GameObject:
   m_ObjectHideFlags: 0
@@ -20525,13 +20684,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: dee73d7d4c7ec4e42ac8f849d9afa119, type: 2}
-  maxHealth: 250
-  health: 250
-  attackPower: 20
-  characterName: Guerrero Jaguar
 --- !u!1 &1097252246
 GameObject:
   m_ObjectHideFlags: 0
@@ -21055,13 +21207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: e31095d3633d0cc4294981b8508cba6c, type: 2}
-  maxHealth: 120
-  health: 120
-  attackPower: 30
-  characterName: "Guerrero \xC1guila"
 --- !u!1 &1115597724
 GameObject:
   m_ObjectHideFlags: 0
@@ -28691,6 +28836,7 @@ GameObject:
   - component: {fileID: 1416151746}
   - component: {fileID: 1416151745}
   - component: {fileID: 1416151747}
+  - component: {fileID: 1416151748}
   m_Layer: 0
   m_Name: Cualli
   m_TagString: Player
@@ -28830,13 +28976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 7ce1bba87aef6b64ebdd893f0fecaf70, type: 2}
-  maxHealth: 300
-  health: 300
-  attackPower: 40
-  characterName: Cualli
 --- !u!114 &1416151745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28893,6 +29032,25 @@ MonoBehaviour:
   speedText: {fileID: 1290616327}
   rangeText: {fileID: 334598316}
   offset: {x: 0, y: 2, z: 0}
+--- !u!114 &1416151748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416151736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e188fb395c6ee4e888413e06aafe9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 7ce1bba87aef6b64ebdd893f0fecaf70, type: 2}
+  maxHealth: 300
+  health: 300
+  attackPower: 40
+  characterName: Cualli
 --- !u!1 &1421704688
 GameObject:
   m_ObjectHideFlags: 0
@@ -29649,7 +29807,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 317a24f4340d09c4fbeb201a5b7cb3f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1769937740}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 317a24f4340d09c4fbeb201a5b7cb3f1, type: 3}
 --- !u!1 &1490589203
@@ -30539,7 +30700,7 @@ MonoBehaviour:
       Owner: {fileID: 1596107116}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: 6037845611050264523, guid: f5f8c60a6770c4941864cd7c1d89a406, type: 3}
         Gain: 1
         LegacyInput: 
         LegacyGain: 1
@@ -30552,7 +30713,7 @@ MonoBehaviour:
       Owner: {fileID: 1596107116}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: 6037845611050264523, guid: f5f8c60a6770c4941864cd7c1d89a406, type: 3}
         Gain: 1
         LegacyInput: 
         LegacyGain: 1
@@ -30565,7 +30726,7 @@ MonoBehaviour:
       Owner: {fileID: 1596107116}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: 6037845611050264523, guid: f5f8c60a6770c4941864cd7c1d89a406, type: 3}
         Gain: 1
         LegacyInput: 
         LegacyGain: 1
@@ -30743,6 +30904,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1933314838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1599145452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+  m_PrefabInstance: {fileID: 1756180395}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1615751241
 GameObject:
   m_ObjectHideFlags: 0
@@ -31458,6 +31624,123 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728032307}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1756180395
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 508169539}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1005.09985
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1005.0999
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1005.1001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -65.16
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 28.21
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -125.17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6608762
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5744237
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.36453626
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.31684932
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -81.993
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -57.762
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      propertyPath: m_Name
+      value: NODO
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 103671702}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1756180399}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1756180400}
+  m_SourcePrefab: {fileID: 100100000, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+--- !u!4 &1756180396 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3ab7a1df0e4d79c4e839aff323367d6a, type: 3}
+  m_PrefabInstance: {fileID: 1756180395}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1756180399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599145452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67920d89221556b4e86a3ac831e95e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TriggerInteract
+  interactKey: 105
+--- !u!65 &1756180400
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599145452}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.011661599, y: 0.013459528, z: 0.010000002}
+  m_Center: {x: 0.00076921, y: -0.00045047, z: -0.000000003801413}
 --- !u!1001 &1759480919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31553,6 +31836,7 @@ GameObject:
   - component: {fileID: 1760328961}
   - component: {fileID: 1760328960}
   - component: {fileID: 1760328962}
+  - component: {fileID: 1760328963}
   m_Layer: 0
   m_Name: Ollin
   m_TagString: Player
@@ -31572,13 +31856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
-  maxHealth: 100
-  health: 100
-  attackPower: 50
-  characterName: Ollin
 --- !u!95 &1760328955
 Animator:
   serializedVersion: 7
@@ -31755,6 +32032,25 @@ MonoBehaviour:
   speedText: {fileID: 1407466242}
   rangeText: {fileID: 964123928}
   offset: {x: 0, y: 2, z: 0}
+--- !u!114 &1760328963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760328953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e188fb395c6ee4e888413e06aafe9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 789e8827b77f79f4bae8605bf50a53dd, type: 2}
+  maxHealth: 100
+  health: 100
+  attackPower: 50
+  characterName: Ollin
 --- !u!1 &1769937737
 GameObject:
   m_ObjectHideFlags: 0
@@ -31814,7 +32110,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.4745098, g: 0.9490196, b: 0.8156863, a: 1}
-  m_Intensity: 3000
+  m_Intensity: 500
   m_Range: 50
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -31876,12 +32172,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1769937737}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -62.87501, y: 29.13574, z: -141.14853}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.4801833, y: -0.51906073, z: -0.5190607, w: 0.48018336}
+  m_LocalPosition: {x: -0.078745596, y: 0.0063373754, z: -0.06300003}
+  m_LocalScale: {x: 0.009999998, y: 0.009999997, z: 0.009999998}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 508169539}
+  m_Father: {fileID: 1175449405}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1769937741
 MonoBehaviour:
@@ -31895,6 +32191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!1 &1771581553
 GameObject:
   m_ObjectHideFlags: 0
@@ -32590,13 +32889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
-  aroDeLuzPrefab: {fileID: 5044913280975724638, guid: 8842ce1c4a6337c42ab0b6024436d915, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 2e48769f30785884ea389943a9b86772, type: 2}
-  maxHealth: 90
-  health: 90
-  attackPower: 15
-  characterName: Chaman
 --- !u!1 &1813593705
 GameObject:
   m_ObjectHideFlags: 0
@@ -33406,6 +33698,7 @@ GameObject:
   - component: {fileID: 1885161629}
   - component: {fileID: 1885161628}
   - component: {fileID: 1885161627}
+  - component: {fileID: 1885161636}
   m_Layer: 0
   m_Name: Yaotl
   m_TagString: Player
@@ -33481,13 +33774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaaa314677d9e3439589863c2a05293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
-  listenForSpace: 0
-  statsObject: {fileID: 11400000, guid: 3d875927bfd4e56449d493027a967fce, type: 2}
-  maxHealth: 150
-  health: 150
-  attackPower: 25
-  characterName: Yaotl
 --- !u!95 &1885161631
 Animator:
   serializedVersion: 7
@@ -33608,6 +33894,25 @@ Transform:
   - {fileID: 1950021494}
   m_Father: {fileID: 2131508980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1885161636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885161626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e188fb395c6ee4e888413e06aafe9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TacticalMovementController
+  aroDeLuzPrefab: {fileID: 3479854109251051671, guid: d95067b843c16444f92fb4a90b615eec, type: 3}
+  listenForSpace: 0
+  statsObject: {fileID: 11400000, guid: 3d875927bfd4e56449d493027a967fce, type: 2}
+  maxHealth: 150
+  health: 150
+  attackPower: 25
+  characterName: Yaotl
 --- !u!1 &1894464455
 GameObject:
   m_ObjectHideFlags: 0
@@ -39761,6 +40066,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &2069875116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39863,12 +40171,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069875114}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.644989, y: 27.835741, z: 152.03146}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.5429946, y: 0.54299456, z: 0.45294252, w: 0.45294252}
+  m_LocalPosition: {x: -0.013540645, y: -0.01199996, z: -0.034124646}
+  m_LocalScale: {x: 0.009999997, y: 0.009999998, z: 0.009999997}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 508169539}
+  m_Father: {fileID: 989556693}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2070448131
 GameObject:
