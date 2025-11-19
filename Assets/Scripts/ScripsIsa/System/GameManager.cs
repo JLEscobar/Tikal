@@ -148,11 +148,11 @@ public class GameManager : MonoBehaviour
 
     private void HandleTurnStarted(Team team, CharacterActor actor)
     {
-        // Only update camera for player team
-        if (team == Team.Player && virtualCamera != null && actor != null)
+        // Update camera for both player and enemy teams
+        if (virtualCamera != null && actor != null)
         {
             UpdateCameraTarget(actor.transform);
-            Debug.Log($"[v0] Camera following: {actor.CharacterName}");
+            Debug.Log($"[CAMERA] Following {team} character: {actor.CharacterName}");
         }
     }
 

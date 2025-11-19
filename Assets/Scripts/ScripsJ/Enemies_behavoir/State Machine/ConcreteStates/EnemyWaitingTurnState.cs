@@ -10,6 +10,7 @@ public class EnemyWaitingTurnState : EnemyState
     {
         base.EnterState();
         enemy.canMove = false;
+        Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: ⏸️ WAITING - Entrando al estado de espera de turno");
     }
 
     public override void UpdateState()
@@ -23,6 +24,7 @@ public class EnemyWaitingTurnState : EnemyState
     {
         base.ExitState();
         enemy.canMove = true;
+        Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: ⏸️ WAITING - Saliendo del estado de espera (turno iniciado)");
     }
 
     public override void PhysicsUpdate()

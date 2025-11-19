@@ -17,6 +17,8 @@ public class EnemyIdleState : EnemyState
     {
         idleTurnsWaited = 0;
         base.EnterState();
+        enemy.canMove = true; // Asegurar que el enemigo pueda moverse
+        Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Entrando al estado de reposo");
     }
 
     public override bool Equals(object obj)
@@ -50,10 +52,35 @@ public class EnemyIdleState : EnemyState
 
         if (enemy.IsDead) return;
 
+        // PRIORIDAD 1: Verificar si hay un jugador en rango ANTES de estar idle
         enemy.UpdateTarget();
         if (enemy.Target != null)
         {
-            stateMachine.ChangeState(enemy.chasingState);
+            float distanceToTarget = Vector3.Distance(enemy.transform.position, enemy.Target.position);
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Target detectado a distancia: {distanceToTarget:F2}");
+            
+            // Si está en rango de ataque, atacar inmediatamente
+            if (distanceToTarget <= enemy.AttackRange)
+            {
+                Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - ⚠️ Jugador en rango de ataque ({distanceToTarget:F2} <= {enemy.AttackRange}), cambiando a ATTACK");
+                stateMachine.ChangeState(enemy.attackState);
+                return;
+            }
+            // Si está en rango de visión (cono de visión), perseguir
+            else if (enemy.IsInVisionRange(enemy.Target))
+            {
+                Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Jugador en cono de visión (distancia: {distanceToTarget:F2}), cambiando a CHASING");
+                stateMachine.ChangeState(enemy.chasingState);
+                return;
+            }
+        }
+
+        // PRIORIDAD 2: Si no hay target, comportamiento idle
+        // Verificar que haya puntos idle
+        if (enemy.IdlePoints == null || enemy.IdlePoints.Length == 0)
+        {
+            // Si no hay puntos idle, solo esperar
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - No hay puntos idle, esperando...");
             return;
         }
 
@@ -61,12 +88,18 @@ public class EnemyIdleState : EnemyState
         if (idleTurnsWaited < idleTurnsToWait)
         {
             idleTurnsWaited++;
-            Debug.Log("Enemy waits in idle.");
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Esperando ({idleTurnsWaited}/{idleTurnsToWait})");
             return;
         }
 
         // Moverse un paso hacia el siguiente punto idle
         Transform idleTarget = enemy.IdlePoints[enemy.CurrentIdleIndex];
+        if (idleTarget == null)
+        {
+            Debug.LogWarning($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Punto idle {enemy.CurrentIdleIndex} es null");
+            return;
+        }
+        
         Vector3 direction = (idleTarget.position - enemy.transform.position).normalized;
         enemy.moveEnemy(direction);
 
