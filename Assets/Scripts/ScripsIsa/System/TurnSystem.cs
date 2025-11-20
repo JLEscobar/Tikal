@@ -12,6 +12,12 @@ public class TurnSystem : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool autoStartOnPlay = true;
     [SerializeField] private float enemyTurnDelay = 1f; // Delay entre turnos de enemigos (segundos)
+    
+    [Header("UI Components")]
+    [Tooltip("UI que se activa cuando es turno de los aliados")]
+    [SerializeField] private GameObject UITurnoJugador;
+    [Tooltip("UI que se activa cuando es turno de los enemigos")]
+    [SerializeField] private GameObject UITurnoEnemigo;
 
     public event Action<Team, CharacterActor> OnTurnStarted;
     public event Action<Team, CharacterActor> OnTurnEnded;
@@ -45,6 +51,10 @@ public class TurnSystem : MonoBehaviour
                 Debug.Log($"[TURN_SYSTEM] Enemy in list: {enemy.CharacterName}");
             }
         }
+        
+        // Inicializar UI: desactivar ambos UI al inicio (se activarán según el turno)
+        if (UITurnoJugador != null) UITurnoJugador.SetActive(false);
+        if (UITurnoEnemigo != null) UITurnoEnemigo.SetActive(false);
         
         StartPlayerSelectionPhase();
     }
@@ -186,6 +196,9 @@ public class TurnSystem : MonoBehaviour
     {
         _currentTeam = Team.Player;
         
+        // Activar/desactivar UI según el turno
+        UpdateTurnUI();
+        
         // Limpiar jugadores muertos antes de buscar el primero
         CleanDeadFromList(playerTeam);
         
@@ -250,6 +263,9 @@ public class TurnSystem : MonoBehaviour
     
     private void StartEnemyTurn()
     {
+        // Activar/desactivar UI según el turno
+        UpdateTurnUI();
+        
         CleanDeadFromList(enemyTeam);
         Debug.Log($"[TURN_SYSTEM] Getting next enemy. Enemy count: {enemyTeam.Count}, Enemy index: {_enemyIndex}");
         
@@ -287,6 +303,41 @@ public class TurnSystem : MonoBehaviour
     private void SwitchTeam()
     {
         _currentTeam = _currentTeam == Team.Player ? Team.Enemy : Team.Player;
+    }
+    
+    /// <summary>
+    /// Actualiza los componentes UI según el equipo actual
+    /// </summary>
+    private void UpdateTurnUI()
+    {
+        if (_currentTeam == Team.Player)
+        {
+            // Activar UI de jugador y desactivar UI de enemigo
+            if (UITurnoJugador != null)
+            {
+                UITurnoJugador.SetActive(true);
+                Debug.Log("[TURN_SYSTEM] UITurnoJugador activado");
+            }
+            if (UITurnoEnemigo != null)
+            {
+                UITurnoEnemigo.SetActive(false);
+                Debug.Log("[TURN_SYSTEM] UITurnoEnemigo desactivado");
+            }
+        }
+        else if (_currentTeam == Team.Enemy)
+        {
+            // Activar UI de enemigo y desactivar UI de jugador
+            if (UITurnoEnemigo != null)
+            {
+                UITurnoEnemigo.SetActive(true);
+                Debug.Log("[TURN_SYSTEM] UITurnoEnemigo activado");
+            }
+            if (UITurnoJugador != null)
+            {
+                UITurnoJugador.SetActive(false);
+                Debug.Log("[TURN_SYSTEM] UITurnoJugador desactivado");
+            }
+        }
     }
 
     private CharacterActor GetNextActor(Team team)
