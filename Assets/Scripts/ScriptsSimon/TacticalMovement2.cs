@@ -23,6 +23,11 @@ public class TacticalMovementController : MonoBehaviour
     private float totalDistanceMovedInTurn = 0f; 
     private Vector3 lastPosition;
     
+    // Flag para rastrear si ya se estableció startPositionOfTurn en el turno global actual
+    private static bool hasSetStartPositionThisGlobalTurn = false;
+    private static Team lastGlobalTurnTeam = Team.Enemy; // Inicializar con Enemy para que el primer turno de Player lo detecte
+    private bool hasUsedTurnThisGlobalTurn = false; // Flag para rastrear si este jugador ya usó su turno en el turno global actual
+    
     // Variables de runtime para las stats (ahora declaradas aquí)
     private float moveSpeed = 5f; // Valor por defecto
     private float movementRange = 5f; // Valor por defecto
@@ -51,7 +56,67 @@ public class TacticalMovementController : MonoBehaviour
 
     void Start()
     {
-        lastPosition = transform.position; 
+        lastPosition = transform.position;
+        startPositionOfTurn = transform.position; // Inicializar con la posición actual
+        
+        // Suscribirse a eventos del TurnSystem para detectar cambios de turno global
+        if (_turnSystem != null)
+        {
+            _turnSystem.OnTurnStarted += HandleTurnStarted;
+            _turnSystem.OnTurnEnded += HandleTurnEnded;
+        }
+    }
+    
+    void OnDestroy()
+    {
+        // Desuscribirse de eventos
+        if (_turnSystem != null)
+        {
+            _turnSystem.OnTurnStarted -= HandleTurnStarted;
+            _turnSystem.OnTurnEnded -= HandleTurnEnded;
+        }
+    }
+    
+    private void HandleTurnStarted(Team team, CharacterActor actor)
+    {
+        // Si cambió el equipo (de Enemy a Player o viceversa), resetear la flag
+        if (team != lastGlobalTurnTeam)
+        {
+            hasSetStartPositionThisGlobalTurn = false;
+            lastGlobalTurnTeam = team;
+            Debug.Log($"[MOVEMENT] {gameObject.name}: Nuevo turno global detectado ({team}). Reset de flag de posición inicial.");
+        }
+        
+        // Si es el turno de este personaje y es turno de jugadores
+        if (team == Team.Player && actor == _characterActor)
+        {
+            // Si es el primer jugador del turno global (aún no se estableció la posición) y aún no ha usado su turno
+            // Establecer la posición inicial inmediatamente para el primer jugador
+            if (!hasSetStartPositionThisGlobalTurn && !hasUsedTurnThisGlobalTurn)
+            {
+                startPositionOfTurn = transform.position;
+                hasSetStartPositionThisGlobalTurn = true;
+                Debug.Log($"[MOVEMENT] {gameObject.name}: ✅ startPositionOfTurn establecido (primer jugador del turno global): {startPositionOfTurn}");
+            }
+        }
+    }
+    
+    private void HandleTurnEnded(Team team, CharacterActor actor)
+    {
+        // Si este personaje terminó su turno en la fase de jugadores, marcar que ya usó su turno
+        if (team == Team.Player && actor == _characterActor)
+        {
+            hasUsedTurnThisGlobalTurn = true;
+            Debug.Log($"[MOVEMENT] {gameObject.name}: Turno completado. Flag hasUsedTurnThisGlobalTurn = true");
+        }
+        
+        // Si cambió el equipo (de Player a Enemy), resetear las flags
+        if (team == Team.Player && _turnSystem != null && _turnSystem.CurrentTeam == Team.Enemy)
+        {
+            hasUsedTurnThisGlobalTurn = false;
+            hasSetStartPositionThisGlobalTurn = false;
+            Debug.Log($"[MOVEMENT] {gameObject.name}: Fase de jugadores terminada. Reset de flags.");
+        }
     }
 
     void Update()
@@ -142,7 +207,43 @@ public class TacticalMovementController : MonoBehaviour
 
         isMovementPhaseActive = true;
         
-        startPositionOfTurn = transform.position;
+        // Solo establecer startPositionOfTurn una vez por turno global, y solo si el jugador ya utilizó su turno
+        // (excepto para el primer jugador que se establece en HandleTurnStarted)
+        if (_turnSystem != null && _turnSystem.CurrentTeam == Team.Player)
+        {
+            // Verificar si el jugador ya utilizó su turno en este turno global Y si aún no se estableció la posición inicial
+            if (hasUsedTurnThisGlobalTurn && !hasSetStartPositionThisGlobalTurn)
+            {
+                startPositionOfTurn = transform.position;
+                hasSetStartPositionThisGlobalTurn = true;
+                Debug.Log($"[MOVEMENT] {gameObject.name}: ✅ startPositionOfTurn establecido (una vez por turno global, jugador ya usó su turno): {startPositionOfTurn}");
+            }
+            else if (!hasSetStartPositionThisGlobalTurn && !hasUsedTurnThisGlobalTurn)
+            {
+                // Si es el primer jugador y aún no se estableció, establecerlo aquí como fallback
+                // (aunque debería haberse establecido en HandleTurnStarted)
+                startPositionOfTurn = transform.position;
+                hasSetStartPositionThisGlobalTurn = true;
+                Debug.Log($"[MOVEMENT] {gameObject.name}: ✅ startPositionOfTurn establecido (fallback para primer jugador): {startPositionOfTurn}");
+            }
+            else if (hasSetStartPositionThisGlobalTurn)
+            {
+                // Ya se estableció en este turno global, no establecer de nuevo
+                Debug.Log($"[MOVEMENT] {gameObject.name}: ⏸️ startPositionOfTurn NO se establece (ya se estableció en este turno global). Usando valor anterior: {startPositionOfTurn}");
+            }
+            else
+            {
+                // El jugador aún no ha usado su turno y ya se estableció (no debería pasar, pero por seguridad)
+                Debug.Log($"[MOVEMENT] {gameObject.name}: ⏸️ startPositionOfTurn NO se establece (jugador aún no ha usado su turno). Usando valor anterior: {startPositionOfTurn}");
+            }
+        }
+        else
+        {
+            // Si no hay TurnSystem o no es turno de jugadores, establecer normalmente
+            startPositionOfTurn = transform.position;
+            Debug.Log($"[MOVEMENT] {gameObject.name}: startPositionOfTurn establecido (sin TurnSystem o no es turno de jugadores): {startPositionOfTurn}");
+        }
+        
         totalDistanceMovedInTurn = 0f; 
         lastPosition = transform.position;
         

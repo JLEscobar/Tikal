@@ -37,7 +37,15 @@ public class CharacterActor : MonoBehaviour, ITargetable
     // Cached components
     private Health _health;
     private CharacterMovement _movement;
-    private CharacterController _controller; 
+    private CharacterController _controller;
+    private TurnSystem _turnSystem;
+    
+    // Flags para prevenir restauración múltiple de AP
+    // Tanto ENEMIGOS como JUGADORES: se restauran solo una vez por turno global
+    private static bool hasRestoredAPThisGlobalTurn = false;
+    private static Team lastGlobalTurnTeam = Team.Enemy; // Inicializar con Enemy para que el primer turno de Player lo detecte
+    private bool hasRestoredAPThisGlobalTurnInstance = false; // Flag de instancia para rastrear si ESTE personaje ya restauró AP en este turno global
+    private bool hasUsedTurnThisGlobalTurn = false; // Flag para rastrear si este personaje ya usó su turno en el turno global actual
 
     // Properties
     public CharacterStats Stats => stats;
@@ -77,6 +85,106 @@ public class CharacterActor : MonoBehaviour, ITargetable
             }
         }
         _health.OnDied += OnDeath;
+        
+        // Buscar TurnSystem para suscribirse a eventos
+        _turnSystem = FindFirstObjectByType<TurnSystem>();
+    }
+    
+    void Start()
+    {
+        // Suscribirse a eventos del TurnSystem para detectar cambios de turno global
+        if (_turnSystem != null)
+        {
+            _turnSystem.OnTurnStarted += HandleTurnStarted;
+            _turnSystem.OnTurnEnded += HandleTurnEnded;
+        }
+    }
+    
+    void OnDestroy()
+    {
+        // Desuscribirse de eventos
+        if (_turnSystem != null)
+        {
+            _turnSystem.OnTurnStarted -= HandleTurnStarted;
+            _turnSystem.OnTurnEnded -= HandleTurnEnded;
+        }
+    }
+    
+    private void HandleTurnStarted(Team team, CharacterActor actor)
+    {
+        // Si cambió el equipo (de Enemy a Player o viceversa), resetear las flags de AP
+        if (team != lastGlobalTurnTeam)
+        {
+            hasRestoredAPThisGlobalTurn = false;
+            lastGlobalTurnTeam = team;
+            // IMPORTANTE: Resetear la flag individual cuando cambia el turno global
+            hasUsedTurnThisGlobalTurn = false;
+            hasRestoredAPThisGlobalTurnInstance = false;
+            Debug.Log($"[AP] {CharacterName}: 🔄 Nuevo turno global detectado ({team}). Reset de flags de AP. lastGlobalTurnTeam: {lastGlobalTurnTeam}");
+        }
+        
+        // Si es el turno global de nuestro equipo Y este personaje aún no ha restaurado AP en este turno global
+        if (team == Team && !hasRestoredAPThisGlobalTurnInstance)
+        {
+            // Si actor es null, significa que se está iniciando el turno global del equipo
+            // O si actor es this, significa que es nuestro turno individual
+            // En ambos casos, restaurar AP para este personaje
+            int apBefore = currentActionPoints;
+            RestoreActionPoints();
+            hasRestoredAPThisGlobalTurnInstance = true;
+            hasUsedTurnThisGlobalTurn = true;
+            // Marcar la flag estática solo la primera vez (para compatibilidad con otros sistemas)
+            if (!hasRestoredAPThisGlobalTurn)
+            {
+                hasRestoredAPThisGlobalTurn = true;
+            }
+            Debug.Log($"[AP] {CharacterName}: ✅ AP restaurados (inicio del turno global de {team}, actor={(actor != null ? actor.CharacterName : "null")}). AP: {apBefore} -> {currentActionPoints}");
+        }
+        else if (team == Team && hasRestoredAPThisGlobalTurnInstance)
+        {
+            Debug.Log($"[AP] {CharacterName}: ⏸️ AP NO restaurados (ya se restauraron en este turno global). AP actual: {currentActionPoints}, actor={(actor != null ? actor.CharacterName : "null")}");
+        }
+        else if (team != Team)
+        {
+            Debug.Log($"[AP] {CharacterName}: ⏭️ No es mi equipo (team={team}, Team={Team}). No restaurando AP.");
+        }
+    }
+    
+    private void HandleTurnEnded(Team team, CharacterActor actor)
+    {
+        // Si este personaje terminó su turno, marcar que ya usó su turno en este turno global
+        if (actor == this)
+        {
+            hasUsedTurnThisGlobalTurn = true;
+        }
+        
+        // Si cambió el equipo (de Enemy a Player o de Player a Enemy), resetear las flags globales
+        if ((team == Team.Enemy && _turnSystem != null && _turnSystem.CurrentTeam == Team.Player) ||
+            (team == Team.Player && _turnSystem != null && _turnSystem.CurrentTeam == Team.Enemy))
+        {
+            hasRestoredAPThisGlobalTurn = false;
+            hasUsedTurnThisGlobalTurn = false;
+            hasRestoredAPThisGlobalTurnInstance = false;
+            Debug.Log($"[AP] {CharacterName}: Cambio de fase detectado. Reset de flags globales de AP.");
+        }
+    }
+    
+    /// <summary>
+    /// Restaura los Action Points según las reglas del juego
+    /// </summary>
+    private void RestoreActionPoints()
+    {
+        int apBefore = currentActionPoints;
+        int apAfterRefill = currentActionPoints + baseAPPerTurn; 
+        currentActionPoints = Mathf.Min(apAfterRefill, maxAccumulatedAP);
+        
+        bool isKnockedOut = activeEffects.Any(e => e.Type == StatusEffectType.Noqueado);
+        if (isKnockedOut)
+        {
+            currentActionPoints = 0;
+        }
+        
+        Debug.Log($"[AP] {CharacterName}: AP restaurados. AP: {apBefore} -> {currentActionPoints}/{maxAccumulatedAP}");
     }
 
     // ***************************************************
@@ -85,8 +193,37 @@ public class CharacterActor : MonoBehaviour, ITargetable
 
     public void BeginTurn()
     {
-        int apAfterRefill = currentActionPoints + baseAPPerTurn; 
-        currentActionPoints = Mathf.Min(apAfterRefill, maxAccumulatedAP); 
+        // Verificar si cambió el turno global (protección adicional)
+        if (_turnSystem != null && _turnSystem.CurrentTeam != lastGlobalTurnTeam)
+        {
+            hasRestoredAPThisGlobalTurn = false;
+            lastGlobalTurnTeam = _turnSystem.CurrentTeam;
+            hasUsedTurnThisGlobalTurn = false;
+            hasRestoredAPThisGlobalTurnInstance = false;
+            Debug.Log($"[AP] {CharacterName}: 🔄 Cambio de turno global detectado en BeginTurn ({_turnSystem.CurrentTeam}). Reset de flags de AP.");
+        }
+        
+        // MISMA LÓGICA para ENEMIGOS y JUGADORES: Los AP se restauran solo una vez por turno global
+        // (en HandleTurnStarted del primer personaje del equipo)
+        // Aquí solo verificamos si ya se restauraron, y si no, los restauramos como fallback
+        // Usamos la flag de instancia para asegurar que cada personaje restaure AP una vez por turno global
+        if (!hasRestoredAPThisGlobalTurnInstance)
+        {
+            int apBefore = currentActionPoints;
+            RestoreActionPoints();
+            hasRestoredAPThisGlobalTurnInstance = true;
+            hasUsedTurnThisGlobalTurn = true;
+            // Marcar la flag estática solo la primera vez (para compatibilidad con otros sistemas)
+            if (!hasRestoredAPThisGlobalTurn)
+            {
+                hasRestoredAPThisGlobalTurn = true;
+            }
+            Debug.Log($"[AP] {CharacterName}: ✅ AP restaurados (fallback para primer {Team} en BeginTurn). AP: {apBefore} -> {currentActionPoints}");
+        }
+        else
+        {
+            Debug.Log($"[AP] {CharacterName}: ⏸️ AP NO restaurados (ya se restauraron en este turno global). AP actual: {currentActionPoints}");
+        }
         
         bool isKnockedOut = activeEffects.Any(e => e.Type == StatusEffectType.Noqueado);
 
@@ -116,6 +253,9 @@ public class CharacterActor : MonoBehaviour, ITargetable
 
     public void EndTurn()
     {
+        // Las flags de AP se resetean automáticamente cuando cambia el turno global en HandleTurnEnded()
+        // No necesitamos resetear nada aquí
+        
         if (tacticalMovement != null)
         {
             tacticalMovement.SetMovementPhase(false);
@@ -168,8 +308,16 @@ public class CharacterActor : MonoBehaviour, ITargetable
 
     public void ConsumeActionPoints(int amount)
     {
-        currentActionPoints = Mathf.Max(0, currentActionPoints - Mathf.Abs(amount));
-        Debug.Log($"[AP Consumption] {CharacterName} Consumed {Mathf.Abs(amount)} AP. Remaining AP: {currentActionPoints}");
+        int apBefore = currentActionPoints;
+        int amountToConsume = Mathf.Abs(amount);
+        currentActionPoints = Mathf.Max(0, currentActionPoints - amountToConsume);
+        Debug.Log($"[AP Consumption] {CharacterName}: Consumió {amountToConsume} AP. AP: {apBefore} -> {currentActionPoints}");
+        
+        // Verificación de seguridad: si los AP no disminuyeron, hay un problema
+        if (amountToConsume > 0 && apBefore == currentActionPoints)
+        {
+            Debug.LogError($"[AP Consumption] ⚠️ ERROR: {CharacterName} intentó consumir {amountToConsume} AP pero los AP no disminuyeron! (AP antes: {apBefore}, AP después: {currentActionPoints})");
+        }
     }
     
     // Llamado por LineAttackAbility para el teletransporte de Ollin
@@ -244,19 +392,56 @@ public class CharacterActor : MonoBehaviour, ITargetable
     public bool TryUseAbility(int abilityIndex, ITargetable target)
     {
         var ability = GetAbilityByIndex(abilityIndex);
-        if (ability == null) return false;
+        if (ability == null)
+        {
+            Debug.LogWarning($"[TryUseAbility] {CharacterName}: Habilidad con índice {abilityIndex} no encontrada.");
+            return false;
+        }
 
         if (target == null && ability is AreaAttackAbility)
         {
              target = this; 
         }
         
-        if (target == null) return false; 
+        if (target == null)
+        {
+            Debug.LogWarning($"[TryUseAbility] {CharacterName}: Target es null para {ability.DisplayName}.");
+            return false; 
+        }
 
-        if (ability.currentCooldown > 0) return false;
-        if (!ability.CanExecute(this, target)) return false;
+        // Verificar AP ANTES de ejecutar (doble verificación de seguridad)
+        int apBefore = currentActionPoints;
+        if (apBefore < ability.CostAP)
+        {
+            Debug.LogWarning($"[TryUseAbility] {CharacterName}: AP insuficientes para {ability.DisplayName}. Tiene: {apBefore}, Necesita: {ability.CostAP}");
+            return false;
+        }
+
+        if (ability.currentCooldown > 0)
+        {
+            Debug.Log($"[TryUseAbility] {CharacterName}: {ability.DisplayName} está en cooldown ({ability.currentCooldown} turnos).");
+            return false;
+        }
         
+        if (!ability.CanExecute(this, target))
+        {
+            Debug.Log($"[TryUseAbility] {CharacterName}: {ability.DisplayName} no puede ejecutarse (CanExecute retornó false).");
+            return false;
+        }
+        
+        // Ejecutar la habilidad (esto debería consumir AP dentro de Execute)
         ability.Execute(this, target);
+        
+        // Verificar que los AP se consumieron correctamente
+        int apAfter = currentActionPoints;
+        if (ability.CostAP > 0 && apBefore == apAfter)
+        {
+            Debug.LogError($"[TryUseAbility] ⚠️ ERROR CRÍTICO: {CharacterName} usó {ability.DisplayName} (CostAP: {ability.CostAP}) pero los AP NO disminuyeron! AP antes: {apBefore}, AP después: {apAfter}");
+        }
+        else if (ability.CostAP > 0)
+        {
+            Debug.Log($"[TryUseAbility] {CharacterName}: {ability.DisplayName} ejecutada correctamente. AP: {apBefore} -> {apAfter} (consumió {apBefore - apAfter})");
+        }
         
         if (ability.BaseCooldownTurns > 0)
         {
