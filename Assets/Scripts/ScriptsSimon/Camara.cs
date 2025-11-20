@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float sensitivity = 300f;   // Sensibilidad del mouse
+    [Header("Camera Settings")]
+    [Tooltip("Sensibilidad del mouse (estándar industria: 2-5). Ajusta según preferencia.")]
+    [Range(0.5f, 10f)]
+    public float sensitivity = 2.0f;   // Sensibilidad estándar de la industria (sin Time.deltaTime)
     public Transform playerBody;       // El objeto que rota horizontalmente (normalmente el Player)
 
     float xRotation = 0f;
@@ -14,9 +17,9 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
-        // Leer movimiento del mouse
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        // Leer movimiento del mouse (sin Time.deltaTime para sensibilidad estándar de la industria)
+        float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
         // Rotación vertical (cámara)
         xRotation -= mouseY;
