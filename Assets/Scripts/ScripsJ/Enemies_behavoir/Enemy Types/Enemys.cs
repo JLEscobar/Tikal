@@ -369,7 +369,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         // Solo ejecutar la máquina de estados si es nuestro turno
         if (isMyTurn && !hasCompletedTurnAction)
         {
-            // Timeout automático para evitar turnos infinitos
+            // PRIORIDAD 1: Timeout automático para evitar turnos infinitos (máxima prioridad)
             if (Time.time - turnStartTime > MAX_TURN_DURATION)
             {
                 Debug.LogWarning($"[ENEMY] {gameObject.name}: Turno excedió el tiempo máximo. Completando automáticamente.");
@@ -377,9 +377,10 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
                 return;
             }
 
-            // Completar automáticamente si ha pasado tiempo desde la última acción
+            // PRIORIDAD 2: Completar automáticamente si ha pasado tiempo desde la última acción
+            // Solo si NO se activó el timeout máximo (evitar llamadas duplicadas)
             // Esto ayuda a estados que no llaman explícitamente a CompleteTurnAction()
-            if (Time.time - lastActionTime > AUTO_COMPLETE_DELAY && lastActionTime > 0)
+            if (Time.time - lastActionTime > AUTO_COMPLETE_DELAY && lastActionTime > 0 && Time.time - turnStartTime <= MAX_TURN_DURATION)
             {
                 Debug.Log($"[ENEMY] {gameObject.name}: Completando turno automáticamente después de acción.");
                 CompleteTurnAction();

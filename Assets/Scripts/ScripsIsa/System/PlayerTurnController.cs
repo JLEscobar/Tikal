@@ -115,14 +115,16 @@ public class PlayerTurnController : MonoBehaviour
              return;
         }
 
-        if (_current.ActionPoints < 1)
-        {
-             MessagesSystem.Instance.ShowMessage("¡No quedan Puntos de Acción para la acción!", Color.red);
-             return;
-        }
-
         var ability = _current.GetAbilityByIndex(index);
         if (ability == null) return;
+        
+        // Verificar que el jugador tenga AP suficiente para esta habilidad específica
+        if (_current.ActionPoints < ability.CostAP)
+        {
+             MessagesSystem.Instance.ShowMessage($"¡No tienes suficientes AP! Necesitas {ability.CostAP} AP para usar {ability.DisplayName}.", Color.red);
+             Debug.Log($"[AP_CHECK] {_current.CharacterName}: AP insuficientes. Tiene: {_current.ActionPoints}, Necesita: {ability.CostAP}");
+             return;
+        }
         
         ITargetable targetToUse = _currentTarget;
         
@@ -163,12 +165,19 @@ public class PlayerTurnController : MonoBehaviour
 
         if (_current.TryUseAbility(index, targetToUse))
         {
-            Debug.Log($"[vAP_FIX_FINAL] {_current.CharacterName} used {ability.DisplayName} successfully.");
-
-            if (ability.CostAP > 0)
+            Debug.Log($"[vAP_FIX_FINAL] {_current.CharacterName} used {ability.DisplayName} successfully. Remaining AP: {_current.ActionPoints}");
+            
+            // Verificar si el jugador todavía tiene AP después de usar la habilidad
+            if (_current.ActionPoints <= 0)
             {
-                MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} finalizado. Elige otro personaje (1-4).", Color.yellow);
-                turnSystem.EndTurn(); 
+                // No quedan AP, terminar el turno automáticamente
+                MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} finalizado. Sin AP restantes.", Color.yellow);
+                turnSystem.EndTurn();
+            }
+            else
+            {
+                // Todavía tiene AP, puede usar otra habilidad
+                MessagesSystem.Instance.ShowMessage($"{_current.CharacterName} usó {ability.DisplayName}. AP restantes: {_current.ActionPoints}", Color.cyan);
             }
         }
         else

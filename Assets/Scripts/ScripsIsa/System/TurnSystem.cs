@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,6 +30,8 @@ public class TurnSystem : MonoBehaviour
     private CharacterActor _current;
     private bool _started;
     private bool _isFirstEnemyTurn = true; // Para no aplicar delay en el primer turno de enemigo
+    private bool _isProcessingEndTurn = false; // Flag para prevenir múltiples llamadas simultáneas a EndTurn
+    private Coroutine _enemyTurnCoroutine = null; // Referencia a la corrutina de delay de enemigos
 
     void Start()
     {
@@ -65,8 +68,19 @@ public class TurnSystem : MonoBehaviour
     public void EndTurn(bool forcePlayerPhaseEnd = false)
     {
         if (!_started) return;
-
-        Debug.Log($"[TURN_SYSTEM] EndTurn called. forcePlayerPhaseEnd: {forcePlayerPhaseEnd}, CurrentTeam: {_currentTeam}, CurrentActor: {(_current != null ? _current.CharacterName : "null")}");
+        
+        // Protección contra múltiples llamadas simultáneas
+        if (_isProcessingEndTurn)
+        {
+            Debug.LogWarning($"[TURN_SYSTEM] EndTurn ya está siendo procesado. Ignorando llamada duplicada.");
+            return;
+        }
+        
+        _isProcessingEndTurn = true;
+        
+        try
+        {
+            Debug.Log($"[TURN_SYSTEM] EndTurn called. forcePlayerPhaseEnd: {forcePlayerPhaseEnd}, CurrentTeam: {_currentTeam}, CurrentActor: {(_current != null ? _current.CharacterName : "null")}");
 
         // 1. Finalizar turno del actor actual (si existe)
         if (_current != null && _current.gameObject != null)
@@ -150,6 +164,12 @@ public class TurnSystem : MonoBehaviour
             
             NextTurn();
         }
+        }
+        finally
+        {
+            // Siempre resetear la flag al finalizar, incluso si hay errores
+            _isProcessingEndTurn = false;
+        }
     }
     
     // MÉTODO SetCurrentActor (se mantiene)
@@ -202,12 +222,17 @@ public class TurnSystem : MonoBehaviour
         // Limpiar jugadores muertos antes de buscar el primero
         CleanDeadFromList(playerTeam);
         
-        // Obtener el primer jugador válido de la lista
+        // IMPORTANTE: Invocar OnTurnStarted con null primero para que todos los jugadores detecten el cambio de turno global
+        // Esto permite que HandleTurnStarted restaure los AP antes de buscar el primer jugador
+        OnTurnStarted?.Invoke(_currentTeam, null);
+        
+        // Buscar el primer jugador válido (sin importar sus AP, porque se restaurarán en HandleTurnStarted o BeginTurn)
         CharacterActor firstPlayer = playerTeam.FirstOrDefault(p => p != null && !p.Health.IsDead);
         
         if (firstPlayer != null)
         {
             // Activar automáticamente el turno del primer jugador
+            // BeginTurn() y HandleTurnStarted() restaurarán los AP si es necesario
             _current = firstPlayer;
             firstPlayer.BeginTurn();
             OnTurnStarted?.Invoke(_currentTeam, firstPlayer);
@@ -226,11 +251,13 @@ public class TurnSystem : MonoBehaviour
         }
         else
         {
-            // Si no hay jugadores válidos, mantener el comportamiento anterior
-            _current = null; 
-            OnTurnStarted?.Invoke(_currentTeam, null); 
-            MessagesSystem.Instance.ShowMessage("Fase de Selección del Jugador: Elige un personaje (1, 2, 3 o 4)", Color.yellow);
-            Debug.Log("[vDoT_FINAL] Player Selection Phase Started. No valid players found.");
+            // No hay jugadores válidos, cambiar directamente a enemigos
+            Debug.Log("[TURN_SYSTEM] No valid players found. Switching to Enemy team.");
+            _current = null;
+            _enemyIndex = 0;
+            _currentTeam = Team.Enemy;
+            _isFirstEnemyTurn = true;
+            NextTurn();
         }
     }
 
@@ -245,7 +272,14 @@ public class TurnSystem : MonoBehaviour
         // Si es turno de enemigo y no es el primer turno, aplicar delay
         if (!_isFirstEnemyTurn)
         {
-            StartCoroutine(NextEnemyTurnWithDelay());
+            // Cancelar corrutina anterior si existe (protección contra múltiples llamadas)
+            if (_enemyTurnCoroutine != null)
+            {
+                StopCoroutine(_enemyTurnCoroutine);
+                Debug.LogWarning("[TURN_SYSTEM] Corrutina de delay anterior cancelada.");
+            }
+            
+            _enemyTurnCoroutine = StartCoroutine(NextEnemyTurnWithDelay());
             return;
         }
         
@@ -258,7 +292,19 @@ public class TurnSystem : MonoBehaviour
     {
         Debug.Log($"[TURN_SYSTEM] Esperando {enemyTurnDelay} segundos antes del siguiente turno de enemigo...");
         yield return new WaitForSeconds(enemyTurnDelay);
-        StartEnemyTurn();
+        
+        // Verificar que aún estamos en el turno de enemigos antes de iniciar
+        // (por si se canceló o cambió el turno durante el delay)
+        if (_currentTeam == Team.Enemy)
+        {
+            StartEnemyTurn();
+        }
+        else
+        {
+            Debug.LogWarning($"[TURN_SYSTEM] Corrutina de delay cancelada - el turno cambió a {_currentTeam}");
+        }
+        
+        _enemyTurnCoroutine = null;
     }
     
     private void StartEnemyTurn()
