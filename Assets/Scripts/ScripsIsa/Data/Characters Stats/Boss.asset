@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   characterName: Jaguar_Stats
   team: 1
-  maxHealth: 0
+  maxHealth: 300
   attackPower: 30
   actionPointsPerTurn: 1
   moveSpeed: 5

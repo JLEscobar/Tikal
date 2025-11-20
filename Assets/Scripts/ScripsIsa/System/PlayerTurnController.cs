@@ -308,16 +308,19 @@ public class PlayerTurnController : MonoBehaviour
             _currentTarget = null;
             Debug.Log($"[vAP_FIX_FINAL] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}");
             
-            // LÓGICA DE RESTAURACIÓN DE APs GLOBALES
+            // LÓGICA DE RESTAURACIÓN DE APs Y POSICIÓN INICIAL GLOBALES
             // Si cambió el turno global (de Enemy a Player), resetear las flags
             if (team != lastAPGlobalTurnTeam)
             {
                 hasRestoredAPThisGlobalTurn = false;
                 lastAPGlobalTurnTeam = team;
-                Debug.Log($"[AP] PlayerTurnController: Nuevo turno global de jugadores detectado. Restaurando APs para todos los jugadores.");
+                Debug.Log($"[AP] PlayerTurnController: Nuevo turno global de jugadores detectado. Restaurando APs y estableciendo posición inicial para todos los jugadores.");
                 
                 // Restaurar APs para todos los jugadores vivos
                 RestoreAPsForAllPlayers();
+                
+                // Establecer startPositionOfTurn para todos los jugadores vivos (una vez por turno global)
+                SetStartPositionForAllPlayers();
             }
         }
     }
@@ -361,6 +364,32 @@ public class PlayerTurnController : MonoBehaviour
         }
         
         hasRestoredAPThisGlobalTurn = true;
+    }
+    
+    /// <summary>
+    /// Establece la posición inicial del turno (startPositionOfTurn) para todos los jugadores vivos
+    /// </summary>
+    private void SetStartPositionForAllPlayers()
+    {
+        if (_playerActors == null) return;
+        
+        foreach (var player in _playerActors)
+        {
+            if (player == null || player.Health.IsDead) continue;
+            
+            // Obtener el componente TacticalMovementController del jugador
+            TacticalMovementController movementController = player.GetComponent<TacticalMovementController>();
+            if (movementController != null)
+            {
+                // Establecer la posición inicial del turno para este jugador
+                movementController.SetStartPositionOfTurn(player.transform.position);
+                Debug.Log($"[MOVEMENT] PlayerTurnController: {player.CharacterName} - startPositionOfTurn establecido globalmente: {player.transform.position}");
+            }
+            else
+            {
+                Debug.LogWarning($"[MOVEMENT] PlayerTurnController: {player.CharacterName} no tiene TacticalMovementController.");
+            }
+        }
     }
 
     private void HandleTurnEnd(Team team, CharacterActor actor)
