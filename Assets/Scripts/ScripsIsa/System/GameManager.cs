@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float cameraHeightOffset = 1.5f; // Altura adicional para el target de la cámara
     [SerializeField] private string cameraTargetChildName = "CameraTarget"; // Nombre del hijo a buscar como target
     [SerializeField] private float cameraDistanceOffset = 25f; // Distancia adicional para alejar la cámara del personaje (ajustable en inspector)
+    [Tooltip("Sensibilidad de la cámara FreeLook (velocidad de rotación). Valores más altos = cámara más sensible. Rango recomendado: 1-10")]
+    [Range(0.1f, 20f)]
+    [SerializeField] private float cameraSensitivity = 2f; // Sensibilidad de la cámara (Max Speed para XAxis y YAxis)
+    
+    private Team _lastTeam = Team.Enemy; // Para rastrear el último equipo y detectar cambio de enemigos a jugadores
 
     void Awake()
     {
@@ -64,6 +69,12 @@ public class GameManager : MonoBehaviour
         if (virtualCamera != null)
         {
             Debug.Log($"[CAMERA] Tipo de cámara detectado: {virtualCamera.GetType().Name}. La distancia se ajustará cuando se asigne el primer target.");
+            
+            // Configurar la sensibilidad de la cámara si es FreeLook
+            if (virtualCamera is Unity.Cinemachine.CinemachineFreeLook)
+            {
+                SetCameraSensitivity(cameraSensitivity);
+            }
         }
     }
     
@@ -211,30 +222,56 @@ public class GameManager : MonoBehaviour
     {
         // Update camera for both player and enemy teams
         // Solo actualizar si hay un actor válido (ignorar llamadas con null)
-        // IMPORTANTE: Para el equipo Player, NO actualizar la cámara automáticamente al inicio de fase
-        // La cámara se actualizará cuando el usuario seleccione manualmente un personaje
         if (virtualCamera != null && actor != null)
         {
-            // Solo actualizar la cámara automáticamente para enemigos
-            // Para jugadores, la cámara se actualizará cuando seleccionen manualmente un personaje
+            // Actualizar la cámara automáticamente para enemigos
             if (team == Team.Enemy)
-        {
-            Transform cameraTarget = GetCameraTarget(actor.transform);
+            {
+                Transform cameraTarget = GetCameraTarget(actor.transform);
                 if (cameraTarget != null)
                 {
-            UpdateCameraTarget(cameraTarget);
-            Debug.Log($"[CAMERA] Following {team} character: {actor.CharacterName}");
+                    UpdateCameraTarget(cameraTarget);
+                    Debug.Log($"[CAMERA] Following {team} character: {actor.CharacterName}");
                 }
                 else
                 {
                     Debug.LogWarning($"[CAMERA] No se pudo encontrar target de cámara para {actor.CharacterName}");
                 }
+                _lastTeam = Team.Enemy;
             }
-            else
+            // Para jugadores: actualizar la cámara solo si acabamos de cambiar de enemigos a jugadores
+            // (nuevo turno global de jugadores) o si el usuario selecciona manualmente un personaje
+            else if (team == Team.Player)
             {
-                // Para jugadores, no actualizar automáticamente (se actualizará al seleccionar manualmente)
-                Debug.Log($"[CAMERA] Turno de {actor.CharacterName} iniciado (cámara NO actualizada automáticamente para jugadores)");
+                // Si el último equipo era Enemy, significa que acabamos de cambiar de enemigos a jugadores
+                // En este caso, actualizar la cámara al primer jugador activado
+                if (_lastTeam == Team.Enemy)
+                {
+                    Transform cameraTarget = GetCameraTarget(actor.transform);
+                    if (cameraTarget != null)
+                    {
+                        UpdateCameraTarget(cameraTarget);
+                        Debug.Log($"[CAMERA] Cambio de enemigos a jugadores - Cámara actualizada a {actor.CharacterName}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[CAMERA] No se pudo encontrar target de cámara para {actor.CharacterName}");
+                    }
+                }
+                else
+                {
+                    // Si el último equipo ya era Player, no actualizar automáticamente
+                    // (el usuario puede estar seleccionando manualmente otro personaje)
+                    Debug.Log($"[CAMERA] Turno de {actor.CharacterName} iniciado (cámara NO actualizada - ya estábamos en turno de jugadores)");
+                }
+                _lastTeam = Team.Player;
             }
+        }
+        else if (actor == null && team == Team.Player)
+        {
+            // Cuando se invoca OnTurnStarted con null (inicio de fase de jugadores),
+            // no actualizar _lastTeam todavía, esperar a que se invoque con el actor real
+            Debug.Log($"[CAMERA] Inicio de fase de jugadores (actor null) - esperando activación del primer jugador");
         }
     }
 
@@ -609,6 +646,34 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning($"[CAMERA] ⚠ No se pudo ajustar la distancia automáticamente. Tipo: {virtualCamera.GetType().Name}. " +
                            $"Ajusta manualmente en el editor o aumenta 'cameraDistanceOffset' (actual: {cameraDistanceOffset})");
+        }
+    }
+    
+    /// <summary>
+    /// Configura la sensibilidad de la cámara FreeLook (velocidad de rotación)
+    /// </summary>
+    /// <param name="sensitivity">Valor de sensibilidad (Max Speed para XAxis y YAxis). Rango recomendado: 1-10</param>
+    public void SetCameraSensitivity(float sensitivity)
+    {
+        if (virtualCamera == null) return;
+        
+        if (virtualCamera is Unity.Cinemachine.CinemachineFreeLook freeLook)
+        {
+            // Ajustar la sensibilidad del eje X (horizontal)
+            var xAxis = freeLook.m_XAxis;
+            xAxis.m_MaxSpeed = sensitivity;
+            freeLook.m_XAxis = xAxis;
+            
+            // Ajustar la sensibilidad del eje Y (vertical)
+            var yAxis = freeLook.m_YAxis;
+            yAxis.m_MaxSpeed = sensitivity;
+            freeLook.m_YAxis = yAxis;
+            
+            Debug.Log($"[CAMERA] Sensibilidad de FreeLook Camera ajustada a {sensitivity} (XAxis y YAxis Max Speed)");
+        }
+        else
+        {
+            Debug.LogWarning($"[CAMERA] No se puede ajustar la sensibilidad - la cámara no es FreeLook (tipo: {virtualCamera.GetType().Name})");
         }
     }
     

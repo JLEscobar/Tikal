@@ -18,7 +18,7 @@ MonoBehaviour:
   attackPower: 25
   actionPointsPerTurn: 1
   moveSpeed: 5
-  movementRange: 5
+  movementRange: 25
   abilities:
   - {fileID: 11400000, guid: ce223eac5c998174cbeb927d34901940, type: 2}
   - {fileID: 11400000, guid: 8e0fd98d2a959f84d80ca0d17a1f2571, type: 2}

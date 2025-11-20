@@ -237,9 +237,10 @@ public class TurnSystem : MonoBehaviour
             _current = firstPlayer;
             firstPlayer.BeginTurn();
             
-            // NO invocar OnTurnStarted con firstPlayer aquí para evitar actualización automática de cámara
-            // La cámara solo se actualizará cuando el usuario seleccione manualmente un personaje
-            // OnTurnStarted ya fue invocado con null arriba para la restauración global de AP
+            // IMPORTANTE: Invocar OnTurnStarted con firstPlayer para que PlayerTurnController actualice su _current
+            // Esto permite que el primer player pueda usar habilidades inmediatamente
+            // La cámara NO se actualizará automáticamente porque GameManager verifica si actor != null
+            OnTurnStarted?.Invoke(_currentTeam, firstPlayer);
             
             if (firstPlayer.ActionPoints > 0)
             {

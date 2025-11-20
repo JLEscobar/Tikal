@@ -216,9 +216,9 @@ public class PlayerTurnController : MonoBehaviour
             // Verificar si el jugador todavía tiene AP después de usar la habilidad
             if (_current.ActionPoints <= 0)
             {
-                // No quedan AP, terminar el turno automáticamente
-                MessagesSystem.Instance.ShowMessage($"Turno de {_current.CharacterName} finalizado. Sin AP restantes.", Color.yellow);
-                turnSystem.EndTurn();
+                // No quedan AP, informar al usuario pero NO terminar el turno automáticamente
+                // El usuario debe presionar "Terminar turno" explícitamente para cambiar de player
+                MessagesSystem.Instance.ShowMessage($"{_current.CharacterName} se quedó sin AP. Presiona 'Terminar turno' para cambiar de personaje.", Color.yellow);
             }
             else
             {
