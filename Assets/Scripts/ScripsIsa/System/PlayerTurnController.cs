@@ -10,8 +10,7 @@ public class PlayerTurnController : MonoBehaviour
     [SerializeField] private LayerMask targetMask = ~0; 
 
     [Header("Input Settings")]
-    [Tooltip("DEBE ESTAR MARCADO. Clic en enemigo = Ataque Básico (Q).")]
-    [SerializeField] private bool attackOnClick = true; 
+    // attackOnClick removido - El ataque básico ahora solo se ejecuta con Q 
     [SerializeField] private int defaultAbilityIndex = 0; // Índice 0: Ataque Básico (Q o Clic)
     [SerializeField] private int specialAbilityIndex = 1; // Índice 1: Habilidad Especial (E)
 
@@ -73,7 +72,7 @@ public class PlayerTurnController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)) TogglePause();
 
 
-        // Lógica de detección por Clic (Mouse)
+        // Lógica de detección por Clic (Mouse) - Solo selecciona objetivo, NO ataca automáticamente
         if (Input.GetMouseButtonDown(0)) 
         {
             var ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -94,10 +93,7 @@ public class PlayerTurnController : MonoBehaviour
                         _currentTarget = eo;
                     }
                     
-                    if (attackOnClick && _current != null && _current.ActionPoints >= 1)
-                    {
-                        TryUseAbilityKey(defaultAbilityIndex);
-                    }
+                    // Ataque automático desactivado - Usa Q para atacar después de seleccionar objetivo
                 }
                 else
                 {
@@ -134,20 +130,23 @@ public class PlayerTurnController : MonoBehaviour
         {
             targetToUse = _current;
         }
-        // 2. Si la habilidad NO es AoE (Ollin/Yaotl) y no tenemos target (E presionada sin clic):
+        // 2. Si la habilidad NO es AoE y no tenemos target (Space/Q presionada sin clic):
         else if (targetToUse == null)
         {
-             // Si el jugador presionó E (Habilidad Especial) o Q, buscamos el enemigo más cercano
+             // Si el jugador presionó Space (Habilidad Especial) o Q (Ataque Básico), buscamos el target más cercano
              if (index == specialAbilityIndex || index == defaultAbilityIndex)
              {
-                 targetToUse = FindClosestValidTarget(_current);
+                 // Detectar si es habilidad de soporte (curación/buff) para buscar aliados en lugar de enemigos
+                 bool isSupportAbility = ability is SupportAbility || ability is HealAbility;
+                 targetToUse = FindClosestValidTarget(_current, ability, isSupportAbility);
                  
                  // Si aun así no encontramos target, fallamos
                  if (targetToUse == null)
                  {
-                    string reason = "No se encontraron enemigos dentro del rango.";
+                    string targetType = isSupportAbility ? "aliados" : "enemigos";
+                    string reason = $"No se encontraron {targetType} dentro del rango.";
                     Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
-                    MessagesSystem.Instance.ShowMessage($"No hay enemigos en rango para {ability.DisplayName}.", Color.red);
+                    MessagesSystem.Instance.ShowMessage($"No hay {targetType} en rango para {ability.DisplayName} (Rango: {ability.Range}m).", Color.red);
                     return;
                  }
              }
@@ -198,29 +197,63 @@ public class PlayerTurnController : MonoBehaviour
         }
     }
     
-    // NUEVO MÉTODO: Encuentra el enemigo más cercano dentro del rango de la habilidad.
-    private CharacterActor FindClosestValidTarget(CharacterActor user)
+    // MÉTODO: Encuentra el target más cercano (aliado o enemigo) dentro del rango de la habilidad específica.
+    private CharacterActor FindClosestValidTarget(CharacterActor user, AbilityBase abilityToUse, bool findAllies = false)
     {
-        var ability = user.GetAbilityByIndex(specialAbilityIndex); // Usamos el rango especial como máximo
-        if (ability == null) return null;
+        if (abilityToUse == null) return null;
 
         CharacterActor closestTarget = null;
         float closestDistance = float.MaxValue;
-        float maxRange = ability.Range + 0.1f;
+        float maxRange = abilityToUse.Range + 0.1f;
 
-        var opponents = turnSystem.GetOpponentsOf(user.Team)
-            .Where(o => !o.Health.IsDead)
-            .Cast<CharacterActor>();
-
-        foreach (var opponent in opponents)
+        // Si es habilidad de soporte, buscar aliados; si no, buscar enemigos
+        IEnumerable<CharacterActor> candidates;
+        if (findAllies)
         {
-            float distance = Vector3.Distance(user.transform.position, opponent.transform.position);
+            // Obtener aliados del mismo equipo
+            // Para Player: usar PlayerTeamActors, para Enemy: necesitamos acceso a enemyTeam
+            // Por ahora, usamos GetOpponentsOf con el equipo opuesto y luego filtramos
+            // La forma más simple: obtener todos los actores del mismo equipo
+            if (user.Team == Team.Player)
+            {
+                candidates = turnSystem.PlayerTeamActors
+                    .Where(a => a != null && !a.Health.IsDead && a != user);
+            }
+            else
+            {
+                // Para enemigos, necesitamos obtener sus aliados (otros enemigos)
+                // Usamos GetOpponentsOf(Team.Player) que devuelve enemyTeam
+                candidates = turnSystem.GetOpponentsOf(Team.Player)
+                    .Where(a => a != null && !a.Health.IsDead && a != user && a.Team == user.Team);
+            }
+        }
+        else
+        {
+            candidates = turnSystem.GetOpponentsOf(user.Team)
+                .Where(o => !o.Health.IsDead)
+                .Cast<CharacterActor>();
+        }
+
+        foreach (var candidate in candidates)
+        {
+            float distance = Vector3.Distance(user.transform.position, candidate.transform.position);
 
             if (distance <= maxRange && distance < closestDistance)
             {
                 closestDistance = distance;
-                closestTarget = opponent;
+                closestTarget = candidate;
             }
+        }
+
+        if (closestTarget != null)
+        {
+            string targetType = findAllies ? "aliado" : "enemigo";
+            Debug.Log($"[TARGET_FIND] Encontrado {targetType} más cercano para {abilityToUse.DisplayName}: {closestTarget.CharacterName} a {closestDistance:F2}m (Rango máximo: {abilityToUse.Range}m)");
+        }
+        else
+        {
+            string targetType = findAllies ? "aliados" : "enemigos";
+            Debug.Log($"[TARGET_FIND] No se encontraron {targetType} en rango para {abilityToUse.DisplayName} (Rango máximo: {abilityToUse.Range}m)");
         }
 
         return closestTarget;
