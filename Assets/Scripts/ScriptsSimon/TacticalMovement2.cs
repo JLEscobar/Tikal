@@ -150,11 +150,13 @@ public class TacticalMovementController : MonoBehaviour
         
         if (aroDeLuzPrefab != null)
         {
+            // Usar el centro del CharacterController para posicionar la esfera correctamente
+            Vector3 characterCenter = startPositionOfTurn + _controller.center;
             Vector3 spawnPosition = new Vector3(
-            startPositionOfTurn.x,
-            startPositionOfTurn.y + (_controller.height / 2f),
-            startPositionOfTurn.z
-        );
+                characterCenter.x,
+                characterCenter.y,
+                characterCenter.z
+            );
 
         aroDeLuzInstance = Instantiate(aroDeLuzPrefab, spawnPosition, Quaternion.identity);
 
