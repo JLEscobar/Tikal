@@ -36,5 +36,12 @@ public class TriggerInteract : MonoBehaviour
     {
         Debug.Log("Interacción realizada con el objeto.");
         // Aquí puedes agregar lo que quieras que pase
+
+        // Llamar al método CompletarObjetivo1 del script Objetivos
+        Objetivos objetivos = FindObjectOfType<Objetivos>();
+        if (objetivos != null)
+        {
+            objetivos.CompletarObjetivo1();
+        }
     }
 }
