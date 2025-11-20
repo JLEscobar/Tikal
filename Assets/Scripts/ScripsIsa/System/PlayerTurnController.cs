@@ -44,7 +44,7 @@ public class PlayerTurnController : MonoBehaviour
         if (turnSystem.CurrentTeam != Team.Player) return;
 
         // Manejar Space y Enter ANTES de verificar _current, para poder terminar la fase incluso sin personaje seleccionado
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("[PLAYER_INPUT] Space pressed - Forcing end of player phase");
             turnSystem.EndTurn(true);
@@ -68,7 +68,7 @@ public class PlayerTurnController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) TryUseAbilityKey(defaultAbilityIndex);
         
         // 2. Tecla E (Habilidad Especial)
-        if (Input.GetKeyDown(KeyCode.E)) TryUseAbilityKey(specialAbilityIndex); 
+        if (Input.GetKeyDown(KeyCode.Space)) TryUseAbilityKey(specialAbilityIndex); 
         
         if (Input.GetKeyDown(KeyCode.P)) TogglePause();
 
