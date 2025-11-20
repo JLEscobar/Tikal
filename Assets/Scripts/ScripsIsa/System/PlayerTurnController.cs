@@ -149,6 +149,13 @@ public class PlayerTurnController : MonoBehaviour
                     MessagesSystem.Instance.ShowMessage($"No hay {targetType} en rango para {ability.DisplayName} (Rango: {ability.Range}m).", Color.red);
                     return;
                  }
+                 
+                 // Si encontramos un target, actualizamos _currentTarget para que se mantenga seleccionado
+                 if (targetToUse is CharacterActor foundTarget)
+                 {
+                     _currentTarget = foundTarget;
+                     Debug.Log($"[TARGET_SELECT] Target automático seleccionado: {foundTarget.CharacterName}");
+                 }
              }
              else 
              {
@@ -158,6 +165,24 @@ public class PlayerTurnController : MonoBehaviour
                  MessagesSystem.Instance.ShowMessage($"Selecciona un objetivo para usar {ability.DisplayName}.", Color.yellow);
                  return;
              }
+        }
+        else
+        {
+            // Si hay un target seleccionado, verificar que sea válido para la habilidad
+            if (ability is SupportAbility || ability is HealAbility)
+            {
+                // Para habilidades de soporte, verificar que el target sea aliado
+                if (targetToUse is CharacterActor selectedTarget && selectedTarget.Team != _current.Team)
+                {
+                    Debug.LogWarning($"[TARGET_CHECK] {_current.CharacterName} intentó usar {ability.DisplayName} en {selectedTarget.CharacterName} pero es enemigo. Buscando aliado automáticamente...");
+                    targetToUse = FindClosestValidTarget(_current, ability, true);
+                    if (targetToUse != null && targetToUse is CharacterActor foundAlly)
+                    {
+                        _currentTarget = foundAlly;
+                        Debug.Log($"[TARGET_FIX] Target corregido a aliado: {foundAlly.CharacterName}");
+                    }
+                }
+            }
         }
         // ***** FIN DE LA CORRECCIÓN CLAVE *****
 

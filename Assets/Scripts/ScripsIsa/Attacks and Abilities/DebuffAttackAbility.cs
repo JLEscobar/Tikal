@@ -29,7 +29,17 @@ public class DebuffAttackAbility : AbilityBase
 
     public override void Execute(CharacterActor user, ITargetable target)
     {
-        if (!CanExecute(user, target)) return;
+        if (!CanExecute(user, target))
+        {
+            Debug.LogWarning($"[Debuff] {user.CharacterName} no puede ejecutar {DisplayName}. CanExecute retornó false.");
+            return;
+        }
+
+        if (target == null)
+        {
+            Debug.LogError($"[Debuff] {user.CharacterName} intentó usar {DisplayName} pero el target es null!");
+            return;
+        }
 
         float distanceMoved = 0f;
         if (user.TryGetComponent<TacticalMovementController>(out var moveController))
@@ -41,18 +51,21 @@ public class DebuffAttackAbility : AbilityBase
         int bonusDamage = bonusUnits * bonusDamagePerUnit;
         int totalDamage = Mathf.Max(1, attackDamage + bonusDamage);
         
-        target.Health.TakeDamage(totalDamage);
-        
         if (target is CharacterActor targetActor)
         {
-            targetActor.ApplyStatusEffect(effectType, effectDuration); 
+            targetActor.Health.TakeDamage(totalDamage);
+            targetActor.ApplyStatusEffect(effectType, effectDuration);
+            Debug.Log($"[Debuff] {user.CharacterName} usa {DisplayName} en {targetActor.CharacterName}, Total PD: {totalDamage}, aplicando {effectType}! Vida restante: {targetActor.Health.CurrentHealth}/{targetActor.Health.MaxHealth}");
+        }
+        else
+        {
+            target.Health.TakeDamage(totalDamage);
+            Debug.Log($"[Debuff] {user.CharacterName} usa {DisplayName}, Total PD: {totalDamage}, aplicando {effectType}!");
         }
 
         user.ConsumeActionPoints(CostAP);
 
         // CORRECCIÓN: Llamada a InstantiateVFX con 'user'
         InstantiateVFX(user, target, 1.0f);
-
-        Debug.Log($"[Debuff] {user.CharacterName} uses {DisplayName}, Total PD: {totalDamage}, applying {effectType}!");
     }
 }
