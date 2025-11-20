@@ -108,11 +108,18 @@ public class PlayerTurnController : MonoBehaviour
         if (_current == null) 
         {
              MessagesSystem.Instance.ShowMessage("Primero selecciona un personaje (1-4).", Color.red);
+             Debug.LogWarning("[ABILITY] TryUseAbilityKey: _current es null. Selecciona un personaje primero.");
              return;
         }
 
         var ability = _current.GetAbilityByIndex(index);
-        if (ability == null) return;
+        if (ability == null)
+        {
+            Debug.LogError($"[ABILITY] {_current.CharacterName}: No se encontró habilidad en índice {index}");
+            return;
+        }
+        
+        Debug.Log($"[ABILITY] {_current.CharacterName} intenta usar habilidad índice {index}: {ability.DisplayName}");
         
         // Verificar que el jugador tenga AP suficiente para esta habilidad específica
         if (_current.ActionPoints < ability.CostAP)
@@ -133,11 +140,15 @@ public class PlayerTurnController : MonoBehaviour
         // 2. Si la habilidad NO es AoE y no tenemos target (Space/Q presionada sin clic):
         else if (targetToUse == null)
         {
+             Debug.Log($"[ABILITY] {_current.CharacterName}: No hay target seleccionado para {ability.DisplayName}. Buscando automáticamente...");
+             
              // Si el jugador presionó Space (Habilidad Especial) o Q (Ataque Básico), buscamos el target más cercano
              if (index == specialAbilityIndex || index == defaultAbilityIndex)
              {
                  // Detectar si es habilidad de soporte (curación/buff) para buscar aliados en lugar de enemigos
                  bool isSupportAbility = ability is SupportAbility || ability is HealAbility;
+                 Debug.Log($"[ABILITY] {_current.CharacterName}: Buscando target para {ability.DisplayName} (isSupport: {isSupportAbility}, rango: {ability.Range}m)");
+                 
                  targetToUse = FindClosestValidTarget(_current, ability, isSupportAbility);
                  
                  // Si aun así no encontramos target, fallamos
@@ -145,7 +156,7 @@ public class PlayerTurnController : MonoBehaviour
                  {
                     string targetType = isSupportAbility ? "aliados" : "enemigos";
                     string reason = $"No se encontraron {targetType} dentro del rango.";
-                    Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
+                    Debug.LogWarning($"[ABILITY] {_current.CharacterName}: No se puede usar {ability.DisplayName} - {reason}");
                     MessagesSystem.Instance.ShowMessage($"No hay {targetType} en rango para {ability.DisplayName} (Rango: {ability.Range}m).", Color.red);
                     return;
                  }
@@ -154,14 +165,14 @@ public class PlayerTurnController : MonoBehaviour
                  if (targetToUse is CharacterActor foundTarget)
                  {
                      _currentTarget = foundTarget;
-                     Debug.Log($"[TARGET_SELECT] Target automático seleccionado: {foundTarget.CharacterName}");
+                     Debug.Log($"[TARGET_SELECT] {_current.CharacterName}: Target automático seleccionado: {foundTarget.CharacterName}");
                  }
              }
              else 
              {
                  // Si no es especial ni básico, fallamos pidiendo target
                  string reason = $"Must select a target for '{ability.DisplayName}'";
-                 Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
+                 Debug.LogWarning($"[ABILITY] {_current.CharacterName}: {reason}");
                  MessagesSystem.Instance.ShowMessage($"Selecciona un objetivo para usar {ability.DisplayName}.", Color.yellow);
                  return;
              }
@@ -187,6 +198,17 @@ public class PlayerTurnController : MonoBehaviour
         // ***** FIN DE LA CORRECCIÓN CLAVE *****
 
 
+        // Log detallado antes de intentar usar la habilidad
+        Debug.Log($"[ABILITY_DEBUG] {_current.CharacterName} intentando usar {ability.DisplayName} (índice {index}):");
+        Debug.Log($"[ABILITY_DEBUG] - Target: {(targetToUse == null ? "null" : targetToUse.GetTransform().name)}");
+        Debug.Log($"[ABILITY_DEBUG] - AP actuales: {_current.ActionPoints}, Costo: {ability.CostAP}");
+        Debug.Log($"[ABILITY_DEBUG] - Cooldown: {ability.currentCooldown}");
+        if (targetToUse != null)
+        {
+            float distance = Vector3.Distance(_current.transform.position, targetToUse.GetTransform().position);
+            Debug.Log($"[ABILITY_DEBUG] - Distancia al target: {distance:F2}m, Rango máximo: {ability.Range}m");
+        }
+        
         if (_current.TryUseAbility(index, targetToUse))
         {
             Debug.Log($"[vAP_FIX_FINAL] {_current.CharacterName} used {ability.DisplayName} successfully. Remaining AP: {_current.ActionPoints}");
@@ -208,16 +230,17 @@ public class PlayerTurnController : MonoBehaviour
         {
             // La habilidad falló (por rango o cooldown)
             string reason = GetAbilityFailureReason(ability, _current, targetToUse);
-            Debug.Log($"[vAP_FIX_FINAL] Cannot use {ability.DisplayName}: {reason}");
+            Debug.LogWarning($"[ABILITY_FAIL] {_current.CharacterName} no pudo usar {ability.DisplayName}: {reason}");
+            Debug.LogWarning($"[ABILITY_FAIL] - Detalles: AP={_current.ActionPoints}/{ability.CostAP}, Cooldown={ability.currentCooldown}, Target={(targetToUse == null ? "null" : targetToUse.GetTransform().name)}");
             
-            // Silenciar el error de rango del ATAQUE BÁSICO para no interferir
+            // Mostrar mensaje de error más descriptivo
             if (reason.Contains("OUT OF RANGE") && index == defaultAbilityIndex)
             {
                  // Silencioso. Permite que el jugador presione E después.
             }
             else
             {
-                MessagesSystem.Instance.ShowMessage($"No se pudo usar {ability.DisplayName}.", Color.red);
+                MessagesSystem.Instance.ShowMessage($"No se pudo usar {ability.DisplayName}: {reason}", Color.red);
             }
         }
     }
@@ -225,20 +248,23 @@ public class PlayerTurnController : MonoBehaviour
     // MÉTODO: Encuentra el target más cercano (aliado o enemigo) dentro del rango de la habilidad específica.
     private CharacterActor FindClosestValidTarget(CharacterActor user, AbilityBase abilityToUse, bool findAllies = false)
     {
-        if (abilityToUse == null) return null;
+        if (abilityToUse == null)
+        {
+            Debug.LogError($"[TARGET_FIND] {user?.CharacterName}: abilityToUse es null!");
+            return null;
+        }
 
         CharacterActor closestTarget = null;
         float closestDistance = float.MaxValue;
         float maxRange = abilityToUse.Range + 0.1f;
+
+        Debug.Log($"[TARGET_FIND] {user.CharacterName}: Buscando target para {abilityToUse.DisplayName} (findAllies: {findAllies}, rango: {abilityToUse.Range}m)");
 
         // Si es habilidad de soporte, buscar aliados; si no, buscar enemigos
         IEnumerable<CharacterActor> candidates;
         if (findAllies)
         {
             // Obtener aliados del mismo equipo
-            // Para Player: usar PlayerTeamActors, para Enemy: necesitamos acceso a enemyTeam
-            // Por ahora, usamos GetOpponentsOf con el equipo opuesto y luego filtramos
-            // La forma más simple: obtener todos los actores del mismo equipo
             if (user.Team == Team.Player)
             {
                 candidates = turnSystem.PlayerTeamActors
@@ -247,7 +273,6 @@ public class PlayerTurnController : MonoBehaviour
             else
             {
                 // Para enemigos, necesitamos obtener sus aliados (otros enemigos)
-                // Usamos GetOpponentsOf(Team.Player) que devuelve enemyTeam
                 candidates = turnSystem.GetOpponentsOf(Team.Player)
                     .Where(a => a != null && !a.Health.IsDead && a != user && a.Team == user.Team);
             }
@@ -259,26 +284,33 @@ public class PlayerTurnController : MonoBehaviour
                 .Cast<CharacterActor>();
         }
 
+        int candidateCount = candidates.Count();
+        Debug.Log($"[TARGET_FIND] {user.CharacterName}: Encontrados {candidateCount} candidatos potenciales");
+
         foreach (var candidate in candidates)
         {
+            if (candidate == null) continue;
+            
             float distance = Vector3.Distance(user.transform.position, candidate.transform.position);
+            Debug.Log($"[TARGET_FIND] {user.CharacterName}: Candidato {candidate.CharacterName} a {distance:F2}m (rango máximo: {maxRange:F2}m)");
 
             if (distance <= maxRange && distance < closestDistance)
             {
                 closestDistance = distance;
                 closestTarget = candidate;
+                Debug.Log($"[TARGET_FIND] {user.CharacterName}: Nuevo target más cercano: {candidate.CharacterName} a {distance:F2}m");
             }
         }
 
         if (closestTarget != null)
         {
             string targetType = findAllies ? "aliado" : "enemigo";
-            Debug.Log($"[TARGET_FIND] Encontrado {targetType} más cercano para {abilityToUse.DisplayName}: {closestTarget.CharacterName} a {closestDistance:F2}m (Rango máximo: {abilityToUse.Range}m)");
+            Debug.Log($"[TARGET_FIND] ✓ {user.CharacterName}: Encontrado {targetType} más cercano para {abilityToUse.DisplayName}: {closestTarget.CharacterName} a {closestDistance:F2}m (Rango máximo: {abilityToUse.Range}m)");
         }
         else
         {
             string targetType = findAllies ? "aliados" : "enemigos";
-            Debug.Log($"[TARGET_FIND] No se encontraron {targetType} en rango para {abilityToUse.DisplayName} (Rango máximo: {abilityToUse.Range}m)");
+            Debug.LogWarning($"[TARGET_FIND] ✗ {user.CharacterName}: No se encontraron {targetType} en rango para {abilityToUse.DisplayName} (Rango máximo: {abilityToUse.Range}m, candidatos revisados: {candidateCount})");
         }
 
         return closestTarget;
@@ -326,6 +358,20 @@ public class PlayerTurnController : MonoBehaviour
         {
             _current = selectedActor;
             _currentTarget = null;
+            
+            // Actualizar la cámara al personaje seleccionado manualmente
+            if (selectedActor != null && GameManager.Instance != null)
+            {
+                try
+                {
+                    GameManager.Instance.UpdateCameraToActor(selectedActor);
+                    Debug.Log($"[CAMERA] Cámara actualizada a {selectedActor.CharacterName} por selección manual");
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError($"[CAMERA] Error al actualizar cámara a {selectedActor.CharacterName}: {e.Message}");
+                }
+            }
         }
     }
 
@@ -360,11 +406,22 @@ public class PlayerTurnController : MonoBehaviour
         if (team == Team.Player)
         {
             _playerActors = turnSystem.PlayerTeamActors; 
-            _current = actor; 
+            
+            // IMPORTANTE: Solo actualizar _current si el actor no es null
+            // Si actor es null, significa que es el inicio de fase y NO debemos cambiar _current
+            // Esto previene que la cámara se actualice automáticamente a Cualli después de acciones
+            if (actor != null)
+            {
+                _current = actor;
+            }
+            // Si actor es null, mantener el _current actual (el personaje que el usuario seleccionó)
+            
             _cachedOpponents = turnSystem.GetOpponentsOf(Team.Player).Where(o => !o.Health.IsDead).ToList();
             _cursor = -1;
-            _currentTarget = null;
-            Debug.Log($"[vAP_FIX_FINAL] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}");
+            // NO limpiar _currentTarget aquí para mantener la selección del usuario
+            // _currentTarget = null; // COMENTADO: Mantener el target seleccionado
+            
+            Debug.Log($"[vAP_FIX_FINAL] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}, Event actor: {(actor == null ? "None" : actor.CharacterName)}");
             
             // LÓGICA DE RESTAURACIÓN DE APs Y POSICIÓN INICIAL GLOBALES
             // Si cambió el turno global (de Enemy a Player), resetear las flags

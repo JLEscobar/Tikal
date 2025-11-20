@@ -224,6 +224,7 @@ public class TurnSystem : MonoBehaviour
         
         // IMPORTANTE: Invocar OnTurnStarted con null primero para que todos los jugadores detecten el cambio de turno global
         // Esto permite que HandleTurnStarted restaure los AP antes de buscar el primer jugador
+        // NO actualizar la cámara aquí (se actualizará cuando el usuario seleccione un personaje manualmente)
         OnTurnStarted?.Invoke(_currentTeam, null);
         
         // Buscar el primer jugador válido (sin importar sus AP, porque se restaurarán en HandleTurnStarted o BeginTurn)
@@ -235,7 +236,10 @@ public class TurnSystem : MonoBehaviour
             // BeginTurn() y HandleTurnStarted() restaurarán los AP si es necesario
             _current = firstPlayer;
             firstPlayer.BeginTurn();
-            OnTurnStarted?.Invoke(_currentTeam, firstPlayer);
+            
+            // NO invocar OnTurnStarted con firstPlayer aquí para evitar actualización automática de cámara
+            // La cámara solo se actualizará cuando el usuario seleccione manualmente un personaje
+            // OnTurnStarted ya fue invocado con null arriba para la restauración global de AP
             
             if (firstPlayer.ActionPoints > 0)
             {

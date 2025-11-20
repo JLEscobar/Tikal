@@ -30,7 +30,11 @@ public abstract class AbilityBase : ScriptableObject, IAbility
 
     public virtual bool CanExecute(CharacterActor user, ITargetable target)
     {
-        if (user == null) return false;
+        if (user == null)
+        {
+            Debug.LogWarning($"[CanExecute] {DisplayName}: user es null");
+            return false;
+        }
 
         // Cooldown Check
         if (currentCooldown > 0) 
@@ -39,17 +43,29 @@ public abstract class AbilityBase : ScriptableObject, IAbility
             return false;
         }
 
-        if (user.ActionPoints < costAP) return false;
+        if (user.ActionPoints < costAP)
+        {
+            Debug.Log($"[CanExecute] {user.CharacterName}'s {DisplayName}: AP insuficientes ({user.ActionPoints} < {costAP})");
+            return false;
+        }
 
         // Chequeo de Target: Solo si NO es AoE
         if (!(this is AreaAttackAbility))
         {
-            if (target == null) return false;
+            if (target == null)
+            {
+                Debug.LogWarning($"[CanExecute] {user.CharacterName}'s {DisplayName}: target es null");
+                return false;
+            }
 
             // Solo chequeamos salud si el target es un CharacterActor (no un ExplosiveObject)
             if (target is CharacterActor targetActor)
             {
-                if (targetActor.Health.IsDead) return false;
+                if (targetActor.Health.IsDead)
+                {
+                    Debug.LogWarning($"[CanExecute] {user.CharacterName}'s {DisplayName}: target {targetActor.CharacterName} está muerto");
+                    return false;
+                }
             }
 
             float distance = Vector3.Distance(user.transform.position, target.GetTransform().position);
@@ -57,11 +73,12 @@ public abstract class AbilityBase : ScriptableObject, IAbility
             // Rango Check (con margen de 0.1f)
             if (distance > range + 0.1f) 
             {
-                Debug.Log($"[Range Fail] Distance: {distance:F1}, Max Range: {range}. Out of range.");
+                Debug.Log($"[Range Fail] {user.CharacterName}'s {DisplayName}: Distance: {distance:F1}, Max Range: {range}. Out of range.");
                 return false;
             }
         }
         
+        Debug.Log($"[CanExecute] ✓ {user.CharacterName}'s {DisplayName}: Todas las verificaciones pasaron");
         return true;
     }
 

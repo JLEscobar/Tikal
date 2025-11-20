@@ -23,8 +23,40 @@ public class DebuffAttackAbility : AbilityBase
 
     public override bool CanExecute(CharacterActor user, ITargetable target)
     {
-        if (!base.CanExecute(user, target)) return false;
-        return user.Team != target.Team; 
+        if (!base.CanExecute(user, target))
+        {
+            Debug.LogWarning($"[Debuff CanExecute] {user?.CharacterName}'s {DisplayName}: base.CanExecute retornó false");
+            return false;
+        }
+        
+        if (target == null)
+        {
+            Debug.LogWarning($"[Debuff CanExecute] {user?.CharacterName}'s {DisplayName}: target es null");
+            return false;
+        }
+        
+        // Verificar que el target sea enemigo (no aliado)
+        // Solo verificar si el target es un CharacterActor (no un ExplosiveObject)
+        if (target is CharacterActor targetActor)
+        {
+            if (user.Team == targetActor.Team)
+            {
+                Debug.LogWarning($"[Debuff CanExecute] {user?.CharacterName}'s {DisplayName}: target {targetActor.CharacterName} es del mismo equipo ({user.Team})");
+                return false;
+            }
+        }
+        else
+        {
+            // Para ExplosiveObject u otros tipos, verificar usando la propiedad Team de ITargetable
+            if (user.Team == target.Team)
+            {
+                Debug.LogWarning($"[Debuff CanExecute] {user?.CharacterName}'s {DisplayName}: target {target.GetTransform().name} es del mismo equipo ({user.Team})");
+                return false;
+            }
+        }
+        
+        Debug.Log($"[Debuff CanExecute] ✓ {user?.CharacterName}'s {DisplayName}: Todas las verificaciones pasaron para target {target.GetTransform().name}");
+        return true;
     }
 
     public override void Execute(CharacterActor user, ITargetable target)

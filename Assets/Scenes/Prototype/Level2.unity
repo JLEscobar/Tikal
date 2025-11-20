@@ -30109,6 +30109,7 @@ MonoBehaviour:
   virtualCamera: {fileID: 1596107117}
   cameraHeightOffset: 1.5
   cameraTargetChildName: CameraTarget
+  cameraDistanceOffset: 30
 --- !u!114 &780077676
 MonoBehaviour:
   m_ObjectHideFlags: 0
