@@ -14223,7 +14223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &425852239
 Transform:
   m_ObjectHideFlags: 0
@@ -29637,6 +29637,8 @@ MonoBehaviour:
   - {fileID: 801391800}
   autoStartOnPlay: 1
   enemyTurnDelay: 1
+  UITurnoJugador: {fileID: 644148880}
+  UITurnoEnemigo: {fileID: 787168397}
 --- !u!1 &780121262
 GameObject:
   m_ObjectHideFlags: 0
