@@ -150,12 +150,25 @@ public class TacticalMovementController : MonoBehaviour
         
         if (aroDeLuzPrefab != null)
         {
-            // Usar el centro del CharacterController para posicionar la esfera correctamente
-            Vector3 characterCenter = startPositionOfTurn + _controller.center;
+            // Calcular la posición base del personaje (suelo) en lugar del centro
+            // La base del CharacterController está en: position + center - (height/2 en Y)
+            float baseY = startPositionOfTurn.y + _controller.center.y - (_controller.height / 2f);
+            
+            // Opcional: Hacer un raycast hacia abajo para encontrar el suelo real
+            Vector3 rayStart = new Vector3(startPositionOfTurn.x, startPositionOfTurn.y + _controller.center.y, startPositionOfTurn.z);
+            RaycastHit hit;
+            float finalY = baseY;
+            
+            if (Physics.Raycast(rayStart, Vector3.down, out hit, _controller.height + 1f))
+            {
+                // Si encontramos el suelo, usar esa posición
+                finalY = hit.point.y;
+            }
+            
             Vector3 spawnPosition = new Vector3(
-                characterCenter.x,
-                characterCenter.y,
-                characterCenter.z
+                startPositionOfTurn.x,
+                finalY + 0.1f, // Pequeño offset para que la esfera no se hunda en el suelo
+                startPositionOfTurn.z
             );
 
         aroDeLuzInstance = Instantiate(aroDeLuzPrefab, spawnPosition, Quaternion.identity);
