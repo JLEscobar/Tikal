@@ -40,12 +40,8 @@ public class CharacterActor : MonoBehaviour, ITargetable
     private CharacterController _controller;
     private TurnSystem _turnSystem;
     
-    // Flags para prevenir restauración múltiple de AP
-    // Tanto ENEMIGOS como JUGADORES: se restauran solo una vez por turno global
-    private static bool hasRestoredAPThisGlobalTurn = false;
-    private static Team lastGlobalTurnTeam = Team.Enemy; // Inicializar con Enemy para que el primer turno de Player lo detecte
-    private bool hasRestoredAPThisGlobalTurnInstance = false; // Flag de instancia para rastrear si ESTE personaje ya restauró AP en este turno global
-    private bool hasUsedTurnThisGlobalTurn = false; // Flag para rastrear si este personaje ya usó su turno en el turno global actual
+    // NOTA: La lógica de restauración de APs para jugadores está ahora en TacticalMovement2.cs y PlayerTurnController.cs
+    // Las flags de APs se eliminaron porque la restauración se maneja externamente
 
     // Properties
     public CharacterStats Stats => stats;
@@ -112,79 +108,14 @@ public class CharacterActor : MonoBehaviour, ITargetable
     
     private void HandleTurnStarted(Team team, CharacterActor actor)
     {
-        // Si cambió el equipo (de Enemy a Player o viceversa), resetear las flags de AP
-        if (team != lastGlobalTurnTeam)
-        {
-            hasRestoredAPThisGlobalTurn = false;
-            lastGlobalTurnTeam = team;
-            // IMPORTANTE: Resetear la flag individual cuando cambia el turno global
-            hasUsedTurnThisGlobalTurn = false;
-            hasRestoredAPThisGlobalTurnInstance = false;
-            Debug.Log($"[AP] {CharacterName}: 🔄 Nuevo turno global detectado ({team}). Reset de flags de AP. lastGlobalTurnTeam: {lastGlobalTurnTeam}");
-        }
-        
-        // Si es el turno global de nuestro equipo Y este personaje aún no ha restaurado AP en este turno global
-        if (team == Team && !hasRestoredAPThisGlobalTurnInstance)
-        {
-            // Si actor es null, significa que se está iniciando el turno global del equipo
-            // O si actor es this, significa que es nuestro turno individual
-            // En ambos casos, restaurar AP para este personaje
-            int apBefore = currentActionPoints;
-            RestoreActionPoints();
-            hasRestoredAPThisGlobalTurnInstance = true;
-            hasUsedTurnThisGlobalTurn = true;
-            // Marcar la flag estática solo la primera vez (para compatibilidad con otros sistemas)
-            if (!hasRestoredAPThisGlobalTurn)
-            {
-                hasRestoredAPThisGlobalTurn = true;
-            }
-            Debug.Log($"[AP] {CharacterName}: ✅ AP restaurados (inicio del turno global de {team}, actor={(actor != null ? actor.CharacterName : "null")}). AP: {apBefore} -> {currentActionPoints}");
-        }
-        else if (team == Team && hasRestoredAPThisGlobalTurnInstance)
-        {
-            Debug.Log($"[AP] {CharacterName}: ⏸️ AP NO restaurados (ya se restauraron en este turno global). AP actual: {currentActionPoints}, actor={(actor != null ? actor.CharacterName : "null")}");
-        }
-        else if (team != Team)
-        {
-            Debug.Log($"[AP] {CharacterName}: ⏭️ No es mi equipo (team={team}, Team={Team}). No restaurando AP.");
-        }
+        // La lógica de restauración de APs para jugadores está ahora en TacticalMovement2.cs y PlayerTurnController.cs
+        // Este método se mantiene para compatibilidad pero ya no restaura APs
     }
     
     private void HandleTurnEnded(Team team, CharacterActor actor)
     {
-        // Si este personaje terminó su turno, marcar que ya usó su turno en este turno global
-        if (actor == this)
-        {
-            hasUsedTurnThisGlobalTurn = true;
-        }
-        
-        // Si cambió el equipo (de Enemy a Player o de Player a Enemy), resetear las flags globales
-        if ((team == Team.Enemy && _turnSystem != null && _turnSystem.CurrentTeam == Team.Player) ||
-            (team == Team.Player && _turnSystem != null && _turnSystem.CurrentTeam == Team.Enemy))
-        {
-            hasRestoredAPThisGlobalTurn = false;
-            hasUsedTurnThisGlobalTurn = false;
-            hasRestoredAPThisGlobalTurnInstance = false;
-            Debug.Log($"[AP] {CharacterName}: Cambio de fase detectado. Reset de flags globales de AP.");
-        }
-    }
-    
-    /// <summary>
-    /// Restaura los Action Points según las reglas del juego
-    /// </summary>
-    private void RestoreActionPoints()
-    {
-        int apBefore = currentActionPoints;
-        int apAfterRefill = currentActionPoints + baseAPPerTurn; 
-        currentActionPoints = Mathf.Min(apAfterRefill, maxAccumulatedAP);
-        
-        bool isKnockedOut = activeEffects.Any(e => e.Type == StatusEffectType.Noqueado);
-        if (isKnockedOut)
-        {
-            currentActionPoints = 0;
-        }
-        
-        Debug.Log($"[AP] {CharacterName}: AP restaurados. AP: {apBefore} -> {currentActionPoints}/{maxAccumulatedAP}");
+        // La lógica de restauración de APs para jugadores está ahora en TacticalMovement2.cs y PlayerTurnController.cs
+        // Este método se mantiene para compatibilidad
     }
 
     // ***************************************************
@@ -193,37 +124,8 @@ public class CharacterActor : MonoBehaviour, ITargetable
 
     public void BeginTurn()
     {
-        // Verificar si cambió el turno global (protección adicional)
-        if (_turnSystem != null && _turnSystem.CurrentTeam != lastGlobalTurnTeam)
-        {
-            hasRestoredAPThisGlobalTurn = false;
-            lastGlobalTurnTeam = _turnSystem.CurrentTeam;
-            hasUsedTurnThisGlobalTurn = false;
-            hasRestoredAPThisGlobalTurnInstance = false;
-            Debug.Log($"[AP] {CharacterName}: 🔄 Cambio de turno global detectado en BeginTurn ({_turnSystem.CurrentTeam}). Reset de flags de AP.");
-        }
-        
-        // MISMA LÓGICA para ENEMIGOS y JUGADORES: Los AP se restauran solo una vez por turno global
-        // (en HandleTurnStarted del primer personaje del equipo)
-        // Aquí solo verificamos si ya se restauraron, y si no, los restauramos como fallback
-        // Usamos la flag de instancia para asegurar que cada personaje restaure AP una vez por turno global
-        if (!hasRestoredAPThisGlobalTurnInstance)
-        {
-            int apBefore = currentActionPoints;
-            RestoreActionPoints();
-            hasRestoredAPThisGlobalTurnInstance = true;
-            hasUsedTurnThisGlobalTurn = true;
-            // Marcar la flag estática solo la primera vez (para compatibilidad con otros sistemas)
-            if (!hasRestoredAPThisGlobalTurn)
-            {
-                hasRestoredAPThisGlobalTurn = true;
-            }
-            Debug.Log($"[AP] {CharacterName}: ✅ AP restaurados (fallback para primer {Team} en BeginTurn). AP: {apBefore} -> {currentActionPoints}");
-        }
-        else
-        {
-            Debug.Log($"[AP] {CharacterName}: ⏸️ AP NO restaurados (ya se restauraron en este turno global). AP actual: {currentActionPoints}");
-        }
+        // La lógica de restauración de APs para jugadores está ahora en TacticalMovement2.cs y PlayerTurnController.cs
+        // Este método solo maneja el estado del turno (movimiento, efectos, etc.)
         
         bool isKnockedOut = activeEffects.Any(e => e.Type == StatusEffectType.Noqueado);
 
@@ -306,6 +208,16 @@ public class CharacterActor : MonoBehaviour, ITargetable
         }
     }
 
+    /// <summary>
+    /// Establece los Action Points directamente (usado por TacticalMovement2 y PlayerTurnController)
+    /// </summary>
+    public void SetActionPoints(int newAP)
+    {
+        // Asegurar que no sea negativo
+        currentActionPoints = Mathf.Max(0, newAP);
+        Debug.Log($"[AP] {CharacterName}: AP establecidos directamente a {currentActionPoints}");
+    }
+    
     public void ConsumeActionPoints(int amount)
     {
         int apBefore = currentActionPoints;

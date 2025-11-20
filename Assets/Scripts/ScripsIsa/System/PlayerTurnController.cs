@@ -292,6 +292,10 @@ public class PlayerTurnController : MonoBehaviour
 
     private void TogglePause() => PauseService.TogglePause();
 
+    // Flags para manejar la restauración de APs globales
+    private static bool hasRestoredAPThisGlobalTurn = false;
+    private static Team lastAPGlobalTurnTeam = Team.Enemy;
+    
     // MANEJADORES DE EVENTOS DEL TURNSYSTEM
     private void HandleTurnStart(Team team, CharacterActor actor)
     {
@@ -303,7 +307,60 @@ public class PlayerTurnController : MonoBehaviour
             _cursor = -1;
             _currentTarget = null;
             Debug.Log($"[vAP_FIX_FINAL] Player Turn Handler: Phase started. Active actor: {(_current == null ? "None" : _current.CharacterName)}");
+            
+            // LÓGICA DE RESTAURACIÓN DE APs GLOBALES
+            // Si cambió el turno global (de Enemy a Player), resetear las flags
+            if (team != lastAPGlobalTurnTeam)
+            {
+                hasRestoredAPThisGlobalTurn = false;
+                lastAPGlobalTurnTeam = team;
+                Debug.Log($"[AP] PlayerTurnController: Nuevo turno global de jugadores detectado. Restaurando APs para todos los jugadores.");
+                
+                // Restaurar APs para todos los jugadores vivos
+                RestoreAPsForAllPlayers();
+            }
         }
+    }
+    
+    /// <summary>
+    /// Restaura los Action Points para todos los jugadores vivos (suma directa, sin límite)
+    /// </summary>
+    private void RestoreAPsForAllPlayers()
+    {
+        if (_playerActors == null) return;
+        
+        foreach (var player in _playerActors)
+        {
+            if (player == null || player.Health.IsDead) continue;
+            
+            // Obtener baseAPPerTurn desde CharacterStats
+            int baseAPPerTurn = 1; // Valor por defecto
+            if (player.Stats != null)
+            {
+                baseAPPerTurn = player.Stats.actionPointsPerTurn;
+            }
+            
+            // Suma directa de APs (sin límite de maxAccumulatedAP)
+            int currentAP = player.ActionPoints;
+            int newAP = currentAP + baseAPPerTurn;
+            
+            // Verificar si está noqueado
+            bool isKnockedOut = player.activeEffects.Any(e => e.Type == StatusEffectType.Noqueado);
+            if (isKnockedOut)
+            {
+                newAP = 0;
+            }
+            
+            // Asegurar que no sea negativo
+            newAP = Mathf.Max(0, newAP);
+            
+            // Establecer los nuevos APs
+            player.SetActionPoints(newAP);
+            
+            Debug.Log($"[AP] PlayerTurnController: {player.CharacterName} - AP restaurados directamente. AP: {currentAP} -> {newAP} (baseAPPerTurn: {baseAPPerTurn})");
+        }
+        
+        hasRestoredAPThisGlobalTurn = true;
     }
 
     private void HandleTurnEnd(Team team, CharacterActor actor)
@@ -314,6 +371,14 @@ public class PlayerTurnController : MonoBehaviour
             _cachedOpponents.Clear();
             _currentTarget = null; 
             _cursor = -1;
+            
+            // Si cambió el turno a Enemy, resetear las flags de AP
+            if (team == Team.Enemy)
+            {
+                hasRestoredAPThisGlobalTurn = false;
+                lastAPGlobalTurnTeam = Team.Enemy;
+                Debug.Log($"[AP] PlayerTurnController: Turno cambió a Enemy. Reset de flags de AP.");
+            }
         }
     }
 

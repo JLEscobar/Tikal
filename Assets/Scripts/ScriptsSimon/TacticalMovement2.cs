@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [RequireComponent(typeof(CharacterController))]
 public class TacticalMovementController : MonoBehaviour
@@ -27,6 +28,8 @@ public class TacticalMovementController : MonoBehaviour
     private static bool hasSetStartPositionThisGlobalTurn = false;
     private static Team lastGlobalTurnTeam = Team.Enemy; // Inicializar con Enemy para que el primer turno de Player lo detecte
     private bool hasUsedTurnThisGlobalTurn = false; // Flag para rastrear si este jugador ya usó su turno en el turno global actual
+    
+    // NOTA: La lógica de restauración de APs está ahora en PlayerTurnController.cs
     
     // Variables de runtime para las stats (ahora declaradas aquí)
     private float moveSpeed = 5f; // Valor por defecto
@@ -79,7 +82,7 @@ public class TacticalMovementController : MonoBehaviour
     
     private void HandleTurnStarted(Team team, CharacterActor actor)
     {
-        // Si cambió el equipo (de Enemy a Player o viceversa), resetear la flag
+        // Si cambió el equipo (de Enemy a Player o viceversa), resetear las flags
         if (team != lastGlobalTurnTeam)
         {
             hasSetStartPositionThisGlobalTurn = false;
@@ -89,9 +92,13 @@ public class TacticalMovementController : MonoBehaviour
             Debug.Log($"[MOVEMENT] {gameObject.name}: Nuevo turno global detectado ({team}). Reset de flags de posición inicial.");
         }
         
+        // NOTA: La lógica de restauración de APs para jugadores está ahora en PlayerTurnController.cs
+        // Este método solo maneja la posición inicial del turno
+        
         // La posición inicial se establecerá en StartMovementPhase() cuando cada jugador comience su turno
         // No necesitamos establecerla aquí, solo resetear las flags cuando cambia el turno global
     }
+    
     
     private void HandleTurnEnded(Team team, CharacterActor actor)
     {
