@@ -7,6 +7,14 @@ public class CharacterAnimationHandler : MonoBehaviour
     [Header("References")]
     [Tooltip("Si está vacío, se buscará automáticamente")]
     [SerializeField] private Animator animator;
+    
+    [Header("Audio")]
+    [Tooltip("AudioSource para reproducir sonidos de ataques. Si está vacío, se buscará automáticamente")]
+    [SerializeField] private AudioSource audioSource;
+    [Tooltip("Clip de audio que se reproduce cuando se ejecuta un ataque básico (Attack)")]
+    [SerializeField] private AudioClip attackSound;
+    [Tooltip("Clip de audio que se reproduce cuando se ejecuta un ataque especial (SAttack)")]
+    [SerializeField] private AudioClip sAttackSound;
 
     [Header("Settings")]
     [Tooltip("Umbral mínimo de velocidad para considerar que el personaje está caminando")]
@@ -60,6 +68,18 @@ public class CharacterAnimationHandler : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         characterMovement = GetComponent<CharacterMovement>();
         tacticalMovement2 = GetComponent<TacticalMovementController>();
+        
+        // Buscar AudioSource si no está asignado
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            // Si no existe, crear uno
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+            }
+        }
         
         // Validar que el Animator existe
         if (animator == null)
@@ -207,6 +227,7 @@ public class CharacterAnimationHandler : MonoBehaviour
             isInAttackAnimation = true;
             attackAnimationStartTime = Time.time;
             BlockMovement();
+            ReproducirSonidoAtaque(attackSound);
             Debug.Log($"[CharacterAnimationHandler] {gameObject.name}: Trigger Attack disparado - Movimiento bloqueado");
         }
     }
@@ -222,6 +243,7 @@ public class CharacterAnimationHandler : MonoBehaviour
             isInAttackAnimation = true;
             attackAnimationStartTime = Time.time;
             BlockMovement();
+            ReproducirSonidoAtaque(sAttackSound);
             Debug.Log($"[CharacterAnimationHandler] {gameObject.name}: Trigger SAttack disparado - Movimiento bloqueado");
         }
     }
@@ -680,6 +702,19 @@ public class CharacterAnimationHandler : MonoBehaviour
     #endregion
 
     #region Utilidades
+
+    /// <summary>
+    /// Reproduce un clip de audio de ataque si está disponible
+    /// </summary>
+    /// <param name="clip">Clip de audio a reproducir</param>
+    private void ReproducirSonidoAtaque(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+            Debug.Log($"[CharacterAnimationHandler] {gameObject.name}: Reproduciendo sonido de ataque - {clip.name}");
+        }
+    }
 
     /// <summary>
     /// Resetea todos los triggers del Animator

@@ -1122,7 +1122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &38977569
 Transform:
   m_ObjectHideFlags: 0
@@ -1131,8 +1131,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38977566}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 982.3298, y: 496.81967, z: -6.69393}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 982.3297, y: 496.81967, z: -6.6939306}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3817,12 +3817,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128754993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.95645, y: -4.61239, z: 21.15012}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -62.89856, y: -4.37665, z: 13.50159}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 425852239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &130416740
 GameObject:
@@ -4591,6 +4591,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &159561993
 GameObject:
   m_ObjectHideFlags: 0
@@ -4891,6 +4894,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &164700279 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3423484986480617566, guid: ce58f0b39d8acc54ea2bcd3beff99bc0, type: 3}
@@ -6825,6 +6831,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &249145238
 GameObject:
   m_ObjectHideFlags: 0
@@ -12068,13 +12077,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 128754995}
+  - {fileID: 829136385}
+  - {fileID: 1255521004}
   - {fileID: 512646332}
   - {fileID: 190137160}
   - {fileID: 14347680}
   - {fileID: 780077674}
   - {fileID: 784830648}
   - {fileID: 1464241909}
-  - {fileID: 508169539}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &427107625
@@ -12661,6 +12672,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationHandler
   animator: {fileID: 447199990}
+  audioSource: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: b8bfc28232d50524db5810d4829eb162, type: 3}
+  sAttackSound: {fileID: 8300000, guid: c9ca54408d3319e48995723cb6927775, type: 3}
   walkSpeedThreshold: 0.1
   inputThreshold: 0.3
   autoUpdateAnimations: 1
@@ -13583,7 +13597,7 @@ Transform:
   m_GameObject: {fileID: 508169538}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 74.85501, y: -0.23574, z: 7.64853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13601,7 +13615,7 @@ Transform:
   - {fileID: 2023431597}
   - {fileID: 192277574}
   - {fileID: 1024353429}
-  m_Father: {fileID: 425852239}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &512646330
 GameObject:
@@ -20363,6 +20377,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &780077673
 GameObject:
   m_ObjectHideFlags: 0
@@ -21454,6 +21471,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &802324218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21482,6 +21502,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &805628509
 GameObject:
   m_ObjectHideFlags: 0
@@ -21894,6 +21917,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &829136384
 GameObject:
   m_ObjectHideFlags: 0
@@ -21918,12 +21944,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829136384}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.79, y: -6.75, z: 16.27}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -110.64501, y: -6.51426, z: 8.62147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 425852239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
@@ -24718,6 +24744,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &933925315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24746,6 +24775,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &939593015
 GameObject:
   m_ObjectHideFlags: 0
@@ -30816,6 +30848,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &1193082861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30844,6 +30879,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &1216357048
 GameObject:
   m_ObjectHideFlags: 0
@@ -31902,12 +31940,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255521003}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.69, y: -6.52, z: 43.66}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -92.54501, y: -6.28426, z: 36.01147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 425852239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1264429505
 PrefabInstance:
@@ -37179,6 +37217,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &1526962578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37207,6 +37248,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!4 &1532733615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6987979442024938743, guid: 7ea0ebe50ce1d1347826d2cc4bf322ae, type: 3}
@@ -42522,6 +42566,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &1778831916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42550,6 +42597,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &1778948994
 GameObject:
   m_ObjectHideFlags: 0
@@ -46856,6 +46906,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -52
       objectReference: {fileID: 0}
+    - target: {fileID: 1497126424299095355, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      propertyPath: m_Color.a
+      value: 0.2509804
+      objectReference: {fileID: 0}
     - target: {fileID: 2699814313413325827, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: m_Name
       value: TextoContinuar
@@ -46863,6 +46917,10 @@ PrefabInstance:
     - target: {fileID: 3485585506797894063, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: estaDeshabilitado
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445350775930660575, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      propertyPath: m_Color.a
+      value: 0.08235294
       objectReference: {fileID: 0}
     - target: {fileID: 5877842127789282063, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: m_Pivot.x
@@ -46967,6 +47025,10 @@ PrefabInstance:
     - target: {fileID: 7478021455312029417, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: m_margin.z
       value: -85.3897
+      objectReference: {fileID: 0}
+    - target: {fileID: 7478021455312029417, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.3764706
       objectReference: {fileID: 0}
     - target: {fileID: 7478021455312029417, guid: 99fd4b464bdc0f34c80fa306f3ffe01e, type: 3}
       propertyPath: m_fontSizeBase
@@ -52994,6 +53056,9 @@ MonoBehaviour:
   colorMarcoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.2509804}
   colorInteriorDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.08235294}
   colorTextoDeshabilitado: {r: 0.34901962, g: 0.96862745, b: 0.8666667, a: 0.3764706}
+  buttonOverSound: {fileID: 0}
+  buttonPushSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!4 &2130606893 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 439724593786701523, guid: e7838bce990b3a34e8f9012ba7c52e31, type: 3}
@@ -54394,6 +54459,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationHandler
   animator: {fileID: 385443860908826205}
+  audioSource: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: de32eeb99f2afa748a42c8de557d5d40, type: 3}
+  sAttackSound: {fileID: 8300000, guid: 8a2d27b85fcba1045b1f79c0d302c586, type: 3}
   walkSpeedThreshold: 0.1
   inputThreshold: 0.3
   autoUpdateAnimations: 1
@@ -56031,6 +56099,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationHandler
   animator: {fileID: 3062359154454264881}
+  audioSource: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 9b21cf843ce16ca4b84015406899dc8f, type: 3}
+  sAttackSound: {fileID: 8300000, guid: 65bdb172d40e9ff4294e8727b18fa15c, type: 3}
   walkSpeedThreshold: 0.1
   inputThreshold: 0.3
   autoUpdateAnimations: 1
@@ -56528,6 +56599,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationHandler
   animator: {fileID: 3601801749459530786}
+  audioSource: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 5de6ae5cc7db8744db9a261feb259001, type: 3}
+  sAttackSound: {fileID: 8300000, guid: 5de6ae5cc7db8744db9a261feb259001, type: 3}
   walkSpeedThreshold: 0.1
   inputThreshold: 0.3
   autoUpdateAnimations: 1
@@ -60250,8 +60324,6 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 1933314838}
   - {fileID: 425852239}
-  - {fileID: 1255521004}
-  - {fileID: 829136385}
-  - {fileID: 128754995}
+  - {fileID: 508169539}
   - {fileID: 399726333}
   - {fileID: 38977569}

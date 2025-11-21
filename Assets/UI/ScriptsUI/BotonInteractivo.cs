@@ -34,11 +34,51 @@ public class BotonInteractivo : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public Color colorInteriorDeshabilitado = new Color32(0x59, 0xF7, 0xDD, 0x15); // 8% visible
     public Color colorTextoDeshabilitado = new Color32(0x59, 0xF7, 0xDD, 0x60); // 38% visible
 
+    [Header("Audio")]
+    [Tooltip("Clip de audio que se reproduce cuando el mouse entra sobre el botón")]
+    public AudioClip buttonOverSound;
+    [Tooltip("Clip de audio que se reproduce cuando se presiona el botón")]
+    public AudioClip buttonPushSound;
+    [Tooltip("Si está vacío, se buscará automáticamente")]
+    [SerializeField] private AudioSource audioSource;
+
     private bool presionado = false;
 
     void Start()
     {
         AplicarEstadoActual();
+        InicializarAudio();
+    }
+
+    /// <summary>
+    /// Inicializa el AudioSource y carga los clips de audio si no están asignados
+    /// </summary>
+    private void InicializarAudio()
+    {
+        // Buscar AudioSource si no está asignado
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            // Si no existe, crear uno
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.playOnAwake = false;
+            }
+        }
+
+        // Intentar cargar los clips desde Resources si no están asignados
+        // Nota: Esto solo funcionará si existe una carpeta "Resources" con los archivos
+        if (buttonOverSound == null)
+        {
+            buttonOverSound = Resources.Load<AudioClip>("Sonidos/UI/ButtonOver");
+        }
+        if (buttonPushSound == null)
+        {
+            buttonPushSound = Resources.Load<AudioClip>("Sonidos/UI/ButtonPush");
+        }
+        
+        // Si no se cargaron desde Resources, el usuario deberá asignarlos manualmente en el Inspector
     }
 
     void OnValidate()
@@ -65,7 +105,10 @@ public class BotonInteractivo : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (estaDeshabilitado) return;
         if (!presionado)
+        {
             AplicarColoresHover();
+            ReproducirSonido(buttonOverSound);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -80,6 +123,7 @@ public class BotonInteractivo : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (estaDeshabilitado) return;
         presionado = true;
         AplicarColoresClick();
+        ReproducirSonido(buttonPushSound);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -116,5 +160,17 @@ public class BotonInteractivo : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (ImagenMarco) ImagenMarco.color = colorMarcoDeshabilitado;
         if (ImagenInterior) ImagenInterior.color = colorInteriorDeshabilitado;
         if (Texto) Texto.color = colorTextoDeshabilitado;
+    }
+
+    /// <summary>
+    /// Reproduce un clip de audio si está disponible
+    /// </summary>
+    /// <param name="clip">Clip de audio a reproducir</param>
+    private void ReproducirSonido(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 }
