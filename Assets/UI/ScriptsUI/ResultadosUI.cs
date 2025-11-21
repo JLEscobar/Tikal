@@ -14,7 +14,6 @@ public class ResultadosUI : MonoBehaviour
     {
         [Header("Configuración")]
         public string nombre = "Objetivo";
-        public bool cumplido = false;
         public int puntos = 0;
 
         [Header("Elementos a colorear para este objetivo")]
@@ -29,6 +28,14 @@ public class ResultadosUI : MonoBehaviour
     public Objetivo objetivoPrincipal = new Objetivo { nombre = "Principal", puntos = 30 };
     public Objetivo objetivoSecundario = new Objetivo { nombre = "Secundario", puntos = 15 };
     public Objetivo objetivoOculto = new Objetivo { nombre = "Oculto", puntos = 10 };
+    
+    [Header("Estado de cumplimiento de objetivos")]
+    [Tooltip("Indica si el objetivo principal está cumplido")]
+    public bool objetivoPrincipalCumplido = false;
+    [Tooltip("Indica si el objetivo secundario está cumplido")]
+    public bool objetivoSecundarioCumplido = false;
+    [Tooltip("Indica si el objetivo oculto está cumplido")]
+    public bool objetivoOcultoCumplido = false;
 
     [Header("Textos generales")]
     public TextMeshProUGUI tituloPrincipal;         // texto grande: Nivel Completado / Nivel Fallido
@@ -55,6 +62,11 @@ public class ResultadosUI : MonoBehaviour
 
     void Start()
     {
+        // Establecer todos los objetivos en false al inicio
+        objetivoPrincipalCumplido = false;
+        objetivoSecundarioCumplido = false;
+        objetivoOcultoCumplido = false;
+        
         GuardarColoresOriginales();
         AplicarEstado();
     }
@@ -95,21 +107,21 @@ public class ResultadosUI : MonoBehaviour
     public void AplicarEstado()
     {
         // 1) Actualizar cada objetivo por separado (si NO se cumple -> naranja, si sí -> restaurar o colorExito)
-        ActualizarObjetivoUI(objetivoPrincipal, 0);
-        ActualizarObjetivoUI(objetivoSecundario, 1);
-        ActualizarObjetivoUI(objetivoOculto, 2);
+        ActualizarObjetivoUI(objetivoPrincipal, 0, objetivoPrincipalCumplido);
+        ActualizarObjetivoUI(objetivoSecundario, 1, objetivoSecundarioCumplido);
+        ActualizarObjetivoUI(objetivoOculto, 2, objetivoOcultoCumplido);
 
         // 2) Calcular XP total (suma de puntos de objetivos cumplidos)
         int totalXP = 0;
-        if (objetivoPrincipal.cumplido) totalXP += objetivoPrincipal.puntos;
-        if (objetivoSecundario.cumplido) totalXP += objetivoSecundario.puntos;
-        if (objetivoOculto.cumplido) totalXP += objetivoOculto.puntos;
+        if (objetivoPrincipalCumplido) totalXP += objetivoPrincipal.puntos;
+        if (objetivoSecundarioCumplido) totalXP += objetivoSecundario.puntos;
+        if (objetivoOcultoCumplido) totalXP += objetivoOculto.puntos;
 
         if (textoExperienciaTotal != null)
             textoExperienciaTotal.text = totalXP.ToString(); // SOLO número (sin "XP")
 
         // 3) Título según objetivo principal
-        bool nivelGanado = objetivoPrincipal.cumplido;
+        bool nivelGanado = objetivoPrincipalCumplido;
         if (tituloPrincipal != null)
         {
             tituloPrincipal.text = nivelGanado ? "Nivel Completado" : "Nivel Fallido";
@@ -121,10 +133,10 @@ public class ResultadosUI : MonoBehaviour
         SetActiveArray(mostrarSiPierde, !nivelGanado);
     }
 
-    void ActualizarObjetivoUI(Objetivo obj, int objetivoIndex)
+    void ActualizarObjetivoUI(Objetivo obj, int objetivoIndex, bool cumplido)
     {
         // colorDestino: si cumplido = colorExito (opcional), si NO cumplido = colorFallo
-        Color colorDestino = obj.cumplido ? colorExito : colorFallo;
+        Color colorDestino = cumplido ? colorExito : colorFallo;
 
         // Aplicar color a cada elemento de ese objetivo
         if (obj.elementos != null)
@@ -142,7 +154,7 @@ public class ResultadosUI : MonoBehaviour
         // Actualizar el texto de puntos del objetivo (solo número)
         if (obj.textoPuntos != null)
         {
-            obj.textoPuntos.text = obj.cumplido ? obj.puntos.ToString() : "0";
+            obj.textoPuntos.text = cumplido ? obj.puntos.ToString() : "0";
         }
     }
 
@@ -157,16 +169,16 @@ public class ResultadosUI : MonoBehaviour
     }
 
     // Métodos públicos para cambiar desde otros scripts
-    public void SetPrincipal(bool val) { objetivoPrincipal.cumplido = val; AplicarEstado(); }
-    public void SetSecundario(bool val) { objetivoSecundario.cumplido = val; AplicarEstado(); }
-    public void SetOculto(bool val) { objetivoOculto.cumplido = val; AplicarEstado(); }
+    public void SetPrincipal(bool val) { objetivoPrincipalCumplido = val; AplicarEstado(); }
+    public void SetSecundario(bool val) { objetivoSecundarioCumplido = val; AplicarEstado(); }
+    public void SetOculto(bool val) { objetivoOcultoCumplido = val; AplicarEstado(); }
 
     // Resetea todo
     public void ResetResultados()
     {
-        objetivoPrincipal.cumplido = false;
-        objetivoSecundario.cumplido = false;
-        objetivoOculto.cumplido = false;
+        objetivoPrincipalCumplido = false;
+        objetivoSecundarioCumplido = false;
+        objetivoOcultoCumplido = false;
         AplicarEstado();
     }
 }

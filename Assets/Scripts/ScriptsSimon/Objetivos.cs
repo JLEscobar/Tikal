@@ -8,6 +8,14 @@ public class Objetivos : MonoBehaviour
     [Header("Referencia al componente CambiarColorYActivar")]
     [Tooltip("Arrastra aquí el GameObject que tiene el componente CambiarColorYActivar")]
     [SerializeField] private CambiarColorYActivar cambiarColorYActivar;
+    
+    [Header("Referencia al componente ResultadosUI")]
+    [Tooltip("Arrastra aquí el GameObject que tiene el componente ResultadosUI (opcional, se busca automáticamente)")]
+    [SerializeField] private ResultadosUI resultadosUI;
+    
+    [Header("Referencia al componente UI_PauseManager")]
+    [Tooltip("Arrastra aquí el GameObject que tiene el componente UI_PauseManager (opcional, se busca automáticamente)")]
+    [SerializeField] private UI_PauseManager uiPauseManager;
 
     // Método para completar el primer objetivo
     public void CompletarObjetivo1()
@@ -24,6 +32,22 @@ public class Objetivos : MonoBehaviour
             Debug.LogWarning("No se encontró un healthCheker");
         }
         
+        // Buscar ResultadosUI y establecer objetivoSecundarioCumplido en true
+        if (resultadosUI == null)
+        {
+            resultadosUI = FindObjectOfType<ResultadosUI>();
+        }
+        
+        if (resultadosUI != null)
+        {
+            resultadosUI.SetSecundario(true);
+            Debug.Log("objetivoSecundarioCumplido establecido en true");
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el componente ResultadosUI. Asegúrate de que existe en la escena.");
+        }
+        
         // Verificar si ambos objetivos están completos
         VerificarObjetivosCompletos();
     }
@@ -33,6 +57,38 @@ public class Objetivos : MonoBehaviour
     {
         objetivo2 = true;
         Debug.Log("Objetivo 2 completado");
+        
+        // Buscar ResultadosUI y establecer objetivoPrincipalCumplido en true
+        if (resultadosUI == null)
+        {
+            resultadosUI = FindObjectOfType<ResultadosUI>();
+        }
+        
+        if (resultadosUI != null)
+        {
+            resultadosUI.SetPrincipal(true);
+            Debug.Log("objetivoPrincipalCumplido establecido en true");
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el componente ResultadosUI. Asegúrate de que existe en la escena.");
+        }
+        
+        // Buscar UI_PauseManager y activar UI_VictoriaDerrota
+        if (uiPauseManager == null)
+        {
+            uiPauseManager = FindObjectOfType<UI_PauseManager>();
+        }
+        
+        if (uiPauseManager != null)
+        {
+            uiPauseManager.SetActiveUI_VictoriaDerrota(true);
+            Debug.Log("UI_VictoriaDerrota activado");
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el componente UI_PauseManager. Asegúrate de que existe en la escena.");
+        }
         
         // Verificar si ambos objetivos están completos
         VerificarObjetivosCompletos();

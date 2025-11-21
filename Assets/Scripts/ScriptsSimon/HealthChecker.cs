@@ -17,13 +17,11 @@ public class HealthChecker : MonoBehaviour
 
     void Update()
     {
-        if (bossHealth == null)
-        {
-            TryInicializarReferencias();
-            return;
-        }
-
-        if (!objetivo2Notificado && bossHealth.CurrentHealth <= 1)
+        // Verificar si hay objetos con el tag "Boss"
+        GameObject[] bossObjects = GameObject.FindGameObjectsWithTag(personajeTag);
+        
+        // Si no encuentra objetos con el tag "Boss", ejecutar CompletarObjetivo2()
+        if (!objetivo2Notificado && (bossObjects == null || bossObjects.Length == 0))
         {
             if (objetivos == null)
             {
@@ -34,7 +32,7 @@ public class HealthChecker : MonoBehaviour
             {
                 objetivos.CompletarObjetivo2();
                 objetivo2Notificado = true;
-                Debug.Log("Objetivo 2 completado (HealthChecker)");
+                Debug.Log("Objetivo 2 completado (HealthChecker) - No se encontraron objetos con tag Boss");
             }
             else
             {
