@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Health))]
@@ -413,9 +414,29 @@ public class CharacterActor : MonoBehaviour, ITargetable
         return finalRange;
     }
     
+    [Header("Death Settings")]
+    [SerializeField] private float deathAnimationDelay = 2.0f; // Tiempo en segundos antes de desactivar el GameObject
+    
     private void OnDeath()
     {
         Debug.Log($"[v0] {CharacterName} has died!");
-        gameObject.SetActive(false);
+        // Iniciar corrutina para desactivar el GameObject después del delay
+        StartCoroutine(DeactivateAfterDeathAnimation());
+    }
+    
+    /// <summary>
+    /// Corrutina que espera a que la animación de muerte se reproduzca antes de desactivar el GameObject
+    /// </summary>
+    private IEnumerator DeactivateAfterDeathAnimation()
+    {
+        // Esperar el tiempo necesario para que la animación de muerte se reproduzca
+        yield return new WaitForSeconds(deathAnimationDelay);
+        
+        // Desactivar el GameObject después del delay
+        if (gameObject != null)
+        {
+            gameObject.SetActive(false);
+            Debug.Log($"[v0] {CharacterName} GameObject desactivado después de {deathAnimationDelay} segundos");
+        }
     }
 }

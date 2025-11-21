@@ -20,6 +20,9 @@ public class TacticalMovementController : MonoBehaviour
     private CharacterActor _characterActor;
     private TurnSystem _turnSystem;
     
+    // Flag para bloquear movimiento durante animaciones (accesible desde CharacterAnimationHandler)
+    public bool IsMovementBlocked { get; set; } = false;
+    
     // VARIABLES CLAVE PARA EL RASTREO DE DISTANCIA
     private float totalDistanceMovedInTurn = 0f; 
     private Vector3 lastPosition;
@@ -200,6 +203,14 @@ public class TacticalMovementController : MonoBehaviour
     {
         if (isMovementPhaseActive) return;
 
+        // NO habilitar CharacterController si el movimiento está bloqueado (por animaciones de ataque)
+        // Esto previene que se habilite durante animaciones
+        if (IsMovementBlocked)
+        {
+            Debug.LogWarning($"[MOVEMENT] {gameObject.name}: No se puede iniciar fase de movimiento - Movimiento bloqueado por animación");
+            return;
+        }
+
         // Verificar que CharacterController esté habilitado
         if (_controller != null && !_controller.enabled)
         {
@@ -299,6 +310,12 @@ public class TacticalMovementController : MonoBehaviour
                 // No es el turno de este personaje, no permitir movimiento
                 return;
             }
+        }
+        
+        // Bloquear movimiento si está bloqueado (por animaciones de ataque)
+        if (IsMovementBlocked)
+        {
+            return;
         }
 
         if (_controller == null)
