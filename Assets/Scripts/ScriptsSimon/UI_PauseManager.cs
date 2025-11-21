@@ -6,6 +6,8 @@ public class UI_PauseManager : MonoBehaviour
     [Header("Referencias")]
     [Tooltip("GameObject del menú de pausa")]
     [SerializeField] private GameObject menuPausa;
+    [Tooltip("GameObject de la UI de Victoria/Derrota")]
+    [SerializeField] private GameObject UI_VictoriaDerrota;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -13,6 +15,11 @@ public class UI_PauseManager : MonoBehaviour
         if (menuPausa != null)
         {
             menuPausa.SetActive(false);
+        }
+        
+        if (UI_VictoriaDerrota != null)
+        {
+            UI_VictoriaDerrota.SetActive(false);
         }
     }
 
@@ -83,5 +90,16 @@ public class UI_PauseManager : MonoBehaviour
     public void SalirDelJuego()
     {
         Application.Quit();
+    }
+
+    /// <summary>
+    /// Activa o desactiva el UI de Victoria/Derrota
+    /// </summary>
+    public void SetActiveUI_VictoriaDerrota(bool active)
+    {
+        if (UI_VictoriaDerrota != null)
+        {
+            UI_VictoriaDerrota.SetActive(active);
+        }
     }
 }
