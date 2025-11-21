@@ -68,8 +68,6 @@ public class PlayerTurnController : MonoBehaviour
         
         // 2. Tecla E (Habilidad Especial)
         if (Input.GetKeyDown(KeyCode.Space)) TryUseAbilityKey(specialAbilityIndex); 
-        
-        if (Input.GetKeyDown(KeyCode.P)) TogglePause();
 
 
         // Lógica de detección por Clic (Mouse) - Solo selecciona objetivo, NO ataca automáticamente
@@ -393,8 +391,6 @@ public class PlayerTurnController : MonoBehaviour
             MessagesSystem.Instance.ShowMessage("No quedan enemigos vivos.", Color.green);
         }
     }
-
-    private void TogglePause() => PauseService.TogglePause();
 
     // Flags para manejar la restauración de APs globales
     private static bool hasRestoredAPThisGlobalTurn = false;
