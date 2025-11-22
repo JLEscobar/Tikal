@@ -1138,7 +1138,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             // Terminar el turno a través del TurnSystem
             if (turnSystem != null && characterActor != null)
             {
-                Debug.Log($"[ENEMY_ACTION] {gameObject.name}: 📞 Llamando a TurnSystem.EndTurn()");
+                Debug.Log($"[ENEMY_ACTION] {gameObject.name}:  Llamando a TurnSystem.EndTurn()");
                 turnSystem.EndTurn();
             }
             else
