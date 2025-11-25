@@ -17,7 +17,7 @@ MonoBehaviour:
   maxHealth: 150
   attackPower: 25
   actionPointsPerTurn: 1
-  moveSpeed: 5
+  moveSpeed: 2.5
   movementRange: 25
   abilities:
   - {fileID: 11400000, guid: ce223eac5c998174cbeb927d34901940, type: 2}
