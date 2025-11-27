@@ -1171,6 +1171,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2412216321359997497, guid: 6bd4776ef3d4fb540bcbf903bc5772fe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 392059348171638933}
+    - targetCorrespondingSourceObject: {fileID: 240753185808316610, guid: 6bd4776ef3d4fb540bcbf903bc5772fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3273475194198223699}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3040555757788442755, guid: 6bd4776ef3d4fb540bcbf903bc5772fe, type: 3}
       insertIndex: 3
@@ -1200,6 +1203,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GravityOnlyController
   gravity: -10
   fallMultiplier: 2.8
+--- !u!4 &2608865638088889384 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 240753185808316610, guid: 6bd4776ef3d4fb540bcbf903bc5772fe, type: 3}
+  m_PrefabInstance: {fileID: 2838357134568533226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4668245223654578805 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7470115579983001247, guid: 6bd4776ef3d4fb540bcbf903bc5772fe, type: 3}
@@ -1222,3 +1230,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b822cb4622b5645b3e2dea85977fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &3091440927865146552
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2608865638088889384}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1167.936
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1167.936
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1167.936
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.63
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.37
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.55892986
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.26426026
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.72639376
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.30019337
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -171.911
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 78.643
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -226.612
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+      propertyPath: m_Name
+      value: Fusil Aguila FBX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+--- !u!4 &3273475194198223699 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9693e54df97390d41b25c4b1e70681de, type: 3}
+  m_PrefabInstance: {fileID: 3091440927865146552}
+  m_PrefabAsset: {fileID: 0}
