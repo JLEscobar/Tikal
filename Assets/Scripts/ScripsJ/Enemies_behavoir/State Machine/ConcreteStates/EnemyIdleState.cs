@@ -18,6 +18,7 @@ public class EnemyIdleState : EnemyState
         idleTurnsWaited = 0;
         base.EnterState();
         enemy.canMove = true; // Asegurar que el enemigo pueda moverse
+        enemy.SetWalkAnimation(false); // Detener animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Entrando al estado de reposo");
     }
 
@@ -82,38 +83,8 @@ public class EnemyIdleState : EnemyState
             }
         }
 
-        // PRIORIDAD 2: Si no hay target, comportamiento idle
-        // Verificar que haya puntos idle
-        if (enemy.IdlePoints == null || enemy.IdlePoints.Length == 0)
-        {
-            // Si no hay puntos idle, solo esperar
-            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - No hay puntos idle, esperando...");
-            return;
-        }
-
-        // Espera unos turnos antes de moverse
-        if (idleTurnsWaited < idleTurnsToWait)
-        {
-            idleTurnsWaited++;
-            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Esperando ({idleTurnsWaited}/{idleTurnsToWait})");
-            return;
-        }
-
-        // Moverse un paso hacia el siguiente punto idle
-        Transform idleTarget = enemy.IdlePoints[enemy.CurrentIdleIndex];
-        if (idleTarget == null)
-        {
-            Debug.LogWarning($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Punto idle {enemy.CurrentIdleIndex} es null");
-            return;
-        }
-        
-        Vector3 direction = (idleTarget.position - enemy.transform.position).normalized;
-        enemy.moveEnemy(direction);
-
-        if (Vector3.Distance(enemy.transform.position, idleTarget.position) < 0.5f)
-        {
-            enemy.CurrentIdleIndex = (enemy.CurrentIdleIndex + 1) % enemy.IdlePoints.Length;
-            idleTurnsWaited = 0;
-        }
+        // PRIORIDAD 2: Si no hay target, quedarse quieto
+        // El enemigo permanece en su posición actual sin moverse
+        enemy.SetWalkAnimation(false);
     }
 }

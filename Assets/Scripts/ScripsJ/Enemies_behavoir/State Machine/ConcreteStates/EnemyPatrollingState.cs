@@ -13,8 +13,8 @@ public class EnemyPatrollingState : EnemyState
         waitTimer = 0f;
         base.EnterState();
         enemy.canMove = true; // Asegurar que el enemigo pueda moverse
+        enemy.SetWalkAnimation(true); // Activar animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🚶 PATROLLING - Entrando al estado de patrullaje (punto {enemy.CurrentPatrolIndex + 1}/{enemy.PatrolPoints.Length})");
-        // Aqu� podr�as iniciar animaci�n de patrullaje
     }
 
     public override void UpdateState()
@@ -86,7 +86,7 @@ public class EnemyPatrollingState : EnemyState
     public override void ExitState()
     {
         base.ExitState();
-        // Detener animaci�n de patrullaje si aplica
+        enemy.SetWalkAnimation(false); // Detener animación de caminar
     }
 
     public override void PhysicsUpdate()

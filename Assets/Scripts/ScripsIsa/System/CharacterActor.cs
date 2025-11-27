@@ -415,7 +415,7 @@ public class CharacterActor : MonoBehaviour, ITargetable
     }
     
     [Header("Death Settings")]
-    [SerializeField] private float deathAnimationDelay = 2.0f; // Tiempo en segundos antes de desactivar el GameObject
+    [SerializeField] private float deathAnimationDelay = 4.0f; // Tiempo en segundos antes de desactivar el GameObject
     
     private void OnDeath()
     {

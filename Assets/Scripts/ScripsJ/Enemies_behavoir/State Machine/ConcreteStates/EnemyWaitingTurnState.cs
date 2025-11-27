@@ -10,6 +10,7 @@ public class EnemyWaitingTurnState : EnemyState
     {
         base.EnterState();
         enemy.canMove = false;
+        enemy.SetWalkAnimation(false); // Detener animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: ⏸️ WAITING - Entrando al estado de espera de turno");
     }
 
