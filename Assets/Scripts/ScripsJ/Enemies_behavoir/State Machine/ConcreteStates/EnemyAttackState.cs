@@ -15,6 +15,7 @@ public class EnemyAttackState : EnemyState
         base.EnterState();
         enemy.canMove = false; // Detener movimiento cuando está atacando
         hasAttackedThisTurn = false; // Resetear el flag al entrar al estado
+        enemy.SetWalkAnimation(false); // Detener animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🗡️ ATTACK - Entrando al estado de ataque (movimiento detenido)");
     }
     
@@ -219,6 +220,8 @@ public class EnemyAttackState : EnemyState
                     
                     if (target != null)
                     {
+                        // Activar animación de ataque
+                        enemy.TriggerAttackAnimation();
                         // Realizar el ataque con daño y efectos visuales
                         PerformAttack(target);
                     }

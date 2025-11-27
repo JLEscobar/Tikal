@@ -108,6 +108,18 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
 
     #endregion
 
+    #region Animation Variables
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    
+    // Nombres de parámetros del Animator
+    private const string PARAM_ATTACK = "Attack";
+    private const string PARAM_DEATH = "Death";
+    private const string PARAM_WALK = "Walk";
+    
+    public Animator Animator => animator;
+    #endregion
+
     #region Stats Variables
     // Rango de visi�n
     [SerializeField] private float visionRange = 10f;
@@ -283,6 +295,16 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         
         target = GameObject.FindWithTag("Player").transform;
 
+        // Inicializar Animator si no está asignado
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                animator = GetComponentInChildren<Animator>();
+            }
+        }
+
         // Asegurar que CharacterActor esté disponible
         if (characterActor == null)
         {
@@ -356,6 +378,8 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         }
     }
 
+    private bool hasPlayedDeathAnimation = false;
+    
     private void Update()
     {
         // Sincronizar salud con CharacterActor periódicamente
@@ -363,7 +387,20 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         {
             CurrentHealth = characterActor.Health.CurrentHealth;
             MaxHealth = characterActor.Health.MaxHealth;
-            IsDead = characterActor.Health.IsDead;
+            
+            // Detectar muerte desde CharacterActor y reproducir animación
+            if (characterActor.Health.IsDead && !hasPlayedDeathAnimation)
+            {
+                hasPlayedDeathAnimation = true;
+                IsDead = true;
+                TriggerDeathAnimation();
+                SetWalkAnimation(false);
+                Debug.Log($"[ENEMY] {gameObject.name}: Muerte detectada desde CharacterActor, reproduciendo animación");
+            }
+            else
+            {
+                IsDead = characterActor.Health.IsDead;
+            }
         }
 
         // Solo ejecutar la máquina de estados si es nuestro turno
@@ -427,6 +464,10 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         
         IsDead = true;
         Debug.Log($"[ENEMY] {gameObject.name} has died.");
+        
+        // Activar animación de muerte
+        TriggerDeathAnimation();
+        SetWalkAnimation(false);
         
         // Sincronizar con CharacterActor si está disponible
         if (characterActor != null && characterActor.Health != null)
@@ -521,6 +562,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         if (direction == Vector3.zero)
         {
             Debug.LogWarning($"[ENEMY_MOVEMENT] {gameObject.name}: Intento de movimiento con dirección cero");
+            SetWalkAnimation(false);
             return;
         }
 
@@ -592,6 +634,7 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             }
             
             controller.Move(move);
+            SetWalkAnimation(true);
             
             Debug.Log($"[ENEMY_MOVEMENT] {gameObject.name}: Moviéndose en dirección {clampedDirection} a velocidad {moveSpeed} (distancia este frame: {move.magnitude:F3})");
             
@@ -761,6 +804,41 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     public enum AnimationTriggerType     {
         EnemyDamaged,
         playFootstepSound
+    }
+    
+    /// <summary>
+    /// Activa el trigger de ataque en el Animator
+    /// </summary>
+    public void TriggerAttackAnimation()
+    {
+        if (animator != null && animator.isActiveAndEnabled)
+        {
+            animator.SetTrigger(PARAM_ATTACK);
+            Debug.Log($"[ENEMY_ANIM] {gameObject.name}: Trigger Attack activado");
+        }
+    }
+    
+    /// <summary>
+    /// Activa el trigger de muerte en el Animator
+    /// </summary>
+    public void TriggerDeathAnimation()
+    {
+        if (animator != null && animator.isActiveAndEnabled)
+        {
+            animator.SetTrigger(PARAM_DEATH);
+            Debug.Log($"[ENEMY_ANIM] {gameObject.name}: Trigger Death activado");
+        }
+    }
+    
+    /// <summary>
+    /// Establece el estado de la animación de caminar
+    /// </summary>
+    public void SetWalkAnimation(bool isWalking)
+    {
+        if (animator != null && animator.isActiveAndEnabled)
+        {
+            animator.SetBool(PARAM_WALK, isWalking);
+        }
     }
     #endregion
 

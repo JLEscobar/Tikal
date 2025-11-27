@@ -10,7 +10,7 @@ public class EnemyRetreatState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
-
+        enemy.SetWalkAnimation(true); // Activar animación de caminar (retirándose)
     }
 
     public override void UpdateState()
@@ -39,7 +39,7 @@ public class EnemyRetreatState : EnemyState
     public override void ExitState()
     {
         base.ExitState();
-        // Detener animaci�n de retirada si aplica
+        enemy.SetWalkAnimation(false); // Detener animación de caminar
     }
 
     public override void PhysicsUpdate()
