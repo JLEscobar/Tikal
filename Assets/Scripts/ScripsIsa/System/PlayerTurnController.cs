@@ -67,7 +67,7 @@ public class PlayerTurnController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) TryUseAbilityKey(defaultAbilityIndex);
         
         // 2. Tecla E (Habilidad Especial)
-        if (Input.GetKeyDown(KeyCode.Space)) TryUseAbilityKey(specialAbilityIndex); 
+        if (Input.GetKeyDown(KeyCode.E)) TryUseAbilityKey(specialAbilityIndex); 
 
 
         // Lógica de detección por Clic (Mouse) - Solo selecciona objetivo, NO ataca automáticamente
@@ -135,12 +135,12 @@ public class PlayerTurnController : MonoBehaviour
         {
             targetToUse = _current;
         }
-        // 2. Si la habilidad NO es AoE y no tenemos target (Space/Q presionada sin clic):
+        // 2. Si la habilidad NO es AoE y no tenemos target (E/Q presionada sin clic):
         else if (targetToUse == null)
         {
              Debug.Log($"[ABILITY] {_current.CharacterName}: No hay target seleccionado para {ability.DisplayName}. Buscando automáticamente...");
              
-             // Si el jugador presionó Space (Habilidad Especial) o Q (Ataque Básico), buscamos el target más cercano
+             // Si el jugador presionó E (Habilidad Especial) o Q (Ataque Básico), buscamos el target más cercano
              if (index == specialAbilityIndex || index == defaultAbilityIndex)
              {
                  // Detectar si es habilidad de soporte (curación/buff) para buscar aliados en lugar de enemigos
