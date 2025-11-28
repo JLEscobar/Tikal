@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87180527350d2ff4a979fee74df3c012, type: 3}
   m_Name: Jaguar_Stats
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  characterName: Jaguar_Stats
+  characterName: Cotzli
   team: 1
   maxHealth: 250
   attackPower: 20
