@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class EnemyIdleState : EnemyState
 {
-    private int idleTurnsWaited;
-    private int idleTurnsToWait = 2;
+    private float idleTimer = 0f;
     public EnemyIdleState(Enemys enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
@@ -15,11 +14,10 @@ public class EnemyIdleState : EnemyState
 
     public override void EnterState()
     {
-        idleTurnsWaited = 0;
+        idleTimer = 0f;
         base.EnterState();
         enemy.canMove = true; // Asegurar que el enemigo pueda moverse
-        enemy.SetWalkAnimation(false); // Detener animación de caminar
-        Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Entrando al estado de reposo");
+        Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Entrando al estado de reposo (duración: {enemy.IdleStateDuration}s)");
     }
 
     public override bool Equals(object obj)
@@ -83,8 +81,40 @@ public class EnemyIdleState : EnemyState
             }
         }
 
-        // PRIORIDAD 2: Si no hay target, quedarse quieto
-        // El enemigo permanece en su posición actual sin moverse
-        enemy.SetWalkAnimation(false);
+        // PRIORIDAD 2: Si no hay target, comportamiento idle
+        // Esperar el tiempo configurado antes de moverse (si hay puntos idle)
+        idleTimer += Time.deltaTime;
+        
+        // Verificar que haya puntos idle
+        if (enemy.IdlePoints == null || enemy.IdlePoints.Length == 0)
+        {
+            // Si no hay puntos idle, solo esperar
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - No hay puntos idle, esperando...");
+            return;
+        }
+
+        // Esperar el tiempo configurado antes de moverse
+        if (idleTimer < enemy.IdleStateDuration)
+        {
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Esperando ({idleTimer:F2}/{enemy.IdleStateDuration}s)");
+            return;
+        }
+
+        // Después del tiempo de espera, moverse hacia el siguiente punto idle
+        Transform idleTarget = enemy.IdlePoints[enemy.CurrentIdleIndex];
+        if (idleTarget == null)
+        {
+            Debug.LogWarning($"[ENEMY_STATE] {enemy.gameObject.name}: 😴 IDLE - Punto idle {enemy.CurrentIdleIndex} es null");
+            return;
+        }
+        
+        Vector3 direction = (idleTarget.position - enemy.transform.position).normalized;
+        enemy.moveEnemy(direction);
+
+        if (Vector3.Distance(enemy.transform.position, idleTarget.position) < 0.5f)
+        {
+            enemy.CurrentIdleIndex = (enemy.CurrentIdleIndex + 1) % enemy.IdlePoints.Length;
+            idleTimer = 0f; // Resetear el timer al llegar al punto
+        }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyPatrollingState : EnemyState
 {
     private float waitTimer;
-    private float waitDuration = 1.5f;
+    private bool hasReachedPatrolPoint = false;
     public EnemyPatrollingState(Enemys enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
@@ -11,10 +11,11 @@ public class EnemyPatrollingState : EnemyState
     public override void EnterState()
     {
         waitTimer = 0f;
+        hasReachedPatrolPoint = false;
         base.EnterState();
         enemy.canMove = true; // Asegurar que el enemigo pueda moverse
-        enemy.SetWalkAnimation(true); // Activar animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🚶 PATROLLING - Entrando al estado de patrullaje (punto {enemy.CurrentPatrolIndex + 1}/{enemy.PatrolPoints.Length})");
+        // Aqu� podr�as iniciar animaci�n de patrullaje
     }
 
     public override void UpdateState()
@@ -62,6 +63,19 @@ public class EnemyPatrollingState : EnemyState
             return;
         }
 
+        // Si ya llegó al punto de patrulla, esperar y luego cambiar a idle
+        if (hasReachedPatrolPoint)
+        {
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= enemy.IdleStateDuration)
+            {
+                Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🚶 PATROLLING - Tiempo de espera completado, cambiando a IDLE");
+                stateMachine.ChangeState(enemy.idleState);
+                return;
+            }
+            return; // Esperar sin moverse
+        }
+
         // Avanza un paso hacia el siguiente punto de patrulla
         Transform patrolTarget = enemy.PatrolPoints[enemy.CurrentPatrolIndex];
         if (patrolTarget == null)
@@ -75,18 +89,21 @@ public class EnemyPatrollingState : EnemyState
         Vector3 direction = (patrolTarget.position - enemy.transform.position).normalized;
         enemy.moveEnemy(direction);
 
-        if (distanceToPatrolPoint < 0.5f)
+        // Cuando llega al punto de patrulla, marcar que llegó y empezar a esperar
+        if (distanceToPatrolPoint < 2f)
         {
             int oldIndex = enemy.CurrentPatrolIndex;
             enemy.CurrentPatrolIndex = (enemy.CurrentPatrolIndex + 1) % enemy.PatrolPoints.Length;
-            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🚶 PATROLLING - Punto {oldIndex + 1} alcanzado, siguiente punto: {enemy.CurrentPatrolIndex + 1}");
+            hasReachedPatrolPoint = true;
+            waitTimer = 0f;
+            Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🚶 PATROLLING - Punto {oldIndex + 1} alcanzado, esperando {enemy.IdleStateDuration}s antes de cambiar a IDLE");
         }
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        enemy.SetWalkAnimation(false); // Detener animación de caminar
+        // Detener animaci�n de patrullaje si aplica
     }
 
     public override void PhysicsUpdate()

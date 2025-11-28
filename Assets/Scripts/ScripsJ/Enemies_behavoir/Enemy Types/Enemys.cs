@@ -72,6 +72,19 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     public Vector3 MovementReferencePosition => movementReferencePoint != null ? movementReferencePoint.position : initialPosition;
     #endregion
 
+    #region Animation Variables
+    
+    [Header("Animation")]
+    [Tooltip("Referencia al Animator del enemigo. Si está vacío, se buscará automáticamente.")]
+    [SerializeField] private Animator animator;
+    
+    // Nombres de los parámetros del Animator
+    private const string PARAM_WALK = "Walk";
+    private const string PARAM_ATTACK = "Attack";
+    private const string PARAM_DEATH = "Death";
+    
+    #endregion
+
     #region State Machine Variables
 
     [Header("Turn Start State Configuration")]
@@ -108,18 +121,6 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
 
     #endregion
 
-    #region Animation Variables
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
-    
-    // Nombres de parámetros del Animator
-    private const string PARAM_ATTACK = "Attack";
-    private const string PARAM_DEATH = "Death";
-    private const string PARAM_WALK = "Walk";
-    
-    public Animator Animator => animator;
-    #endregion
-
     #region Stats Variables
     // Rango de visi�n
     [SerializeField] private float visionRange = 10f;
@@ -138,6 +139,12 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     [SerializeField] private float retreatHealthThreshold = 30f;
     public float RetreatHealthThreshold => retreatHealthThreshold;
 
+    // Configuración de patrullaje
+    [Header("Patrolling Configuration")]
+    [Tooltip("Si está habilitado, el enemigo usará puntos de patrulla. Si está deshabilitado, siempre usará idle state.")]
+    [SerializeField] private bool usePatrolling = true;
+    public bool UsePatrolling => usePatrolling;
+
     // Puntos de patrullaje
     [SerializeField] private Transform[] patrolPoints;
     public Transform[] PatrolPoints => patrolPoints;
@@ -145,6 +152,12 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     // Puntos de espera (idle)
     [SerializeField] private Transform[] idlePoints;
     public Transform[] IdlePoints => idlePoints;
+
+    // Duración del estado idle (en segundos)
+    [Header("Idle State Configuration")]
+    [Tooltip("Tiempo en segundos que el enemigo permanecerá en idle state antes de moverse al siguiente punto.")]
+    [SerializeField] private float idleStateDuration = 2f;
+    public float IdleStateDuration => idleStateDuration;
 
     // �ndices de patrullaje/idle
     private int currentPatrolIndex = 0;
@@ -180,6 +193,21 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         // Turn System Integration
         turnSystem = FindFirstObjectByType<TurnSystem>();
         characterActor = GetComponent<CharacterActor>();
+        
+        // Animation - Obtener Animator si no está asignado
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+        
+        if (animator == null)
+        {
+            Debug.LogWarning($"[ENEMY] {gameObject.name}: No se encontró componente Animator. Las animaciones no funcionarán.");
+        }
+        else
+        {
+            Debug.Log($"[ENEMY] {gameObject.name}: Animator encontrado y configurado.");
+        }
     }
     
     /// <summary>
@@ -192,7 +220,13 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             case EnemyTurnStartState.Idle:
                 return idleState;
             case EnemyTurnStartState.Patrolling:
-                return patrollingState;
+                // Solo retornar patrolling si está habilitado y hay puntos
+                if (usePatrolling && PatrolPoints != null && PatrolPoints.Length > 0)
+                {
+                    return patrollingState;
+                }
+                // Si patrolling está deshabilitado o no hay puntos, usar idle
+                return idleState;
             case EnemyTurnStartState.Auto:
             default:
                 // Auto: decidir basándose en si hay target y puntos de patrulla
@@ -208,8 +242,8 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
                         return chasingState;
                     }
                 }
-                // Si no hay target o está fuera de rango, usar patrolling si hay puntos, sino idle
-                if (PatrolPoints != null && PatrolPoints.Length > 0)
+                // Si no hay target o está fuera de rango, usar patrolling si está habilitado y hay puntos, sino idle
+                if (usePatrolling && PatrolPoints != null && PatrolPoints.Length > 0)
                 {
                     return patrollingState;
                 }
@@ -295,16 +329,6 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         
         target = GameObject.FindWithTag("Player").transform;
 
-        // Inicializar Animator si no está asignado
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-            if (animator == null)
-            {
-                animator = GetComponentInChildren<Animator>();
-            }
-        }
-
         // Asegurar que CharacterActor esté disponible
         if (characterActor == null)
         {
@@ -378,8 +402,6 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         }
     }
 
-    private bool hasPlayedDeathAnimation = false;
-    
     private void Update()
     {
         // Sincronizar salud con CharacterActor periódicamente
@@ -387,21 +409,11 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         {
             CurrentHealth = characterActor.Health.CurrentHealth;
             MaxHealth = characterActor.Health.MaxHealth;
-            
-            // Detectar muerte desde CharacterActor y reproducir animación
-            if (characterActor.Health.IsDead && !hasPlayedDeathAnimation)
-            {
-                hasPlayedDeathAnimation = true;
-                IsDead = true;
-                TriggerDeathAnimation();
-                SetWalkAnimation(false);
-                Debug.Log($"[ENEMY] {gameObject.name}: Muerte detectada desde CharacterActor, reproduciendo animación");
-            }
-            else
-            {
-                IsDead = characterActor.Health.IsDead;
-            }
+            IsDead = characterActor.Health.IsDead;
         }
+
+        // Actualizar animación de caminar basándose en el movimiento actual
+        UpdateWalkAnimation();
 
         // Solo ejecutar la máquina de estados si es nuestro turno
         if (isMyTurn && !hasCompletedTurnAction)
@@ -465,10 +477,6 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         IsDead = true;
         Debug.Log($"[ENEMY] {gameObject.name} has died.");
         
-        // Activar animación de muerte
-        TriggerDeathAnimation();
-        SetWalkAnimation(false);
-        
         // Sincronizar con CharacterActor si está disponible
         if (characterActor != null && characterActor.Health != null)
         {
@@ -476,6 +484,9 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             // Pero por si acaso, sincronizamos
             IsDead = characterActor.Health.IsDead;
         }
+        
+        // Disparar animación de muerte
+        TriggerDeathAnimation();
     }
 
     #endregion
@@ -562,7 +573,6 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
         if (direction == Vector3.zero)
         {
             Debug.LogWarning($"[ENEMY_MOVEMENT] {gameObject.name}: Intento de movimiento con dirección cero");
-            SetWalkAnimation(false);
             return;
         }
 
@@ -634,9 +644,11 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             }
             
             controller.Move(move);
-            SetWalkAnimation(true);
             
             Debug.Log($"[ENEMY_MOVEMENT] {gameObject.name}: Moviéndose en dirección {clampedDirection} a velocidad {moveSpeed} (distancia este frame: {move.magnitude:F3})");
+            
+            // Actualizar animación de caminar
+            UpdateWalkAnimation();
             
             // Rotación
             if (target != null)
@@ -758,6 +770,9 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
             Debug.LogWarning($"[ENEMY_MOVEMENT] {gameObject.name}: Usando movimiento directo (CharacterController no disponible)");
         }
         
+        // Actualizar animación de caminar
+        UpdateWalkAnimation();
+        
         // Rotar hacia la dirección de movimiento
         if (target != null)
         {
@@ -807,38 +822,71 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
     }
     
     /// <summary>
-    /// Activa el trigger de ataque en el Animator
+    /// Actualiza la animación de caminar (Walk) del Animator
+    /// </summary>
+    /// <param name="isWalking">True si el enemigo está caminando, false si está parado</param>
+    public void SetWalkAnimation(bool isWalking)
+    {
+        if (animator == null || !animator.isActiveAndEnabled) return;
+        
+        animator.SetBool(PARAM_WALK, isWalking);
+        Debug.Log($"[ENEMY_ANIMATION] {gameObject.name}: Walk actualizado a {isWalking}");
+    }
+    
+    /// <summary>
+    /// Actualiza la animación de caminar basándose en el movimiento actual del enemigo
+    /// </summary>
+    private void UpdateWalkAnimation()
+    {
+        if (animator == null || !animator.isActiveAndEnabled) return;
+        
+        // Si el enemigo no puede moverse o no está en su turno, detener la animación
+        if (!canMove || !isMyTurn || hasCompletedTurnAction)
+        {
+            SetWalkAnimation(false);
+            return;
+        }
+        
+        // Si el CharacterController está habilitado, usar su velocidad para determinar si está caminando
+        if (controller != null && controller.enabled)
+        {
+            Vector3 velocity = controller.velocity;
+            velocity.y = 0f; // Ignorar movimiento vertical
+            
+            float speed = velocity.magnitude;
+            float walkSpeedThreshold = 0.1f;
+            
+            // Si la velocidad es mayor al umbral, está caminando
+            bool isWalking = speed > walkSpeedThreshold;
+            SetWalkAnimation(isWalking);
+        }
+        else
+        {
+            // CharacterController no disponible, detener la animación
+            SetWalkAnimation(false);
+        }
+    }
+    
+    /// <summary>
+    /// Dispara la animación de ataque (Attack trigger) del Animator
     /// </summary>
     public void TriggerAttackAnimation()
     {
-        if (animator != null && animator.isActiveAndEnabled)
-        {
-            animator.SetTrigger(PARAM_ATTACK);
-            Debug.Log($"[ENEMY_ANIM] {gameObject.name}: Trigger Attack activado");
-        }
+        if (animator == null || !animator.isActiveAndEnabled) return;
+        
+        animator.SetTrigger(PARAM_ATTACK);
+        Debug.Log($"[ENEMY_ANIMATION] {gameObject.name}: Trigger Attack disparado");
     }
     
     /// <summary>
-    /// Activa el trigger de muerte en el Animator
+    /// Dispara la animación de muerte (Death trigger) del Animator
     /// </summary>
     public void TriggerDeathAnimation()
     {
-        if (animator != null && animator.isActiveAndEnabled)
-        {
-            animator.SetTrigger(PARAM_DEATH);
-            Debug.Log($"[ENEMY_ANIM] {gameObject.name}: Trigger Death activado");
-        }
-    }
-    
-    /// <summary>
-    /// Establece el estado de la animación de caminar
-    /// </summary>
-    public void SetWalkAnimation(bool isWalking)
-    {
-        if (animator != null && animator.isActiveAndEnabled)
-        {
-            animator.SetBool(PARAM_WALK, isWalking);
-        }
+        if (animator == null || !animator.isActiveAndEnabled) return;
+        
+        animator.SetTrigger(PARAM_DEATH);
+        Debug.Log($"[ENEMY_ANIMATION] {gameObject.name}: Trigger Death disparado");
     }
     #endregion
 
@@ -1121,26 +1169,26 @@ public class Enemys : MonoBehaviour, IDamageable, IEnemyMovable
                         else
                         {
                             // Target fuera de rango, usar lógica automática
-                            if (PatrolPoints != null && PatrolPoints.Length > 0)
+                            if (usePatrolling && PatrolPoints != null && PatrolPoints.Length > 0)
                             {
                                 Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🚶 Cambiando a PATROLLING (target fuera de rango, tiene puntos de patrulla)");
                                 stateMachine.ChangeState(patrollingState);
                             }
                             else
                             {
-                                Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (target fuera de rango, sin puntos de patrulla)");
+                                Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (target fuera de rango, patrolling deshabilitado o sin puntos de patrulla)");
                                 stateMachine.ChangeState(idleState);
                             }
                         }
                     }
-                    else if (PatrolPoints != null && PatrolPoints.Length > 0)
+                    else if (usePatrolling && PatrolPoints != null && PatrolPoints.Length > 0)
                     {
                         Debug.Log($"[ENEMY_TURN] {gameObject.name}: 🚶 Cambiando a PATROLLING (sin target, tiene puntos de patrulla)");
                         stateMachine.ChangeState(patrollingState);
                     }
                     else
                     {
-                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (sin target ni puntos de patrulla)");
+                        Debug.Log($"[ENEMY_TURN] {gameObject.name}: 😴 Cambiando a IDLE (sin target, patrolling deshabilitado o sin puntos de patrulla)");
                         stateMachine.ChangeState(idleState);
                     }
                 }

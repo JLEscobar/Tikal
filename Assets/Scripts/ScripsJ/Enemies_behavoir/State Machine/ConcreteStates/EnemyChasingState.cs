@@ -15,7 +15,6 @@ public class EnemyChasingState : EnemyState
     {
         base.EnterState();
         enemy.canMove = true; // Asegurar que el enemigo pueda moverse
-        enemy.SetWalkAnimation(true); // Activar animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🏃 CHASING - Entrando al estado de persecución");
     }
 
@@ -27,7 +26,6 @@ public class EnemyChasingState : EnemyState
     public override void ExitState()
     {
         base.ExitState();
-        enemy.SetWalkAnimation(false); // Detener animación de caminar
         Debug.Log($"[ENEMY_STATE] {enemy.gameObject.name}: 🏃 CHASING - Saliendo del estado de persecución");
     }
 
